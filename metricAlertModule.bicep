@@ -9,8 +9,8 @@ param windowsSize string=''
 param targetResourceType string=''
 param targetResourceTypeFriendly string=''
 param resourceRG string=''
-param alertSev string=''
-param alertTreshold string=''
+param alertSev int
+param alertTreshold int
 param alertMetricNameSpace string=''
 param alertMetricName string=''
 param alertOperator string=''
