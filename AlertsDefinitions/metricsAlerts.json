@@ -22,7 +22,7 @@
                 "alertMetricName":"ActivityFailedRuns",
                 "alertOperator":"GreaterThanOrEqual",
                 "alertTimeAggregation":"Average",
-                "alertDimensions":["pipelineName"]
+                "alertDimensions":[]
             },
             {
                 "sev":1,
@@ -42,7 +42,7 @@
                 "alertMetricName":"ActivityFailedRuns",
                 "alertOperator":"GreaterThanOrEqual",
                 "alertTimeAggregation":"Average",
-                "alertDimensions":["pipelineName"]
+                "alertDimensions":[]
             },
             {
                 "sev":1,
@@ -62,7 +62,15 @@
                 "alertMetricName":"SuccessfulRuns",
                 "alertOperator":"GreaterThanOrEqual",
                 "alertTimeAggregation":"Average",
-                "alertDimensions":["pipelineName"]
+                "alertDimensions":[
+                        {
+                            "name": "Name",
+                            "operator": "Include",
+                            "values": [
+                                "*"
+                            ]
+                        }
+                    ]
             }
             
           ]
