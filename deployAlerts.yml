@@ -12,11 +12,15 @@ pool:
   name: Default
 
 steps:
-- task: AzureCLI@2
+- task: PowerShell@2
   inputs:
-    azureSubscription: $(azureServiceConnection)
-    scriptType: bash
-    scriptLocation: inlineScript
-    inlineScript: |
-      az --version
-      az deployment group create --resource-group $(resourceGroupName) --template-file $(templateFile) --parameters $(parametersFile)
+    pwsh: true
+    script: write-host 'hellow wordl'
+#- task: AzureCLI@2
+#  inputs:
+#    azureSubscription: $(azureServiceConnection)
+#    scriptType: bash
+#    scriptLocation: inlineScript
+#    inlineScript: |
+#      az --version
+#      az deployment group create --resource-group $(resourceGroupName) --template-file $(templateFile) --parameters $(parametersFile)
