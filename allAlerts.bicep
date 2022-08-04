@@ -4,7 +4,7 @@ module MetricAlertResource 'metricAlertModule.bicep' = [for (MetricAlertsParams,
 name: 'ActivtyLogAlertDeployment-${MetricAlertsParams.targetResourceTypeFriendlyName}-${i}'
 params: {
     alertDescription:MetricAlertsParams.alertDescription
-    alertSev:int(MetricAlertsParams.alertSev)
+    alertSev:MetricAlertsParams.alertSev
     eveluationFreq:MetricAlertsParams.eveluationFreq
     windowsSize:MetricAlertsParams.windowsSize
     targetResourceType:MetricAlertsParams.targetResourceType
@@ -12,7 +12,7 @@ params: {
     targetResourceName:MetricAlertsParams.targetResourceName
     //alertTags:MetricAlertsParams.alertTags
     resourceRG:MetricAlertsParams.resourceRG
-    alertTreshold:int(MetricAlertsParams.alertTreshold)
+    alertTreshold:MetricAlertsParams.alertTreshold
     alertMetricNameSpace:MetricAlertsParams.alertMetricNameSpace
     alertMetricName:MetricAlertsParams.alertMetricName
     alertOperator:MetricAlertsParams.alertOperator
