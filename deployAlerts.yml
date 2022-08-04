@@ -7,7 +7,7 @@ variables:
    azureServiceConnection: 'SC-MPNSeb'
    resourceGroupName: 'supervisionbiceppoc'
    templateFile: 'allAlerts.bicep'
-   parametersFile: 'AlertsDefinitions/metricsAlerts.json'
+   parametersFile: '.\AlertsDefinitions\metricsAlerts.json'
 pool:
   name: Default
 
