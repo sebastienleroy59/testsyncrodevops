@@ -17,7 +17,7 @@ params: {
     alertMetricName:MetricAlertsParams.alertMetricName
     alertOperator:MetricAlertsParams.alertOperator
     alertTimeAggregation:MetricAlertsParams.alertTimeAggregation
-    alertDimensions: !empty(alertTimeAggregation) ? [
+    alertDimensions: !empty(MetricAlertsParams.alertDimensions) ? [
                 {
                     name: MetricAlertsParams.alertDimensions//play with split maybe for multidimensions
                     operator: 'Include'
