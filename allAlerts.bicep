@@ -10,7 +10,7 @@ params: {
     targetResourceType:MetricAlertsParams.targetResourceType
     targetResourceTypeFriendly:MetricAlertsParams.targetResourceTypeFriendlyName
     targetResourceName:MetricAlertsParams.targetResourceName
-    alertTags:MetricAlertsParams.alertTags
+    //alertTags:MetricAlertsParams.alertTags
     resourceRG:MetricAlertsParams.resourceRG
     alertTreshold:MetricAlertsParams.alertTreshold
     alertMetricNameSpace:MetricAlertsParams.alertMetricNameSpace
