@@ -45,7 +45,7 @@
             {
                 "sev":1,
                 "targetResourceType":"Microsoft.DataFactory/factories",
-                "targetResourceTypeFriendlyName":"ADF",
+                "targetResourceTypeFriendlyName":"ADFo",
                 "targetResourceName":"df-pocadf-dev",
                 "alertDescription":"niania",
                 "eveluationFreq":"PT5M",
