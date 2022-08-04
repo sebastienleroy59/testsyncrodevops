@@ -1,0 +1,50 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentParameters.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+      "MetricsAlertsParams": {
+        "value": [
+            {
+                "sev":0,
+                "targetResourceType":"Microsoft.DataFactory/factories",
+                "targetResourceTypeFriendlyName":"ADF",
+                "targetResourceName":"df-pocadf-dev",
+                "alertDescription":"niania",
+                "eveluationFreq":"PT5M",
+                "windowsSize":"PT15M",
+                "resourceRG":"POC-ADF",
+                "alertTags":{
+                "tagSup":"valsup",
+                "tagSup2":"valsup2"
+                },
+                "alertTreshold":95,
+                "alertMetricNameSpace":"Microsoft.DataFactory/factories",
+                "alertMetricName":"ActivityFailedRuns",
+                "alertOperator":"GreaterThanOrEqual",
+                "alertTimeAggregation":"Average"
+            },
+            {
+                "sev":1,
+                "targetResourceType":"Microsoft.DataFactory/factories",
+                "targetResourceTypeFriendlyName":"ADF",
+                "targetResourceName":"df-pocadf-dev",
+                "alertDescription":"niania",
+                "eveluationFreq":"PT5M",
+                "windowsSize":"PT15M",
+                "resourceRG":"POC-ADF",
+                "alertTags":{
+                "tagSup":"valsup",
+                "tagSup2":"valsup2"
+                },
+                "alertTreshold":80,
+                "alertMetricNameSpace":"Microsoft.DataFactory/factories",
+                "alertMetricName":"ActivityFailedRuns",
+                "alertOperator":"GreaterThanOrEqual",
+                "alertTimeAggregation":"Average"
+            }
+            
+          ]
+      }
+    }
+  }
+
