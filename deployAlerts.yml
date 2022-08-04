@@ -19,7 +19,7 @@ steps:
     targetType: inline
     script: | 
       $csv=import-csv -Delimiter "," "AlertsDefinitions/testfile.csv"  | ConvertTo-Json 
-      ((Get-Content -path metricsAlerts.json -Raw) -replace '"--TOREPLACE--"',$csv) | Set-Content -Path metricsAlerts.json
+      ((Get-Content -path AlertsDefinitions/metricsAlerts.json -Raw) -replace '"--TOREPLACE--"',$csv) | Set-Content -Path AlertsDefinitions/metricsAlerts.json
 
 - task: AzureCLI@2
   inputs:
