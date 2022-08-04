@@ -22,7 +22,7 @@ var actionGroupRGName = 'supervisionbiceppoc'
 resource metricAlertResource 'microsoft.insights/metricAlerts@2018-03-01' ={
     name: '${targetResourceTypeFriendly}-${targetResourceName}-${alertSev}'
     location: 'Global'
-    tags:alertTags
+    //tags:alertTags
     properties: {
       severity: alertSev
       enabled: true
