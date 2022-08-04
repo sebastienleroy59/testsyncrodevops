@@ -57,9 +57,10 @@
                 },
                 "alertTreshold":60,
                 "alertMetricNameSpace":"Microsoft.DataFactory/factories",
-                "alertMetricName":"ActivityFailedRuns",
+                "alertMetricName":"SuccessfulRuns",
                 "alertOperator":"GreaterThanOrEqual",
-                "alertTimeAggregation":"Average"
+                "alertTimeAggregation":"Average",
+                "alertDimensions":["pipelineName"]
             }
             
           ]
