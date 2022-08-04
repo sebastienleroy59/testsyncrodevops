@@ -4,14 +4,12 @@ trigger:
 name: Deploy Alerts using bicep
 
 variables:
-  pool: 'default'
-
-  azureServiceConnection: 'SC-MPNSeb'
+   azureServiceConnection: 'SC-MPNSeb'
   resourceGroupName: 'supervisionbiceppoc'
   templateFile: 'allAlerts.bicep'
   parametersFile: 'AlertsDefinitions\metricsAlerts.json'
 pool:
-  vmImage: $(vmImageName)
+  name: Default
 
 steps:
 - task: AzureCLI@2
