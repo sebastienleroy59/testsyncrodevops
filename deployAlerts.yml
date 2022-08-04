@@ -7,7 +7,7 @@ variables:
    azureServiceConnection: 'SC-MPNSeb'
    resourceGroupName: 'supervisionbiceppoc'
    templateFile: 'allAlerts.bicep'
-   parametersFile: '$(Build.SourcesDirectory)/AlertsDefinitions/metricsAlerts.json'
+   parametersFile: '$(System.DefaultWorkingDirectory)/AlertsDefinitions/metricsAlerts.json'
 pool:
   name: Default
 
@@ -17,8 +17,9 @@ steps:
     pwsh: true
     targetType: inline
     script: | 
-      write-host 'hellow wordl'
-
+      $csv=import-csv -Delimiter "," "'$(System.DefaultWorkingDirectory)/AlertsDefinitions/testfile.csv"  | ConvertTo-Json 
+      #((Get-Content -path MetricsAlertsListtst.json -Raw) -replace '"--TOREPLACE--"',$csv) | Set-Content -Path MetricsAlertsListtst2.json
+      $csv
 #- task: AzureCLI@2
 #  inputs:
 #    azureSubscription: $(azureServiceConnection)
