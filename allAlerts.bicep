@@ -17,6 +17,6 @@ params: {
     alertMetricName:MetricAlertsParams.alertMetricName
     alertOperator:MetricAlertsParams.alertOperator
     alertTimeAggregation:MetricAlertsParams.alertTimeAggregation
-    alertDimensions:MetricAlertsParams.alertDimensions
+    alertDimensions:array(MetricAlertsParams.alertDimensions) //play with split maybe for multidimensions
   }
 }]
