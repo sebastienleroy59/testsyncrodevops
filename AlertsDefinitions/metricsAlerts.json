@@ -21,7 +21,8 @@
                 "alertMetricNameSpace":"Microsoft.DataFactory/factories",
                 "alertMetricName":"ActivityFailedRuns",
                 "alertOperator":"GreaterThanOrEqual",
-                "alertTimeAggregation":"Average"
+                "alertTimeAggregation":"Average",
+                "alertDimensions":["pipelineName"]
             },
             {
                 "sev":1,
@@ -40,7 +41,8 @@
                 "alertMetricNameSpace":"Microsoft.DataFactory/factories",
                 "alertMetricName":"ActivityFailedRuns",
                 "alertOperator":"GreaterThanOrEqual",
-                "alertTimeAggregation":"Average"
+                "alertTimeAggregation":"Average",
+                "alertDimensions":["pipelineName"]
             },
             {
                 "sev":1,
