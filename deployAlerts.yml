@@ -5,9 +5,9 @@ name: Deploy Alerts using bicep
 
 variables:
    azureServiceConnection: 'SC-MPNSeb'
-  resourceGroupName: 'supervisionbiceppoc'
-  templateFile: 'allAlerts.bicep'
-  parametersFile: 'AlertsDefinitions\metricsAlerts.json'
+   resourceGroupName: 'supervisionbiceppoc'
+   templateFile: 'allAlerts.bicep'
+   parametersFile: 'AlertsDefinitions\metricsAlerts.json'
 pool:
   name: Default
 
