@@ -18,17 +18,14 @@ steps:
     pwsh: true
     targetType: inline
     script: | 
-      Get-ChildItem $(System.DefaultWorkingDirectory)
-      ls -hal
       $csv=import-csv -Delimiter "," "AlertsDefinitions/testfile.csv"  | ConvertTo-Json 
-      $csv
-      #((Get-Content -path MetricsAlertsListtst.json -Raw) -replace '"--TOREPLACE--"',$csv) | Set-Content -Path MetricsAlertsListtst2.json
-      #$csv
-#- task: AzureCLI@2
-#  inputs:
-#    azureSubscription: $(azureServiceConnection)
-#    scriptType: bash
-#    scriptLocation: inlineScript
-#    inlineScript: |
-#      az --version
-#      az deployment group create --resource-group $(resourceGroupName) --template-file $(templateFile) --parameters $(parametersFile)
+      ((Get-Content -path metricsAlerts.json -Raw) -replace '"--TOREPLACE--"',$csv) | Set-Content -Path metricsAlerts.json
+
+- task: AzureCLI@2
+  inputs:
+    azureSubscription: $(azureServiceConnection)
+    scriptType: bash
+    scriptLocation: inlineScript
+    inlineScript: |
+      az --version
+      az deployment group create --resource-group $(resourceGroupName) --template-file $(templateFile) --parameters $(parametersFile)
