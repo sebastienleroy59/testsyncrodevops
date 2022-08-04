@@ -17,7 +17,8 @@ steps:
     pwsh: true
     targetType: inline
     script: | 
-      $csv=import-csv -Delimiter "," "'$(System.DefaultWorkingDirectory)/AlertsDefinitions/testfile.csv"  | ConvertTo-Json 
+      Get-ChildItem
+      #$csv=import-csv -Delimiter "," "'$(System.DefaultWorkingDirectory)/AlertsDefinitions/testfile.csv"  | ConvertTo-Json 
       #((Get-Content -path MetricsAlertsListtst.json -Raw) -replace '"--TOREPLACE--"',$csv) | Set-Content -Path MetricsAlertsListtst2.json
       $csv
 #- task: AzureCLI@2
