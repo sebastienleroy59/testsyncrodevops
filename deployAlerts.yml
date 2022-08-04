@@ -18,7 +18,8 @@ steps:
     pwsh: true
     targetType: inline
     script: | 
-      Get-ChildItem $(Build.SourcesDirectory)
+      Get-ChildItem $(System.DefaultWorkingDirectory)
+      ls -hal
       #$csv=import-csv -Delimiter "," "'$(System.DefaultWorkingDirectory)/AlertsDefinitions/testfile.csv"  | ConvertTo-Json 
       #((Get-Content -path MetricsAlertsListtst.json -Raw) -replace '"--TOREPLACE--"',$csv) | Set-Content -Path MetricsAlertsListtst2.json
       #$csv
