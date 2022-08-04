@@ -1,3 +1,3 @@
 ﻿targetResourceName,resourceRG,targetResourceType,targetResourceTypeFriendlyName,alertDescription,alertMetricNameSpace,alertMetricName,alertSev,alertDimensions,alertOperator,alertTimeAggregation,eveluationFreq,windowsSize,alertTreshold
-df-pocadf-dev,poc-adf,Microsoft.DataFactory/factories,ADFO,,Microsoft.DataFactory/factories,ActivityFailedRuns,1,,LessThan,Average,PT1M,PT5M,100
+df-pocadf-dev,poc-adf,Microsoft.DataFactory/factories,ADFOTEST,,Microsoft.DataFactory/factories,ActivityFailedRuns,1,,LessThan,Average,PT1M,PT5M,100
 df-pocadf-dev,poc-adf,Microsoft.DataFactory/factories,ADFOTEST,,Microsoft.DataFactory/factories,PipelineSucceededRuns,1,Name,GreaterThanOrEqual,Average,PT1M,PT5M,90
