@@ -12,7 +12,7 @@ params: {
     targetResourceName:MetricAlertsParams.targetResourceName
     //alertTags:MetricAlertsParams.alertTags
     resourceRG:MetricAlertsParams.resourceRG
-    alertTreshold:MetricAlertsParams.alertTreshold
+    alertTreshold:int(MetricAlertsParams.alertTreshold)
     alertMetricNameSpace:MetricAlertsParams.alertMetricNameSpace
     alertMetricName:MetricAlertsParams.alertMetricName
     alertOperator:MetricAlertsParams.alertOperator
