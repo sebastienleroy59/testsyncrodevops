@@ -50,7 +50,7 @@ resource metricAlertResource 'microsoft.insights/metricAlerts@2018-03-01' ={
       targetResourceType: targetResourceType
       actions: [
         {
-          actionGroupId: resourceId(actionGroupRGName, 'Microsoft.Insights/actionGroups', actionGroupsWithNamesAndSeverity[alertSev]) //mutiple Action groups needed ?
+          actionGroupId: resourceId(actionGroupRGName, 'Microsoft.Insights/actionGroups', actionGroupsWithNamesAndSeverity[alertSev-1]) //mutiple Action groups needed ?
           webHookProperties: {
           }
         }
