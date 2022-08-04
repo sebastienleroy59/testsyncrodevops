@@ -41,6 +41,25 @@
                 "alertMetricName":"ActivityFailedRuns",
                 "alertOperator":"GreaterThanOrEqual",
                 "alertTimeAggregation":"Average"
+            },
+            {
+                "sev":1,
+                "targetResourceType":"Microsoft.DataFactory/factories",
+                "targetResourceTypeFriendlyName":"ADF",
+                "targetResourceName":"df-pocadf-dev",
+                "alertDescription":"niania",
+                "eveluationFreq":"PT5M",
+                "windowsSize":"PT15M",
+                "resourceRG":"POC-ADF",
+                "alertTags":{
+                "tagSup":"valsup",
+                "tagSup2":"valsup2"
+                },
+                "alertTreshold":60,
+                "alertMetricNameSpace":"Microsoft.DataFactory/factories",
+                "alertMetricName":"ActivityFailedRuns",
+                "alertOperator":"GreaterThanOrEqual",
+                "alertTimeAggregation":"Average"
             }
             
           ]
