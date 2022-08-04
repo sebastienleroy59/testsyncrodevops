@@ -15,6 +15,7 @@ param alertMetricNameSpace string=''
 param alertMetricName string=''
 param alertOperator string=''
 param alertTimeAggregation string=''
+param alertDimensions array
 param alertTags object
 var actionGroupRGName = 'supervisionbiceppoc'
 
@@ -38,6 +39,7 @@ resource metricAlertResource 'microsoft.insights/metricAlerts@2018-03-01' ={
             metricNamespace: alertMetricNameSpace
             metricName: alertMetricName
             operator: alertOperator
+            dimensions: alertDimensions
             timeAggregation: alertTimeAggregation
             criterionType: 'StaticThresholdCriterion'
           }
