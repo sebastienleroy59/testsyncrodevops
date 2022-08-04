@@ -4,7 +4,7 @@ trigger:
 name: Deploy Alerts using bicep
 
 variables:
-  pool: 'ubuntu-latest'
+  pool: 'default'
 
   azureServiceConnection: '<your-connection-name>'
   resourceGroupName: 'supervisionbiceppoc'
