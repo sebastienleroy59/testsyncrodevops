@@ -1,0 +1,23 @@
+trigger:
+- master
+
+name: Deploy Alerts using bicep
+
+variables:
+  pool: 'ubuntu-latest'
+
+  azureServiceConnection: '<your-connection-name>'
+  resourceGroupName: 'supervisionbiceppoc'
+  templateFile: 'allAlerts.bicep'
+pool:
+  vmImage: $(vmImageName)
+
+steps:
+- task: AzureCLI@2
+  inputs:
+    azureSubscription: $(azureServiceConnection)
+    scriptType: bash
+    scriptLocation: inlineScript
+    inlineScript: |
+      az --version
+      az deployment group create --resource-group $(resourceGroupName) --template-file $(templateFile)
