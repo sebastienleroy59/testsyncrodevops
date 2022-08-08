@@ -20,10 +20,10 @@ steps:
     pwsh: true
     targetType: inline
     script: | 
-      $csvMetrics=import-csv -Delimiter "," "AlertsDefinitions/metricsAlerts.csv"  | ConvertTo-Json 
+      $csvMetrics=import-csv -Delimiter "," "AlertsDefinitions/metricsAlerts.csv"  | ConvertTo-Json -AsArray
       ((Get-Content -path AlertsDefinitions/metricsAlerts.json -Raw) -replace '"--TOREPLACE--"',$csvMetrics) | Set-Content -Path AlertsDefinitions/metricsAlerts.json
       Get-Content -Path AlertsDefinitions/metricsAlerts.json
-      $csvLogs=import-csv -Delimiter "," "AlertsDefinitions/logsAlerts.csv"  | ConvertTo-Json 
+      $csvLogs=import-csv -Delimiter "," "AlertsDefinitions/logsAlerts.csv"  | ConvertTo-Json -AsArray
       ((Get-Content -path AlertsDefinitions/logsAlerts.json -Raw) -replace '"--TOREPLACE--"',$csvLogs) | Set-Content -Path AlertsDefinitions/logsAlerts.json
       
       Get-Content -Path AlertsDefinitions/logsAlerts.json
@@ -35,6 +35,6 @@ steps:
     scriptLocation: inlineScript
     inlineScript: |
       az --version
-     # az deployment group create --resource-group $(resourceGroupName) --template-file $(metricsTemplate) --parameters $(metricsParametersFilePath)
-      #az deployment group create --resource-group $(resourceGroupName) --template-file $(logsTemplate) --parameters $(logsParametersFilePath)
+      az deployment group create --resource-group $(resourceGroupName) --template-file $(metricsTemplate) --parameters $(metricsParametersFilePath)
+      az deployment group create --resource-group $(resourceGroupName) --template-file $(logsTemplate) --parameters $(logsParametersFilePath)
       
