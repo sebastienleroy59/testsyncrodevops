@@ -1,7 +1,7 @@
-//param MetricsAlertsParams array
+param MetricsAlertsParams array
 param LogsAlertsParams array
 
-/* 
+/
 module MetricAlertResource 'metricAlertModule.bicep' = [for (MetricAlertsParams,i) in MetricsAlertsParams: {
 name: 'MetricAlertDeployment-${MetricAlertsParams.targetResourceTypeFriendlyName}-${i}'
 params: {
@@ -29,7 +29,7 @@ params: {
                 }
             ] : [] 
   }
-}] */
+}] 
 
 
 
