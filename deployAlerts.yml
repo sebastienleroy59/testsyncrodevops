@@ -22,6 +22,7 @@ steps:
     script: | 
       $csvMetrics=import-csv -Delimiter "," "AlertsDefinitions/metricsAlerts.csv"  | ConvertTo-Json 
       ((Get-Content -path AlertsDefinitions/metricsAlerts.json -Raw) -replace '"--TOREPLACE--"',$csvMetrics) | Set-Content -Path AlertsDefinitions/metricsAlerts.json
+      Get-Content -Path AlertsDefinitions/metricsAlerts.json
       $csvLogs=import-csv -Delimiter "," "AlertsDefinitions/logsAlerts.csv"  | ConvertTo-Json 
       ((Get-Content -path AlertsDefinitions/logsAlerts.json -Raw) -replace '"--TOREPLACE--"',$csvLogs) | Set-Content -Path AlertsDefinitions/logsAlerts.json
       
