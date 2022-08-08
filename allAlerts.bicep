@@ -1,5 +1,5 @@
 param MetricsAlertsParams array
-param logsAlertsParams array
+param LogsAlertsParams array
 
 /* 
 module MetricAlertResource 'metricAlertModule.bicep' = [for (MetricAlertsParams,i) in MetricsAlertsParams: {
