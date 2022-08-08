@@ -36,7 +36,7 @@ params: {
 
 
 
-var measure ='ActivityIterationCount'
+
 module LogAlertResource 'logAlertModule.bicep' =  [for (logAlertsParams,i) in LogsAlertsParams: {
   name: 'LogAlertDeployment-${logAlertsParams.targetResourceTypeFriendlyName}-${i}'
   params: {
@@ -50,7 +50,7 @@ module LogAlertResource 'logAlertModule.bicep' =  [for (logAlertsParams,i) in Lo
       targetResourceName:logAlertsParams.targetResourceName
       alertOperator:logAlertsParams.alertOperator
       alertTimeAggregation:logAlertsParams.alertTimeAggregation
-      alertMeasureColumn: !empty(measure)  ? measure : '' //Metric Measure Column can not be specified on Time Aggregation of Count
+      alertMeasureColumn: !empty(logAlertsParams.alertMeasurecolumn)  ? logAlertsParams.alertMeasurecolumn : '' //Metric Measure Column can not be specified on Time Aggregation of Count
       alertQuery:'ADFSandboxActivityRun\n| where Status == "Succeeded"\n| project Status, ActivityName, ResourceId\n| extend resourceName = split(ResourceId, \'/\')[-1]\n| where resourceName =="DF-POCADF-DEV"'
       alertDimensions: !empty(logAlertsParams.alertDimensions) ? [
         {
