@@ -6,7 +6,8 @@ name: Deploy Alerts using bicep
 variables:
    azureServiceConnection: 'SC-MPNSeb'
    resourceGroupName: 'supervisionbiceppoc'
-   templateFile: 'allAlerts.bicep'
+   metricsTemplate: 'deployMetricsAlerts.bicep'
+   logsTemplate: 'deployLogsAlerts.bicep'
    metricsParametersFilePath: '$(System.DefaultWorkingDirectory)/AlertsDefinitions/metricsAlerts.json'
    logsParametersFilePath: '$(System.DefaultWorkingDirectory)/AlertsDefinitions/logsAlerts.json'
 pool:
@@ -32,6 +33,6 @@ steps:
     scriptLocation: inlineScript
     inlineScript: |
       az --version
-      az deployment group create --resource-group $(resourceGroupName) --template-file $(templateFile) --parameters $(metricsParametersFilePath)
-      az deployment group create --resource-group $(resourceGroupName) --template-file $(templateFile) --parameters $(logsParametersFilePath)
+      az deployment group create --resource-group $(resourceGroupName) --template-file $(metricsTemplate) --parameters $(metricsParametersFilePath)
+      az deployment group create --resource-group $(resourceGroupName) --template-file $(logsTemplate) --parameters $(logsParametersFilePath)
       
