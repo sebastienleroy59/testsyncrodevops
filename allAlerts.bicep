@@ -37,7 +37,7 @@ params: {
 
 
 var measure ='ActivityIterationCount'
-module LogAlertResource 'logAlertModule.bicep' =  [for (logAlertsParams,i) in logsAlertsParams: {
+module LogAlertResource 'logAlertModule.bicep' =  [for (logAlertsParams,i) in LogsAlertsParams: {
   name: 'LogAlertDeployment-${logAlertsParams.targetResourceTypeFriendlyName}-${i}'
   params: {
       alertDescription:''
