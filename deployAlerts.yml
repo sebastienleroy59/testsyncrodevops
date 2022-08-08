@@ -33,4 +33,4 @@ steps:
     inlineScript: |
       az --version
       #az deployment group create --resource-group $(resourceGroupName) --template-file $(templateFile) --parameters $(logsParametersFilePath)
-      #az deployment group create --resource-group $(resourceGroupName) --template-file $(templateFile) --parameters $(metricsParametersFilePath)
+      az deployment group create --resource-group $(resourceGroupName) --template-file $(templateFile) --parameters $(metricsParametersFilePath)
