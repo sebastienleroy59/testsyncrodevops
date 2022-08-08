@@ -39,20 +39,21 @@ resource alert 'Microsoft.Insights/scheduledQueryRules@2021-08-01' = {
     windowSize: windowsSize
     criteria: {
       allOf: [
-        {
-          query: alertQuery
-          timeAggregation: alertTimeAggregation
-          //metricMeasureColumn: alertMeasureColumn //CounterValue - aggregatedValue
-          dimensions: alertDimensions
-          operator: alertOperator
-          threshold: alertTreshold
-          failingPeriods: {
-            numberOfEvaluationPeriods: 1
-            minFailingPeriodsToAlert: 1
+          {
+              query:alertQuery
+              timeAggregation: alertTimeAggregation
+              metricMeasureColumn: alertMeasureColumn
+              dimensions: alertDimensions
+              operator: alertOperator
+              threshold: alertTreshold
+              failingPeriods: {
+                  numberOfEvaluationPeriods: 1
+                  minFailingPeriodsToAlert: 1
+              }
           }
-        }
       ]
-    }
+  }
+   
     //muteActionsDuration: muteActionsDuration
     //autoMitigate: autoMitigate
     //checkWorkspaceAlertsStorageConfigured: checkWorkspaceAlertsStorageConfigured

@@ -1,7 +1,9 @@
 param MetricsAlertsParams array
+param logsAlertsParams array
 
+/* 
 module MetricAlertResource 'metricAlertModule.bicep' = [for (MetricAlertsParams,i) in MetricsAlertsParams: {
-name: 'ActivtyLogAlertDeployment-${MetricAlertsParams.targetResourceTypeFriendlyName}-${i}'
+name: 'MetricAlertDeployment-${MetricAlertsParams.targetResourceTypeFriendlyName}-${i}'
 params: {
     alertDescription:MetricAlertsParams.alertDescription
     alertSev:int(MetricAlertsParams.alertSev)
@@ -27,4 +29,38 @@ params: {
                 }
             ] : [] 
   }
+}] */
+
+
+
+
+
+
+var measure ='ActivityIterationCount'
+module LogAlertResource 'logAlertModule.bicep' =  [for (logAlertsParams,i) in logsAlertsParams: {
+  name: 'LogAlertDeployment-${logAlertsParams.targetResourceTypeFriendlyName}-${i}'
+  params: {
+      alertDescription:''
+      alertSev:int(logAlertsParams.alertSev)
+      eveluationFreq:logAlertsParams.eveluationFreq
+      windowsSize:logAlertsParams.windowsSize
+      resourceRG:logAlertsParams.resourceRG
+      alertTreshold:int(logAlertsParams.alertTreshold)
+      targetResourceTypeFriendly:logAlertsParams.targetResourceTypeFriendlyName
+      targetResourceName:logAlertsParams.targetResourceName
+      alertOperator:logAlertsParams.alertOperator
+      alertTimeAggregation:logAlertsParams.alertTimeAggregation
+      alertMeasureColumn: !empty(measure)  ? measure : '' //Metric Measure Column can not be specified on Time Aggregation of Count
+      alertQuery:'ADFSandboxActivityRun\n| where Status == "Succeeded"\n| project Status, ActivityName, ResourceId\n| extend resourceName = split(ResourceId, \'/\')[-1]\n| where resourceName =="DF-POCADF-DEV"'
+      alertDimensions: !empty(logAlertsParams.alertDimensions) ? [
+        {
+            name: logAlertsParams.alertDimensions//play with split maybe for multidimensions
+            operator: 'Include'
+            values: [
+                '*'
+            ]
+        }
+    ] : [] 
+  }
 }]
+
