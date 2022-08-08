@@ -15,7 +15,7 @@ module LogAlertResource 'logAlertModule.bicep' =  [for (logAlertsParams,i) in Lo
       targetResourceType:logAlertsParams.targetResourceType
       alertOperator:logAlertsParams.alertOperator
       alertTimeAggregation:logAlertsParams.alertTimeAggregation
-      alertMeasureColumn: !empty(logAlertsParams.alertMeasurecolumn)  ? logAlertsParams.alertMeasurecolumn : '' //Metric Measure Column can not be specified on Time Aggregation of Count
+      alertMeasureColumn: !empty(logAlertsParams.alertMeasurecolumn)  ? logAlertsParams.alertMeasurecolumn : null //Metric Measure Column can not be specified on Time Aggregation of Count
       alertQuery:'ADFSandboxActivityRun\n| where Status == "Succeeded"\n| project Status, ActivityName, ResourceId\n| extend resourceName = split(ResourceId, \'/\')[-1]\n| where resourceName =="DF-POCADF-DEV"'
       alertDimensions: !empty(logAlertsParams.alertDimensions) ? [
         {
