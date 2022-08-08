@@ -18,8 +18,8 @@ steps:
     pwsh: true
     targetType: inline
     script: | 
-      $csvMetrics=import-csv -Delimiter "," "AlertsDefinitions/metricsAlerts.csv"  | ConvertTo-Json 
-      ((Get-Content -path AlertsDefinitions/metricsAlerts.json -Raw) -replace '"--TOREPLACE--"',$csv) | Set-Content -Path AlertsDefinitions/metricsAlerts.json
+      #$csvMetrics=import-csv -Delimiter "," "AlertsDefinitions/metricsAlerts.csv"  | ConvertTo-Json 
+      #((Get-Content -path AlertsDefinitions/metricsAlerts.json -Raw) -replace '"--TOREPLACE--"',$csv) | Set-Content -Path AlertsDefinitions/metricsAlerts.json
       $csvLogs=import-csv -Delimiter "," "AlertsDefinitions/logsAlerts.csv"  | ConvertTo-Json 
       ((Get-Content -path AlertsDefinitions/logsAlerts.json -Raw) -replace '"--TOREPLACE--"',$csv) | Set-Content -Path AlertsDefinitions/logsAlerts.json
 
