@@ -1,2 +1,3 @@
 ﻿targetResourceName,resourceRG,targetResourceType,targetResourceTypeFriendlyName,alertDescription,alertSev,alertDimensions,alertOperator,alertTimeAggregation,eveluationFreq,windowsSize,alertTreshold,alertMeasurecolumn,alertQuery
 df-pocadf-dev,poc-adf,Microsoft.DataFactory/factories,ADFO,,1,Name,GreaterThanOrEqual,Total,PT1M,PT5M,90,,
+df-pocadf-dev,poc-adf,Microsoft.DataFactory/factories,ADFOtest,,1,Name,GreaterThanOrEqual,Total,PT10M,PT5M,90,,
