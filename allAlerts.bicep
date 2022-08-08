@@ -1,4 +1,4 @@
-param MetricsAlertsParams array
+//param MetricsAlertsParams array
 param LogsAlertsParams array
 
 /* 
