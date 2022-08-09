@@ -12,7 +12,7 @@ param targetResourceTypeFriendly string=''
 param resourceRG string=''
 param alertSev int
 param alertTreshold int
-//param alertMeasureColumn string=''
+param alertMeasureColumn string=''
 param alertOperator string=''
 param alertTimeAggregation string=''
 param alertDimensions array
@@ -42,7 +42,7 @@ resource alert 'Microsoft.Insights/scheduledQueryRules@2021-08-01' = {
           {
               query:alertQuery
               timeAggregation: alertTimeAggregation
-             // metricMeasureColumn: alertMeasureColumn
+              metricMeasureColumn: alertMeasureColumn
               dimensions: alertDimensions
               operator: alertOperator
               threshold: alertTreshold
