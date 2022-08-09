@@ -21,6 +21,33 @@ param alertQuery string=''
 //param alertTags object
 var actionGroupRGName = 'supervisionbiceppoc'
 
+var allOfCriterias = !empty(alertMeasureColumn) ?  [
+  {
+      query:alertQuery
+      timeAggregation: alertTimeAggregation
+      metricMeasureColumn: alertMeasureColumn
+      dimensions: alertDimensions
+      operator: alertOperator
+      threshold: alertTreshold
+      failingPeriods: {
+          numberOfEvaluationPeriods: 1
+          minFailingPeriodsToAlert: 1
+      }
+  }
+] : [
+  {
+      query:alertQuery
+      timeAggregation: alertTimeAggregation
+      
+      dimensions: alertDimensions
+      operator: alertOperator
+      threshold: alertTreshold
+      failingPeriods: {
+          numberOfEvaluationPeriods: 1
+          minFailingPeriodsToAlert: 1
+      }
+  }
+]
 resource alert 'Microsoft.Insights/scheduledQueryRules@2021-08-01' = {
   name: '${targetResourceTypeFriendly}-${targetResourceName}-${alertTimeAggregation}-${alertSev}'
   location: resourceGroup().location
@@ -38,20 +65,7 @@ resource alert 'Microsoft.Insights/scheduledQueryRules@2021-08-01' = {
     evaluationFrequency: eveluationFreq
     windowSize: windowsSize
     criteria: {
-      allOf: [
-          {
-              query:alertQuery
-              timeAggregation: alertTimeAggregation
-              metricMeasureColumn: alertMeasureColumn
-              dimensions: alertDimensions
-              operator: alertOperator
-              threshold: alertTreshold
-              failingPeriods: {
-                  numberOfEvaluationPeriods: 1
-                  minFailingPeriodsToAlert: 1
-              }
-          }
-      ]
+      allOf: allOfCriterias
   }
    
     //muteActionsDuration: muteActionsDuration
