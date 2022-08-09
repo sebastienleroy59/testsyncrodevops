@@ -15,7 +15,7 @@ module LogAlertResource 'logAlertModule.bicep' =  [for (logAlertsParams,i) in Lo
       targetResourceType:logAlertsParams.targetResourceType
       alertOperator:logAlertsParams.alertOperator
       alertTimeAggregation:logAlertsParams.alertTimeAggregation
-      alertMeasureColumn: !empty(logAlertsParams.alertMeasurecolumn)  ? logAlertsParams.alertMeasurecolumn : null //Metric Measure Column can not be specified on Time Aggregation of Count
+      alertMeasureColumn: !empty(logAlertsParams.alertMeasurecolumn)  ? logAlertsParams.alertMeasurecolumn : '' //Metric Measure Column can not be specified on Time Aggregation of Count
       alertQuery:logAlertsParams.alertQuery
       alertDimensions: !empty(logAlertsParams.alertDimensions) ? [
         {
