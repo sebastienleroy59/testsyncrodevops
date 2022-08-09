@@ -12,7 +12,7 @@ param targetResourceTypeFriendly string=''
 param resourceRG string=''
 param alertSev int
 param alertTreshold int
-param alertMeasureColumn string=''
+//param alertMeasureColumn string=''
 param alertOperator string=''
 param alertTimeAggregation string=''
 param alertDimensions array
