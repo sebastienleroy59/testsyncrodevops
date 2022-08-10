@@ -41,8 +41,8 @@ steps:
         }
       }
       
-      $csvLogs | ConvertTo-Json -AsArray -Depth 4
-      ((Get-Content -path AlertsDefinitions/logsAlerts.json -Raw) -replace '"--TOREPLACE--"',$csvLogs ) | Set-Content -Path AlertsDefinitions/logsAlerts.json
+      $formattedAlerts = $csvLogs | ConvertTo-Json -AsArray -Depth 4
+      ((Get-Content -path AlertsDefinitions/logsAlerts.json -Raw) -replace '"--TOREPLACE--"',$formattedAlerts ) | Set-Content -Path AlertsDefinitions/logsAlerts.json
       Get-Content -Path AlertsDefinitions/logsAlerts.json
 
 
