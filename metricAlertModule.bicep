@@ -20,7 +20,7 @@ param alertDimensions array
 var actionGroupRGName = 'supervisionbiceppoc'
 
 resource metricAlertResource 'microsoft.insights/metricAlerts@2018-03-01' ={
-    name: '${targetResourceTypeFriendly}-${targetResourceName}-${alertSev}'
+  name: '${targetResourceTypeFriendly}-${targetResourceName}-${alertTimeAggregation}-${alertSev}'
     location: 'Global'
     //tags:alertTags
     properties: {
