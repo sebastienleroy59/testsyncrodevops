@@ -40,7 +40,7 @@ steps:
       
       $formattedAlerts = $csvMetrics | ConvertTo-Json -AsArray -Depth 4
       ((Get-Content -path AlertsDefinitions/metricsAlerts.json -Raw) -replace '"--TOREPLACE--"',$formattedAlerts ) | Set-Content -Path AlertsDefinitions/metricsAlerts.json
-      Get-Content -path AlertsDefinitions/metricsAlerts.json
+      #Get-Content -path AlertsDefinitions/metricsAlerts.json
       
       
       
@@ -79,5 +79,5 @@ steps:
     inlineScript: |
       az --version
       az deployment group create --resource-group $(resourceGroupName) --template-file $(metricsTemplate) --parameters $(metricsParametersFilePath)
-      #az deployment group create --resource-group $(resourceGroupName) --template-file $(logsTemplate) --parameters $(logsParametersFilePath)
+      az deployment group create --resource-group $(resourceGroupName) --template-file $(logsTemplate) --parameters $(logsParametersFilePath)
       
