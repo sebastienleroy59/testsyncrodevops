@@ -78,6 +78,6 @@ steps:
     scriptLocation: inlineScript
     inlineScript: |
       az --version
-      #az deployment group create --resource-group $(resourceGroupName) --template-file $(metricsTemplate) --parameters $(metricsParametersFilePath)
+      az deployment group create --resource-group $(resourceGroupName) --template-file $(metricsTemplate) --parameters $(metricsParametersFilePath)
       #az deployment group create --resource-group $(resourceGroupName) --template-file $(logsTemplate) --parameters $(logsParametersFilePath)
       
