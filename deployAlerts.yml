@@ -20,11 +20,32 @@ steps:
     pwsh: true
     targetType: inline
     script: | 
-      $csvMetrics=import-csv -Delimiter "," "AlertsDefinitions/metricsAlerts.csv"  | ConvertTo-Json -AsArray
-      ((Get-Content -path AlertsDefinitions/metricsAlerts.json -Raw) -replace '"--TOREPLACE--"',$csvMetrics) | Set-Content -Path AlertsDefinitions/metricsAlerts.json
-      $csvLogs=import-csv -Delimiter ";" "AlertsDefinitions/logsAlerts.csv"  | ConvertTo-Json -AsArray
-      ((Get-Content -path AlertsDefinitions/logsAlerts.json -Raw) -replace '"--TOREPLACE--"',$csvLogs) | Set-Content -Path AlertsDefinitions/logsAlerts.json
+      #$csvMetrics=import-csv -Delimiter "," "AlertsDefinitions/metricsAlerts.csv"  | ConvertTo-Json -AsArray
+      #((Get-Content -path AlertsDefinitions/metricsAlerts.json -Raw) -replace '"--TOREPLACE--"',$csvMetrics) | Set-Content -Path AlertsDefinitions/metricsAlerts.json
+      $csvLogs=import-csv -Delimiter ";" "AlertsDefinitions/logsAlerts.csv"  #| ConvertTo-Json -AsArray
+
+      foreach($alertLine in $csvLogs){
+        if($alertLine.alertDimensions -ne ""){
+        
+            $dimensionsArray=@()
+            $dimensions = $alertLine.alertDimensions.Split(',')
+        
+            foreach($dimension in $dimensions){
+                $splittedDimension = $dimension.Split('|')
+                $dimensionsArray+=@{name = $splittedDimension[0];  operator = $splittedDimension[1]; values = ($splittedDimension[2] -ne "") ? @($splittedDimension[2].split('!')):"*" } 
+            }
+       
+            $alertLine.alertDimensions = $dimensionsArray
+            $alertLineIndex = $csvLogs.IndexOf($alertLine)
+            $csvLogs[$alertLineIndex].alertDimensions= $alertLine.alertDimensions 
+        }
+      }
+      
+
+      ((Get-Content -path AlertsDefinitions/logsAlerts.json -Raw) -replace '"--TOREPLACE--"',$csvLogs | ConvertTo-Json -AsArray -Depth 4) | Set-Content -Path AlertsDefinitions/logsAlerts.json
       Get-Content -Path AlertsDefinitions/logsAlerts.json
+
+
          
 - task: AzureCLI@2
   inputs:
@@ -33,6 +54,6 @@ steps:
     scriptLocation: inlineScript
     inlineScript: |
       az --version
-      az deployment group create --resource-group $(resourceGroupName) --template-file $(metricsTemplate) --parameters $(metricsParametersFilePath)
-      az deployment group create --resource-group $(resourceGroupName) --template-file $(logsTemplate) --parameters $(logsParametersFilePath)
+      #az deployment group create --resource-group $(resourceGroupName) --template-file $(metricsTemplate) --parameters $(metricsParametersFilePath)
+      #az deployment group create --resource-group $(resourceGroupName) --template-file $(logsTemplate) --parameters $(logsParametersFilePath)
       
