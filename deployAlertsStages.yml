@@ -41,3 +41,19 @@ stages:
       
 
 
+- stage: DeployMetricsAlerts2
+  jobs:
+  - job: PowerhsellDeploy2
+    steps:
+    - task: PowerShell@2
+      inputs:
+       pwsh: true
+       targetType: inline
+       script: | 
+        write-host "hello jobstage2"
+
+  - job: DevelopWaitingApproval
+    dependsOn: PowerhsellDeploy2
+    pool: server
+    timeoutInMinutes: 4320 # job times out in 3 days
+
