@@ -1,4 +1,4 @@
-name: Deploy Alerts using bicep staging
+name: Deploy Alerts using bicep multistage
 variables:
    azureServiceConnection: 'SC-MPNSeb'
    resourceGroupName: 'supervisionbiceppoc'
