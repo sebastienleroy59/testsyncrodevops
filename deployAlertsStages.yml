@@ -22,7 +22,7 @@ stages:
         write-host "hello"
 
   - job: DevelopWaitingApproval
-    dependsOn: DevelopValidate
+    dependsOn: WaitingApproval
     #pool: server
     timeoutInMinutes: 4320 # job times out in 3 days
 
