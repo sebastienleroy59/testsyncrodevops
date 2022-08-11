@@ -26,7 +26,7 @@ stages:
   - job: DevelopWaitingApproval
     dependsOn: PowerhsellDeploy
     pool: server
-    timeoutInMinutes: 4320 # job times out in 3 days
+    timeoutInMinutes: 4320 # 3 days
 
     steps:
 
