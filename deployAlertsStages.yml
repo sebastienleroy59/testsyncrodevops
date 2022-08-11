@@ -19,7 +19,7 @@ stages:
        pwsh: true
        scriptPath: '$(Build.SourcesDirectory)/formatMetrics.ps1'
        arguments:
-          -typeOfAlertstoFormat 'Logs' #$(Prefix)
+          -typeOfAlertstoFormat 'Logs'
           
       
 
