@@ -7,6 +7,7 @@ param(
 
 Write-Host $typeOfAlertstoFormat
 $csvFileToConvert="AlertsDefinitions/$($typeOfAlertstoFormat)Alerts.csv"
+$csvFileToConvert=import-csv -Delimiter ";" "AlertsDefinitions/$($typeOfAlertstoFormat)Alerts.csv"
 $csvFileToConvert
 <# 
 if($typeOfAlertstoFormat -ne "Activity"){
