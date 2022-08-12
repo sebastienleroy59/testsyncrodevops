@@ -8,7 +8,7 @@ param(
 Write-Host $typeOfAlertstoFormat
 #$ResourceGroupName = "$($Prefix)rg"
 if($typeOfAlertstoFormat -ne "Activity"){
-    $csvFileToConvert=import-csv -Delimiter ";" "AlertsDefinitions/"+$typeOfAlertstoFormat+"Alerts.csv"
+    $csvFileToConvert=import-csv -Delimiter ";" "AlertsDefinitions/$(typeOfAlertstoFormat)Alerts.csv"
     foreach($alertLine in $csvFileToConvert){
         if($alertLine.alertDimensions -ne ""){
             $dimensionsArray=@()
