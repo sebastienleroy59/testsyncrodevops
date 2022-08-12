@@ -6,7 +6,9 @@ param(
 )
 
 Write-Host $typeOfAlertstoFormat
-#$ResourceGroupName = "$($Prefix)rg"
+$csvFileToConvert="AlertsDefinitions/$($typeOfAlertstoFormat)Alerts.csv"
+$csvFileToConvert
+<# 
 if($typeOfAlertstoFormat -ne "Activity"){
     $csvFileToConvert=import-csv -Delimiter ";" "AlertsDefinitions/$($typeOfAlertstoFormat)Alerts.csv"
     foreach($alertLine in $csvFileToConvert){
@@ -30,4 +32,4 @@ if($typeOfAlertstoFormat -ne "Activity"){
     Get-Content -path "AlertsDefinitions/"$typeOfAlertstoFormat"Alerts.json" -Raw
 }else{
     write-host "activitylogs deployment"
-}
+} #>
