@@ -8,7 +8,7 @@ param(
 Write-Host $typeOfAlertstoFormat
 #$ResourceGroupName = "$($Prefix)rg"
 if($typeOfAlertstoFormat -ne "Activity"){
-    $csvFileToConvert=import-csv -Delimiter ";" "AlertsDefinitions/$typeOfAlertstoFormatAlerts.csv"
+    $csvFileToConvert=import-csv -Delimiter ";" "AlertsDefinitions/"$typeOfAlertstoFormat"Alerts.csv"
     foreach($alertLine in $csvFileToConvert){
         if($alertLine.alertDimensions -ne ""){
             $dimensionsArray=@()
@@ -26,8 +26,8 @@ if($typeOfAlertstoFormat -ne "Activity"){
     }
 
     $formattedAlerts = $csvMetrics | ConvertTo-Json -AsArray -Depth 4
-    ((Get-Content -path "AlertsDefinitions/$typeOfAlertstoFormatAlerts.json" -Raw) -replace '"--TOREPLACE--"',$formattedAlerts ) | Set-Content -Path "AlertsDefinitions/$typeOfAlertstoFormatAlerts.json"
-    Get-Content -path "AlertsDefinitions/$typeOfAlertstoFormatAlerts.json" -Raw
+    ((Get-Content -path "AlertsDefinitions/"$typeOfAlertstoFormat"Alerts.json" -Raw) -replace '"--TOREPLACE--"',$formattedAlerts ) | Set-Content -Path "AlertsDefinitions/"$typeOfAlertstoFormat"Alerts.json"
+    Get-Content -path "AlertsDefinitions/"$typeOfAlertstoFormat"Alerts.json" -Raw
 }else{
     write-host "activitylogs deployment"
 }
