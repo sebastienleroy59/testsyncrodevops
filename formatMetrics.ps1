@@ -27,6 +27,7 @@ if($typeOfAlertstoFormat -ne "Activity"){
     }
 
     $formattedAlerts = $csvMetrics | ConvertTo-Json -AsArray -Depth 4
+    $formattedAlerts
     ((Get-Content -path "AlertsDefinitions/$($typeOfAlertstoFormat)Alerts.json" -Raw) -replace '"--TOREPLACE--"',$formattedAlerts ) | Set-Content -Path "AlertsDefinitions/$($typeOfAlertstoFormat)Alerts.json"
     Get-Content -path "AlertsDefinitions/$($typeOfAlertstoFormat)Alerts.json" -Raw
 }else{
