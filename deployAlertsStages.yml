@@ -20,7 +20,7 @@ stages:
        #scriptPath: '$(System.DefaultWorkingDirectory)/formatMetrics.ps1'
        filePath: '$(Agent.BuildDirectory)/s/formatMetrics.ps1'
        arguments:
-          -typeOfAlertstoFormat 'Logs'
+          -typeOfAlertstoFormat 'logs'
           
       
 
