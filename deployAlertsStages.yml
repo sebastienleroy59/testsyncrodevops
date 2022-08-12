@@ -10,9 +10,9 @@ pool:
   name: Default
 
 stages:
-- stage: DeployMetricsAlerts
+- stage: ConvertCSV2Json
   jobs:
-  - job: PowerhsellDeploy
+  - job: ConvertMetricsAlertsCSVToJson
     steps:
     - task: PowerShell@2
       inputs:
@@ -20,8 +20,16 @@ stages:
        #scriptPath: '$(System.DefaultWorkingDirectory)/formatMetrics.ps1'
        filePath: '$(Agent.BuildDirectory)/s/formatMetrics.ps1'
        arguments:
-          -typeOfAlertstoFormat 'logs'
-          
+          -typeOfAlertstoFormat 'metrics'
+  - job: ConvertLogsAlertsCSVToJson
+    steps:
+    - task: PowerShell@2
+      inputs:
+       pwsh: true
+       #scriptPath: '$(System.DefaultWorkingDirectory)/formatMetrics.ps1'
+       filePath: '$(Agent.BuildDirectory)/s/formatMetrics.ps1'
+       arguments:
+          -typeOfAlertstoFormat 'logs'          
       
 
   - job: DevelopWaitingApproval
