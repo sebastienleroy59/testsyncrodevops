@@ -14,7 +14,7 @@ if($typeOfAlertstoFormat -ne "Activity"){
     foreach($alertLine in $csvFileToConvert){
         if($alertLine.alertDimensions -ne ""){
             $dimensionsArray=@()
-            $dimensions = $alertLine.alertDimensions.Split(',')
+            $dimensions = $alertLine.alertDimensions.Split(';')
         
             foreach($dimension in $dimensions){
                 $splittedDimension = $dimension.Split('|')
