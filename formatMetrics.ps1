@@ -1,9 +1,12 @@
 param(
     [Parameter(Mandatory=$true)]
     #[ValidatePattern('^[a-zA-Z0-9]+$')]
-    [String] $typeOfAlertstoFormat
-   
+    [String] $typeOfAlertstoFormat,
+    [Parameter(Mandatory=$true)]
+    #[ValidatePattern('^[a-zA-Z0-9]+$')]
+    [String] $baseDir   
 )
+
 
 Write-Host $typeOfAlertstoFormat
 
@@ -29,7 +32,7 @@ if($typeOfAlertstoFormat -ne "Activity"){
     
     $formattedAlerts = $csvFileToConvert | ConvertTo-Json -AsArray -Depth 4
     $formattedAlerts
-    ((Get-Content -path "AlertsDefinitions/$($typeOfAlertstoFormat)Alerts.json" -Raw) -replace '"--TOREPLACE--"',$formattedAlerts ) | Set-Content -Path "$(System.DefaultWorkingDirectory)/AlertsDefinitions/$($typeOfAlertstoFormat)Alerts.json"
+    ((Get-Content -path "AlertsDefinitions/$($typeOfAlertstoFormat)Alerts.json" -Raw) -replace '"--TOREPLACE--"',$formattedAlerts ) | Set-Content -Path "$($baseDir)/AlertsDefinitions/$($typeOfAlertstoFormat)Alerts.json"
     Get-Content -path "AlertsDefinitions/$($typeOfAlertstoFormat)Alerts.json" -Raw
 }else{
     write-host "activitylogs deployment"
