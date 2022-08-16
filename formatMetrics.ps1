@@ -32,7 +32,7 @@ if($typeOfAlertstoFormat -ne "Activity"){
     }
     
     $formattedAlerts = $csvFileToConvert | ConvertTo-Json -AsArray -Depth 4
-    $formattedAlerts
+    #$formattedAlerts
     ((Get-Content -path "AlertsDefinitions/$($typeOfAlertstoFormat)Alerts.json" -Raw) -replace '"--TOREPLACE--"',$formattedAlerts ) | Set-Content -Path "$($baseDir)/AlertsDefinitions/$($typeOfAlertstoFormat)Alerts.json"
     Get-Content -Path "$($baseDir)/AlertsDefinitions/$($typeOfAlertstoFormat)Alerts.json"
 }else{
