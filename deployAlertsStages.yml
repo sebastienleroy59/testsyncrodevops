@@ -43,7 +43,7 @@ stages:
         buildType: 'current'
         artifactName: 'ParametersFiles'
         targetPath: '$(Build.SourcesDirectory)'
-        patterns: '**'
+        patterns: 'AlertsDefinitions/*'
   - job: DevelopWaitingApproval
     dependsOn: ConvertMetricsAlertsCSVToJson
     pool: server
