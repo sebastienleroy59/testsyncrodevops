@@ -60,9 +60,10 @@ stages:
   jobs:
   - job: DeployMetricAlerts
     steps:
-    - download: current
-      artifact: ParametersFiles
-      path: $(System.DefaultWorkingDirectory)
+    - task: DownloadPipelineArtifact@2
+        inputs:
+        artifact: 'ParametersFiles'
+        path: $(Build.SourcesDirectory)
     - task: AzureCLI@2
       inputs:
         azureSubscription: $(azureServiceConnection)
