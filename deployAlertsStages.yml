@@ -31,7 +31,13 @@ stages:
        filePath: '$(Agent.BuildDirectory)/s/formatMetrics.ps1'
        arguments:
           -typeOfAlertstoFormat 'logs' 
-          -baseDir '$(System.DefaultWorkingDirectory)'         
+          -baseDir '$(System.DefaultWorkingDirectory)'   
+    - task: PowerShell@2
+      inputs:
+      pwsh: true
+      targetType: inline
+      script: | 
+        Get-Content -Path "$($baseDir)/AlertsDefinitions/$($typeOfAlertstoFormat)Alerts.json"    
       
 
   - job: DevelopWaitingApproval
