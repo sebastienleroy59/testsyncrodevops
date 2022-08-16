@@ -37,7 +37,8 @@ stages:
         pwsh: true
         targetType: inline
         script: | 
-          Get-Content -Path "$($baseDir)/AlertsDefinitions/$($typeOfAlertstoFormat)Alerts.json"    
+          Get-Content -Path $(metricsParametersFilePath)
+          Get-Content -Path $(logsParametersFilePath)
       
 
   - job: DevelopWaitingApproval
