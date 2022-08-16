@@ -69,6 +69,7 @@ stages:
         buildType: 'current'
         artifactName: 'ParametersFiles'
         targetPath: '$(Build.SourcesDirectory)'
+        patterns: '**'
 
     - task: AzureCLI@2
       inputs:
@@ -77,8 +78,6 @@ stages:
         scriptLocation: inlineScript
         inlineScript: |
           ls $(Build.SourcesDirectory)
-          echo $(metricsParametersFilePath)
-          cat $(metricsParametersFilePath)
           cat $(Build.SourcesDirectory)/AlertsDefinitions/metricsAlerts.json
           #az deployment group create --resource-group $(resourceGroupName) --template-file $(metricsTemplate) --parameters $(metricsParametersFilePath)
   - job: DeployLogsAlerts
