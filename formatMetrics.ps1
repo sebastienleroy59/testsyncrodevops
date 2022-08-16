@@ -26,8 +26,8 @@ if($typeOfAlertstoFormat -ne "Activity"){
             $csvFileToConvert[$alertLineIndex].alertDimensions= $alertLine.alertDimensions 
         }
     }
-    $csvFileToConvert
-    $formattedAlerts = $csvMetrics | ConvertTo-Json -AsArray -Depth 4
+    
+    $formattedAlerts = $csvFileToConvert | ConvertTo-Json -AsArray -Depth 4
     $formattedAlerts
     ((Get-Content -path "AlertsDefinitions/$($typeOfAlertstoFormat)Alerts.json" -Raw) -replace '"--TOREPLACE--"',$formattedAlerts ) | Set-Content -Path "AlertsDefinitions/$($typeOfAlertstoFormat)Alerts.json"
     Get-Content -path "AlertsDefinitions/$($typeOfAlertstoFormat)Alerts.json" -Raw
