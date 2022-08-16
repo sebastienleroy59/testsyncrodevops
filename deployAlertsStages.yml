@@ -52,7 +52,7 @@ stages:
         inlineScript: |
           ls -R $(System.DefaultWorkingDirectory)
           #cat $(Pipeline.Workspace)/AlertsDefinitions/logsAlerts.json
-          cat $(System.DefaultWorkingDirectory)AlertsDefinitions/logsAlerts.json
+          cat $(System.DefaultWorkingDirectory)/AlertsDefinitions/logsAlerts.json
           
   - job: DevelopWaitingApproval
     dependsOn: ConvertMetricsAlertsCSVToJson
