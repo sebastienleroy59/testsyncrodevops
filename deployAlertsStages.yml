@@ -43,15 +43,15 @@ stages:
 
     steps:
 
-    - task: ManualValidation@0
-      displayName: WaitingApproval
-      
-      timeoutInMinutes: 1440 # task times out in 1 day
-      inputs:
-        notifyUsers: |
-          sebastien.dillier@squadra-run.com
-        instructions: 'Please validate the build configuration and resume'
-        onTimeout: 'resume'
+    #- task: ManualValidation@0
+    #  displayName: WaitingApproval
+    #  
+    #  timeoutInMinutes: 1440 # task times out in 1 day
+    #  inputs:
+    #    notifyUsers: |
+    #      sebastien.dillier@squadra-run.com
+    #    instructions: 'Please validate the build configuration and resume'
+    #    onTimeout: 'resume'
    
       
 
@@ -62,6 +62,7 @@ stages:
     steps:
     - download: current
       artifact: ParametersFiles
+      path: $(System.DefaultWorkingDirectory)
     - task: AzureCLI@2
       inputs:
         azureSubscription: $(azureServiceConnection)
