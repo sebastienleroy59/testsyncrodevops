@@ -92,10 +92,9 @@ stages:
         scriptType: bash
         scriptLocation: inlineScript
         inlineScript: |
-          ls -R $(System.DefaultWorkingDirectory)
-          cat $(System.DefaultWorkingDirectory)/AlertsDefinitions/logsAlerts.json
-          #ls $(Build.SourcesDirectory)
-          #cat $(Build.SourcesDirectory)/AlertsDefinitions/metricsAlerts.json
+          
+          cat $(System.DefaultWorkingDirectory)/AlertsDefinitions/metricsAlerts.json
+          
           az deployment group create --resource-group $(resourceGroupName) --template-file $(metricsTemplate) --parameters $(System.DefaultWorkingDirectory)/AlertsDefinitions/metricsAlerts.json
   - job: DeployLogsAlerts
     steps:
@@ -105,8 +104,6 @@ stages:
         scriptType: bash
         scriptLocation: inlineScript
         inlineScript: |
-          echo $(logsParametersFilePath)
-          cat $(logsParametersFilePath)
-          cat $(Build.SourcesDirectory)/AlertsDefinitions/logsAlerts.json
+          cat $(System.DefaultWorkingDirectory)/AlertsDefinitions/logsAlerts.json
           az deployment group create --resource-group $(resourceGroupName) --template-file $(logsTemplate) --parameters $(System.DefaultWorkingDirectory)/AlertsDefinitions/logsAlerts.json
               
