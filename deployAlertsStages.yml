@@ -78,5 +78,8 @@ stages:
         scriptType: bash
         scriptLocation: inlineScript
         inlineScript: |
+          echo $(logsParametersFilePath)
+          cat $(logsParametersFilePath)
+          cat $(System.DefaultWorkingDirectory)/AlertsDefinitions/logsAlerts.json
           #az deployment group create --resource-group $(resourceGroupName) --template-file $(logsTemplate) --parameters $(logsParametersFilePath)
               
