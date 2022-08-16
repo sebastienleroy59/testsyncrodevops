@@ -62,7 +62,8 @@ stages:
         scriptType: bash
         scriptLocation: inlineScript
         inlineScript: |
-          az deployment group create --resource-group $(resourceGroupName) --template-file $(metricsTemplate) --parameters $(System.DefaultWorkingDirectory)/AlertsDefinitions/metricsAlerts.json
+          echo $(metricsParametersFilePath)
+          az deployment group create --resource-group $(resourceGroupName) --template-file $(metricsTemplate) --parameters $(metricsParametersFilePath)
   - job: DeployLogsAlerts
     steps:
     - task: AzureCLI@2
