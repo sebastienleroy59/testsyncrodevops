@@ -44,6 +44,14 @@ stages:
         artifactName: 'ParametersFiles'
         targetPath: '$(Pipeline.Workspace)'
         patterns: '**'
+    - task: AzureCLI@2
+      inputs:
+        azureSubscription: $(azureServiceConnection)
+        scriptType: bash
+        scriptLocation: inlineScript
+        inlineScript: |
+          ls $(Pipeline.Workspace)
+          
   - job: DevelopWaitingApproval
     dependsOn: ConvertMetricsAlertsCSVToJson
     pool: server
