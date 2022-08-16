@@ -14,6 +14,14 @@ stages:
   jobs:
   - job: ConvertMetricsAlertsCSVToJson
     steps:
+    - task: AzureCLI@2
+      inputs:
+        azureSubscription: $(azureServiceConnection)
+        scriptType: bash
+        scriptLocation: inlineScript
+        inlineScript: |
+          mkdir $(System.DefaultWorkingDirectory)/convertedFiles
+          
     - task: PowerShell@2
       inputs:
        pwsh: true
@@ -35,14 +43,14 @@ stages:
 
     - task: PublishPipelineArtifact@1
       inputs:
-        targetPath: '$(System.DefaultWorkingDirectory)'
+        targetPath: '$(System.DefaultWorkingDirectory)/convertedFiles'
         artifact: 'ParametersFiles'
         publishLocation: 'pipeline'
     - task: DownloadPipelineArtifact@2
       inputs:
         buildType: 'current'
         artifactName: 'ParametersFiles'
-        targetPath: '$(System.DefaultWorkingDirectory)'
+        targetPath: '$(System.DefaultWorkingDirectory)/convertedFiles'
         patterns: '**'
     - task: AzureCLI@2
       inputs:
@@ -50,9 +58,9 @@ stages:
         scriptType: bash
         scriptLocation: inlineScript
         inlineScript: |
-          ls -R $(System.DefaultWorkingDirectory)
+          ls -R $(System.DefaultWorkingDirectory/convertedFiles)
           #cat $(Pipeline.Workspace)/AlertsDefinitions/logsAlerts.json
-          cat $(System.DefaultWorkingDirectory)/AlertsDefinitions/logsAlerts.json
+          cat $(System.DefaultWorkingDirectory)/convertedFiles/AlertsDefinitions/logsAlerts.json
           
   - job: DevelopWaitingApproval
     dependsOn: ConvertMetricsAlertsCSVToJson
@@ -83,7 +91,7 @@ stages:
       inputs:
         buildType: 'current'
         artifactName: 'ParametersFiles'
-        targetPath: '$(System.DefaultWorkingDirectory)'
+        targetPath: '$(System.DefaultWorkingDirectory)/convertedFiles'
         patterns: '**'
 
     - task: AzureCLI@2
@@ -93,7 +101,7 @@ stages:
         scriptLocation: inlineScript
         inlineScript: |
           ls -R
-          cat $(System.DefaultWorkingDirectory)/AlertsDefinitions/metricsAlerts.json
+          cat $(System.DefaultWorkingDirectory)/convertedFiles/AlertsDefinitions/metricsAlerts.json
           
           #az deployment group create --resource-group $(resourceGroupName) --template-file $(metricsTemplate) --parameters $(System.DefaultWorkingDirectory)/AlertsDefinitions/metricsAlerts.json
   - job: DeployLogsAlerts
@@ -105,6 +113,6 @@ stages:
         scriptLocation: inlineScript
         inlineScript: |
           ls -R
-          cat $(System.DefaultWorkingDirectory)/AlertsDefinitions/logsAlerts.json
+          cat $(System.DefaultWorkingDirectory)/convertedFiles/AlertsDefinitions/logsAlerts.json
            #az deployment group create --resource-group $(resourceGroupName) --template-file $(logsTemplate) --parameters $(System.DefaultWorkingDirectory)/AlertsDefinitions/logsAlerts.json
               
