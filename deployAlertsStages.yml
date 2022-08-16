@@ -52,34 +52,24 @@ stages:
       
 
 
-- stage: DeployLogsAlerts
+- stage: DeployAlerts
   jobs:
-  - job: PowerhsellDeploy2
+  - job: DeployMetricdAlerts
     steps:
-    - task: PowerShell@2
+    - task: AzureCLI@2
       inputs:
-       pwsh: true
-       targetType: inline
-       script: | 
-        write-host "hello jobstage2"
-
-  - job: DevelopWaitingApproval
-    dependsOn: PowerhsellDeploy2
-    pool: server
-    timeoutInMinutes: 4320 # job times out in 3 days
-
-- stage: DeployAcitivtylogsAlerts
+      azureSubscription: $(azureServiceConnection)
+      scriptType: bash
+      scriptLocation: inlineScript
+      inlineScript: |
+      az deployment group create --resource-group $(resourceGroupName) --template-file $(metricsTemplate) --parameters $(metricsParametersFilePath)
   jobs:
-  - job: PowerhsellDeploy2
+  - job: DeployLogsAlerts
     steps:
-    - task: PowerShell@2
+    - task: AzureCLI@2
       inputs:
-       pwsh: true
-       targetType: inline
-       script: | 
-        write-host "hello jobstage2"
-
-  - job: DevelopWaitingApproval
-    dependsOn: PowerhsellDeploy2
-    pool: server
-    timeoutInMinutes: 4320 # job times out in 3 days
+      azureSubscription: $(azureServiceConnection)
+      scriptType: bash
+      scriptLocation: inlineScript
+      inlineScript: |
+      az deployment group create --resource-group $(resourceGroupName) --template-file $(logsTemplate) --parameters $(logsParametersFilePath)
