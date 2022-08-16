@@ -38,7 +38,12 @@ stages:
         targetPath: '$(System.DefaultWorkingDirectory)'
         artifact: 'ParametersFiles'
         publishLocation: 'pipeline'
-
+    - task: DownloadPipelineArtifact@2
+      inputs:
+        buildType: 'current'
+        artifactName: 'ParametersFiles'
+        targetPath: '$(Build.SourcesDirectory)'
+        patterns: '**'
   - job: DevelopWaitingApproval
     dependsOn: ConvertMetricsAlertsCSVToJson
     pool: server
