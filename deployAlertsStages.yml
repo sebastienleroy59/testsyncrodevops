@@ -35,7 +35,7 @@ stages:
 
     - task: PublishPipelineArtifact@1
       inputs:
-        targetPath: '$(Build.ArtifactStagingDirectory)'
+        targetPath: '$(System.DefaultWorkingDirectory)'
         artifact: 'ParametersFiles'
         publishLocation: 'pipeline'
 
@@ -68,7 +68,7 @@ stages:
       inputs:
         buildType: 'current'
         artifactName: 'ParametersFiles'
-        targetPath: '$(System.DefaultWorkingDirectory)'
+        targetPath: '$(Build.SourcesDirectory)'
 
     - task: AzureCLI@2
       inputs:
@@ -76,10 +76,10 @@ stages:
         scriptType: bash
         scriptLocation: inlineScript
         inlineScript: |
-          ls $(System.DefaultWorkingDirectory)
+          ls $(Build.SourcesDirectory)
           echo $(metricsParametersFilePath)
           cat $(metricsParametersFilePath)
-          cat $(System.DefaultWorkingDirectory)/AlertsDefinitions/metricsAlerts.json
+          cat $(Build.SourcesDirectory)/AlertsDefinitions/metricsAlerts.json
           #az deployment group create --resource-group $(resourceGroupName) --template-file $(metricsTemplate) --parameters $(metricsParametersFilePath)
   - job: DeployLogsAlerts
     steps:
@@ -91,6 +91,6 @@ stages:
         inlineScript: |
           echo $(logsParametersFilePath)
           cat $(logsParametersFilePath)
-          cat $(System.DefaultWorkingDirectory)/AlertsDefinitions/logsAlerts.json
+          cat $(Build.SourcesDirectory)/AlertsDefinitions/logsAlerts.json
           #az deployment group create --resource-group $(resourceGroupName) --template-file $(logsTemplate) --parameters $(logsParametersFilePath)
               
