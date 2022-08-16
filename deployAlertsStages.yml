@@ -80,10 +80,12 @@ stages:
 
 
 - stage: DeployAlerts
+
   dependsOn: ConvertCSV2Json
   jobs:
   - job: DeployMetricAlerts
     steps:
+    - checkout: none
     - task: DownloadPipelineArtifact@2
       inputs:
         buildType: 'current'
