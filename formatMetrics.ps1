@@ -23,7 +23,7 @@ if($typeOfAlertstoFormat -ne "Activity"){
        
             $alertLine.alertDimensions = $dimensionsArray
             $alertLineIndex = $csvFileToConvert.IndexOf($alertLine)
-            $csvFileToConvert[$alertLineIndex].alertDimensions= $alertLine.alertDimensions 
+            #$csvFileToConvert[$alertLineIndex].alertDimensions= $alertLine.alertDimensions 
         }
     }
     
