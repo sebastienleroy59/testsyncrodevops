@@ -35,7 +35,7 @@ stages:
 
     - task: PublishPipelineArtifact@1
       inputs:
-        targetPath: '$(System.DefaultWorkingDirectory'
+        targetPath: '$(System.DefaultWorkingDirectory)'
         artifact: 'ParametersFiles'
         publishLocation: 'pipeline'
     - task: DownloadPipelineArtifact@2
