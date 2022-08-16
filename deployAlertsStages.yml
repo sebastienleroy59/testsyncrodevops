@@ -60,6 +60,8 @@ stages:
   jobs:
   - job: DeployMetricAlerts
     steps:
+    - download: current
+      artifact: ParametersFiles
     - task: AzureCLI@2
       inputs:
         azureSubscription: $(azureServiceConnection)
