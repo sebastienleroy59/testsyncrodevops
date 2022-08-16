@@ -18,13 +18,6 @@ stages:
       inputs:
         targetType: 'inline'
         script: 'mkdir $(System.DefaultWorkingDirectory)/convertedFiles'
-    - task: AzureCLI@2
-      inputs:
-        azureSubscription: $(azureServiceConnection)
-        scriptType: bash
-        scriptLocation: inlineScript
-        inlineScript: |
-          mkdir $(System.DefaultWorkingDirectory)/convertedFiles
           
     - task: PowerShell@2
       inputs:
