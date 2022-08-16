@@ -21,7 +21,7 @@ stages:
        filePath: '$(Agent.BuildDirectory)/s/formatMetrics.ps1'
        arguments:
           -typeOfAlertstoFormat 'metrics'
-          -baseDir 'test$(System.DefaultWorkingDirectory)'
+          -baseDir '$(System.DefaultWorkingDirectory)'
   - job: ConvertLogsAlertsCSVToJson
     steps:
     - task: PowerShell@2
@@ -30,7 +30,8 @@ stages:
        #scriptPath: '$(System.DefaultWorkingDirectory)/formatMetrics.ps1'
        filePath: '$(Agent.BuildDirectory)/s/formatMetrics.ps1'
        arguments:
-          -typeOfAlertstoFormat 'logs'          
+          -typeOfAlertstoFormat 'logs' 
+          -baseDir '$(System.DefaultWorkingDirectory)'         
       
 
   - job: DevelopWaitingApproval
