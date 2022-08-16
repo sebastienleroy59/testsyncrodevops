@@ -51,6 +51,7 @@ stages:
         scriptLocation: inlineScript
         inlineScript: |
           ls -R $(Pipeline.Workspace)
+          cat $(Pipeline.Workspace)/AlertsDefinitions/logsAlerts.json
           
   - job: DevelopWaitingApproval
     dependsOn: ConvertMetricsAlertsCSVToJson
@@ -81,7 +82,7 @@ stages:
       inputs:
         buildType: 'current'
         artifactName: 'ParametersFiles'
-        targetPath: '$(Build.SourcesDirectory)'
+        targetPath: '$(Pipeline.Workspace)'
         patterns: '**'
 
     - task: AzureCLI@2
@@ -90,8 +91,10 @@ stages:
         scriptType: bash
         scriptLocation: inlineScript
         inlineScript: |
-          ls $(Build.SourcesDirectory)
-          cat $(Build.SourcesDirectory)/AlertsDefinitions/metricsAlerts.json
+          ls -R $(Pipeline.Workspace)
+          cat $(Pipeline.Workspace)/AlertsDefinitions/logsAlerts.json
+          #ls $(Build.SourcesDirectory)
+          #cat $(Build.SourcesDirectory)/AlertsDefinitions/metricsAlerts.json
           #az deployment group create --resource-group $(resourceGroupName) --template-file $(metricsTemplate) --parameters $(metricsParametersFilePath)
   - job: DeployLogsAlerts
     steps:
