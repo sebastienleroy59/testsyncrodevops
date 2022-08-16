@@ -35,7 +35,7 @@ stages:
 
     - task: PublishPipelineArtifact@1
       inputs:
-        targetPath: '$(System.DefaultWorkingDirectory)'
+        targetPath: '$(Build.ArtifactStagingDirectory)'
         artifact: 'ParametersFiles'
         publishLocation: 'pipeline'
 
@@ -60,6 +60,7 @@ stages:
 
 
 - stage: DeployAlerts
+  dependsOn: ConvertCSV2Json
   jobs:
   - job: DeployMetricAlerts
     steps:
