@@ -41,7 +41,7 @@ stages:
     pool: server
     timeoutInMinutes: 4320 # 3 days
 
-    steps:
+    #steps:
 
     #- task: ManualValidation@0
     #  displayName: WaitingApproval
