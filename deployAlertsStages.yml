@@ -32,7 +32,7 @@ stages:
        arguments:
           -typeOfAlertstoFormat 'logs' 
           -baseDir '$(System.DefaultWorkingDirectory)'   
-    - publish: $(System.DefaultWorkingDirectory)/AlertParams
+    - publish: $(System.DefaultWorkingDirectory)
       artifact: ParametersFiles
       
 
