@@ -35,17 +35,17 @@ stages:
           -typeOfAlertstoFormat 'logs' 
           -baseDir '$(System.DefaultWorkingDirectory)'   
 
-    - task: PublishPipelineArtifact@1
-      inputs:
-        targetPath: '$(System.DefaultWorkingDirectory)'
-        artifact: 'ParametersFiles'
-        publishLocation: 'pipeline'
-    - task: DownloadPipelineArtifact@2
-      inputs:
-        buildType: 'current'
-        artifactName: 'ParametersFiles'
-        targetPath: '$(System.DefaultWorkingDirectory)'
-        patterns: '**'
+    #- task: PublishPipelineArtifact@1
+    #  inputs:
+    #    targetPath: '$(System.DefaultWorkingDirectory)'
+    #    artifact: 'ParametersFiles'
+    #    publishLocation: 'pipeline'
+    #- task: DownloadPipelineArtifact@2
+    #  inputs:
+    #    buildType: 'current'
+    #    artifactName: 'ParametersFiles'
+    #    targetPath: '$(System.DefaultWorkingDirectory)'
+    #    patterns: '**'
     - task: AzureCLI@2
       inputs:
         azureSubscription: $(azureServiceConnection)
@@ -83,12 +83,12 @@ stages:
   - job: DeployMetricAlerts
     steps:
     - checkout: none
-    - task: DownloadPipelineArtifact@2
-      inputs:
-        buildType: 'current'
-        artifactName: 'ParametersFiles'
-        targetPath: '$(System.DefaultWorkingDirectory)'
-        patterns: '**'
+    #- task: DownloadPipelineArtifact@2
+    #  inputs:
+    #    buildType: 'current'
+    #    artifactName: 'ParametersFiles'
+    #    targetPath: '$(System.DefaultWorkingDirectory)'
+    #    patterns: '**'
 
     - task: AzureCLI@2
       inputs:
