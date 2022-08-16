@@ -51,7 +51,8 @@ stages:
         scriptLocation: inlineScript
         inlineScript: |
           ls -R $(Pipeline.Workspace)
-          cat $(Pipeline.Workspace)/AlertsDefinitions/logsAlerts.json
+          #cat $(Pipeline.Workspace)/AlertsDefinitions/logsAlerts.json
+          cat azp/_work/1/s/AlertsDefinitions/logsAlerts.json
           
   - job: DevelopWaitingApproval
     dependsOn: ConvertMetricsAlertsCSVToJson
