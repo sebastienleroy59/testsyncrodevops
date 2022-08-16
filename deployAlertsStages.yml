@@ -54,7 +54,7 @@ stages:
 
 - stage: DeployAlerts
   jobs:
-  - job: DeployMetricdAlerts
+  - job: DeployMetricAlerts
     steps:
     - task: AzureCLI@2
       inputs:
@@ -62,5 +62,14 @@ stages:
         scriptType: bash
         scriptLocation: inlineScript
         inlineScript: |
-        az deployment group create --resource-group $(resourceGroupName) --template-file $(metricsTemplate) --parameters $(metricsParametersFilePath)
-        
+          az deployment group create --resource-group $(resourceGroupName) --template-file $(metricsTemplate) --parameters $(metricsParametersFilePath)
+  - job: DeployLogsAlerts
+    steps:
+    - task: AzureCLI@2
+      inputs:
+        azureSubscription: $(azureServiceConnection)
+        scriptType: bash
+        scriptLocation: inlineScript
+        inlineScript: |
+          az deployment group create --resource-group $(resourceGroupName) --template-file $(logsTemplate) --parameters $(logsParametersFilePath)
+              
