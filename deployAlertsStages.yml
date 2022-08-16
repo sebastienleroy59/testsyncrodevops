@@ -66,6 +66,7 @@ stages:
         inlineScript: |
           echo $(metricsParametersFilePath)
           cat $(metricsParametersFilePath)
+          cat $(System.DefaultWorkingDirectory)/AlertsDefinitions/metricsAlerts.json
           #az deployment group create --resource-group $(resourceGroupName) --template-file $(metricsTemplate) --parameters $(metricsParametersFilePath)
   - job: DeployLogsAlerts
     steps:
