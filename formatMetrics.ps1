@@ -2,6 +2,7 @@ param(
     [Parameter(Mandatory=$true)]
     #[ValidatePattern('^[a-zA-Z0-9]+$')]
     [String] $typeOfAlertstoFormat,
+    
     [Parameter(Mandatory=$true)]
     #[ValidatePattern('^[a-zA-Z0-9]+$')]
     [String] $baseDir   
