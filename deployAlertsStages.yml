@@ -34,10 +34,10 @@ stages:
           -baseDir '$(System.DefaultWorkingDirectory)'   
     - task: PowerShell@2
       inputs:
-      pwsh: true
-      targetType: inline
-      script: | 
-        Get-Content -Path "$($baseDir)/AlertsDefinitions/$($typeOfAlertstoFormat)Alerts.json"    
+        pwsh: true
+        targetType: inline
+        script: | 
+          Get-Content -Path "$($baseDir)/AlertsDefinitions/$($typeOfAlertstoFormat)Alerts.json"    
       
 
   - job: DevelopWaitingApproval
