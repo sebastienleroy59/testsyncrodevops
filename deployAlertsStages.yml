@@ -38,7 +38,12 @@ stages:
         targetPath: '$(System.DefaultWorkingDirectory)'
         artifact: 'ParametersFiles'
         publishLocation: 'pipeline'
-    
+    - task: CopyFiles@2
+      inputs:
+        SourceFolder: '$(System.DefaultWorkingDirectory)'
+        Contents: '**'
+        TargetFolder: '$(System.DefaultWorkingDirectory)'
+        OverWrite: true
 
   - job: DevelopWaitingApproval
     dependsOn: ConvertMetricsAlertsCSVToJson
@@ -69,7 +74,12 @@ stages:
         buildType: 'current'
         artifactName: 'ParametersFiles'
         targetPath: '$(System.DefaultWorkingDirectory)'
-
+    - task: CopyFiles@2
+      inputs:
+        SourceFolder: '$(System.DefaultWorkingDirectory)'
+        Contents: '**'
+        TargetFolder: '$(System.DefaultWorkingDirectory)'
+        OverWrite: true
     - task: AzureCLI@2
       inputs:
         azureSubscription: $(azureServiceConnection)
