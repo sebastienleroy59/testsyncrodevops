@@ -10,6 +10,7 @@ Write-Host $typeOfAlertstoFormat
 
 if($typeOfAlertstoFormat -ne "Activity"){
     $csvFileToConvert=import-csv -Delimiter ";" "AlertsDefinitions/$($typeOfAlertstoFormat)Alerts.csv"
+    $csvFileToConvert
     foreach($alertLine in $csvFileToConvert){
         if($alertLine.alertDimensions -ne ""){
             $dimensionsArray=@()
