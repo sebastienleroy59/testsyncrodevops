@@ -58,18 +58,9 @@ stages:
     steps:
     - task: AzureCLI@2
       inputs:
-      azureSubscription: $(azureServiceConnection)
-      scriptType: bash
-      scriptLocation: inlineScript
-      inlineScript: |
-      az deployment group create --resource-group $(resourceGroupName) --template-file $(metricsTemplate) --parameters $(metricsParametersFilePath)
-      
-  - job: DeployLogsAlerts
-    steps:
-    - task: AzureCLI@2
-      inputs:
-      azureSubscription: $(azureServiceConnection)
-      scriptType: bash
-      scriptLocation: inlineScript
-      inlineScript: |
-      az deployment group create --resource-group $(resourceGroupName) --template-file $(logsTemplate) --parameters $(logsParametersFilePath)
+        azureSubscription: $(azureServiceConnection)
+        scriptType: bash
+        scriptLocation: inlineScript
+        inlineScript: |
+        az deployment group create --resource-group $(resourceGroupName) --template-file $(metricsTemplate) --parameters $(metricsParametersFilePath)
+        
