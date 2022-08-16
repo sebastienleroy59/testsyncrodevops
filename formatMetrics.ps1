@@ -2,7 +2,7 @@ param(
     [Parameter(Mandatory=$true)]
     #[ValidatePattern('^[a-zA-Z0-9]+$')]
     [String] $typeOfAlertstoFormat,
-    
+
     [Parameter(Mandatory=$true)]
     #[ValidatePattern('^[a-zA-Z0-9]+$')]
     [String] $baseDir   
@@ -11,7 +11,7 @@ param(
 
 Write-Host $typeOfAlertstoFormat
 Write-Host $baseDir
-
+<# 
 if($typeOfAlertstoFormat -ne "Activity"){
     $csvFileToConvert=import-csv -Delimiter ";" "AlertsDefinitions/$($typeOfAlertstoFormat)Alerts.csv"
     
@@ -37,4 +37,4 @@ if($typeOfAlertstoFormat -ne "Activity"){
     Get-Content -path "AlertsDefinitions/$($typeOfAlertstoFormat)Alerts.json" -Raw
 }else{
     write-host "activitylogs deployment"
-} 
+}  #>

@@ -21,7 +21,7 @@ stages:
        filePath: '$(Agent.BuildDirectory)/s/formatMetrics.ps1'
        arguments:
           -typeOfAlertstoFormat 'metrics'
-          -baseDir '$(System.DefaultWorkingDirectory)''
+          -baseDir 'test$(System.DefaultWorkingDirectory)'
   - job: ConvertLogsAlertsCSVToJson
     steps:
     - task: PowerShell@2
