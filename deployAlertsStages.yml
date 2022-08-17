@@ -20,7 +20,6 @@ stages:
       displayName: 'FormatMetricsToJSON'
       inputs:
        pwsh: true
-       #scriptPath: '$(System.DefaultWorkingDirectory)/formatMetrics.ps1'
        filePath: '$(Agent.BuildDirectory)/s/formatMetrics.ps1'
        arguments:
           -typeOfAlertstoFormat 'metrics'
@@ -37,7 +36,6 @@ stages:
       displayName: 'FormatLogsToJSON'
       inputs:
        pwsh: true
-       #scriptPath: '$(System.DefaultWorkingDirectory)/formatMetrics.ps1'
        filePath: '$(Agent.BuildDirectory)/s/formatMetrics.ps1'
        arguments:
           -typeOfAlertstoFormat 'logs' 
@@ -48,49 +46,11 @@ stages:
        targetPath: '$(System.DefaultWorkingDirectory)'
        artifact: 'ParametersFilesLogs'
        publishLocation: 'pipeline'
-    #- task: AzureCLI@2
-    #  inputs:
-    #    azureSubscription: $(azureServiceConnection)
-    #    scriptType: bash
-    #    scriptLocation: inlineScript
-    #    inlineScript: |
-    #      touch test.txt
-    #      echo "the fucking content " > file.txt
-   # - task: PublishPipelineArtifact@1
-   #   displayName: 'PublishMetricsArtifact'
-   #   inputs:
-    #    targetPath: '$(System.DefaultWorkingDirectory)'
-    #    artifact: 'ParametersFilesMetrics'
-    #    publishLocation: 'pipeline'
-   # - task: AzureCLI@2
-   #   inputs:
-    #    azureSubscription: $(azureServiceConnection)
-    #    scriptType: bash
-    #    scriptLocation: inlineScript
-    #    inlineScript: |
-    #      ls -R $(System.DefaultWorkingDirectory)
-    #      #cat $(Pipeline.Workspace)/AlertsDefinitions/logsAlerts.json
-    #      cat $(System.DefaultWorkingDirectory)/AlertsDefinitions/logsAlerts.json
-          
+    
   - job: DevelopWaitingApproval
     dependsOn: ConvertMetricsAlertsCSVToJson
     pool: server
     timeoutInMinutes: 4320 # 3 days
-
-    #steps:
-
-    #- task: ManualValidation@0
-    #  displayName: WaitingApproval
-    #  
-    #  timeoutInMinutes: 1440 # task times out in 1 day
-    #  inputs:
-    #    notifyUsers: |
-    #      sebastien.dillier@squadra-run.com
-    #    instructions: 'Please validate the build configuration and resume'
-    #    onTimeout: 'resume'
-   
-      
-
 
 - stage: DeployAlerts
 
