@@ -24,11 +24,11 @@ stages:
        arguments:
           -typeOfAlertstoFormat 'metrics'
           -baseDir '$(System.DefaultWorkingDirectory)'
-        - task: PublishPipelineArtifact@1
+    - task: PublishPipelineArtifact@1
       inputs:
-        targetPath: '$(System.DefaultWorkingDirectory)'
-        artifact: 'ParametersFilesMetrics'
-        publishLocation: 'pipeline'
+       targetPath: '$(System.DefaultWorkingDirectory)'
+       artifact: 'ParametersFilesMetrics'
+       publishLocation: 'pipeline'
     - task: AzureCLI@2
   - job: ConvertLogsAlertsCSVToJson
     steps:
