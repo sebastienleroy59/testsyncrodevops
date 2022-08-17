@@ -34,18 +34,18 @@ stages:
        arguments:
           -typeOfAlertstoFormat 'logs' 
           -baseDir '$(System.DefaultWorkingDirectory)'   
-
+    - task: AzureCLI@2
+      inputs:
+        azureSubscription: $(azureServiceConnection)
+        scriptType: bash
+        scriptLocation: inlineScript
+        inlineScript: |
+          touch test.txt
     - task: PublishPipelineArtifact@1
       inputs:
         targetPath: '$(System.DefaultWorkingDirectory)'
         artifact: 'ParametersFiles'
         publishLocation: 'pipeline'
-    #- task: DownloadPipelineArtifact@2
-    #  inputs:
-    #    buildType: 'current'
-    #    artifactName: 'ParametersFiles'
-    #    targetPath: '$(System.DefaultWorkingDirectory)'
-    #    patterns: '**'
     - task: AzureCLI@2
       inputs:
         azureSubscription: $(azureServiceConnection)
