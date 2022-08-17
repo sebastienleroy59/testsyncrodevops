@@ -56,12 +56,12 @@ stages:
     #    inlineScript: |
     #      touch test.txt
     #      echo "the fucking content " > file.txt
-    - task: PublishPipelineArtifact@1
-      displayName: 'PublishMetricsArtifact'
-      inputs:
-        targetPath: '$(System.DefaultWorkingDirectory)'
-        artifact: 'ParametersFilesMetrics'
-        publishLocation: 'pipeline'
+   # - task: PublishPipelineArtifact@1
+   #   displayName: 'PublishMetricsArtifact'
+   #   inputs:
+    #    targetPath: '$(System.DefaultWorkingDirectory)'
+    #    artifact: 'ParametersFilesMetrics'
+    #    publishLocation: 'pipeline'
    # - task: AzureCLI@2
    #   inputs:
     #    azureSubscription: $(azureServiceConnection)
