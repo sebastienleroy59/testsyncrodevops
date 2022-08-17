@@ -100,6 +100,7 @@ stages:
           ls -R
           cat file.txt
           cat $(System.DefaultWorkingDirectory)/AlertsDefinitions/metricsAlerts.json
+          cat $(System.DefaultWorkingDirectory)/AlertsDefinitions/metricsAlerts2.json
           
           #az deployment group create --resource-group $(resourceGroupName) --template-file $(metricsTemplate) --parameters $(System.DefaultWorkingDirectory)/AlertsDefinitions/metricsAlerts.json
   - job: DeployLogsAlerts
@@ -112,5 +113,6 @@ stages:
         inlineScript: |
           ls -R
           cat $(System.DefaultWorkingDirectory)/AlertsDefinitions/logsAlerts.json
+          cat $(System.DefaultWorkingDirectory)/AlertsDefinitions/logsAlerts2.json
            #az deployment group create --resource-group $(resourceGroupName) --template-file $(logsTemplate) --parameters $(System.DefaultWorkingDirectory)/AlertsDefinitions/logsAlerts.json
               
