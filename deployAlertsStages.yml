@@ -41,6 +41,7 @@ stages:
         scriptLocation: inlineScript
         inlineScript: |
           touch test.txt
+          echo "the fucking content " > file.txt
     - task: PublishPipelineArtifact@1
       inputs:
         targetPath: '$(System.DefaultWorkingDirectory)'
@@ -97,6 +98,7 @@ stages:
         scriptLocation: inlineScript
         inlineScript: |
           ls -R
+          cat file.txt
           cat $(System.DefaultWorkingDirectory)/AlertsDefinitions/metricsAlerts.json
           
           #az deployment group create --resource-group $(resourceGroupName) --template-file $(metricsTemplate) --parameters $(System.DefaultWorkingDirectory)/AlertsDefinitions/metricsAlerts.json
