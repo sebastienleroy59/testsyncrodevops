@@ -1,25 +1,26 @@
 
-param actionGroupsWithNamesAndSeverity array = [//index 0 is critical index 4 verbose corresponding to alerts sev
+var actionGroupsWithNamesAndSeverity  = [//index 0 is critical index 4 verbose corresponding to alerts sev
   'SquadraCritical','SquadraError'
 ]
 
-param targetResourceName string
+param targetResourceScope string
 param alertDescription string=''
 param targetResourceTypeFriendly string=''
 param alertSev int
 param alertOperationName string=''
 param targetResourceType string=''
+param levels array
+param status array
 //param alertTags object
 var actionGroupRGName = 'supervisionbiceppoc'
 
 
-
 resource alert 'Microsoft.Insights/activityLogAlerts@2020-10-01' = {
-  name: '${targetResourceTypeFriendly}-${targetResourceName}-Activitylog-${alertSev}'
-  location: resourceGroup().location
+  name: '${targetResourceTypeFriendly}-Activitylog-${alertSev}'
+  location: 'global'
   //tags: {}
   properties: {
-    scopes: [subscription().subscriptionId]
+    scopes: ['/subscriptions/3d55714f-ef79-47c8-8f9e-1b229902ba0d/resourceGroups/POC-ADF/providers/Microsoft.DataFactory/factories']//to avoid to go out the 100 limit alerts
     condition: {
         allOf: [
             {
@@ -34,21 +35,16 @@ resource alert 'Microsoft.Insights/activityLogAlerts@2020-10-01' = {
                 field: 'operationName'
                 equals: alertOperationName//Microsoft.DataFactory/factories/write
             }
+            {
+              field:'level'
+              containsAny:!empty(levels) ? levels : ['*']
+            }
+            {
+                field:'status'
+                containsAny:!empty(status) ? status : ['*']
+            }
 
-            /* {
-              "field": "level",
-              "containsAny": [
-                  "critical",
-                  "error"
-              ]
-          },
-          {
-              "field": "status",
-              "containsAny": [
-                  "failed",
-                  "started"
-              ]
-          } */
+           
         ]
     }
     actions: {
