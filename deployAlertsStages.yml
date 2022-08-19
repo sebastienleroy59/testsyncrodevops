@@ -24,7 +24,7 @@ stages:
         scriptType: bash
         scriptLocation: inlineScript
         inlineScript: |
-          az deployment group create --resource-group $(resourceGroupName) --template-file deployActionGroups.bicep
+          az deployment group create --resource-group $(resourceGroupName) --template-file $(System.DefaultWorkingDirectory)/deployActionGroups.bicep
 
 - stage: ConvertCSV2Json
   jobs:
