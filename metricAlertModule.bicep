@@ -1,7 +1,11 @@
-param actionGroupsWithNamesAndSeverity array = [//index 0 is critical index 4 verbose corresponding to alerts sev
-  'SquadraCritical','SquadraError'
-]
 
+var actionGroupSevSuffixes = ['Critical','Error','Warning','Informational']
+var actionGroupPrefix = 'Squadra'
+
+var actionGroupsWithNamesAndSeverity = [for (actionGroupSevSuffix, i) in actionGroupSevSuffixes: {
+  name: '${actionGroupPrefix}-${actionGroupSevSuffix}'
+  
+}]
 param targetResourceName string
 param alertDescription string=''
 param eveluationFreq string=''
@@ -50,7 +54,7 @@ resource metricAlertResource 'microsoft.insights/metricAlerts@2018-03-01' ={
       targetResourceType: targetResourceType
       actions: [
         {
-          actionGroupId: resourceId(actionGroupRGName, 'Microsoft.Insights/actionGroups', actionGroupsWithNamesAndSeverity[alertSev-1]) //mutiple Action groups needed ?
+          actionGroupId: resourceId(actionGroupRGName, 'Microsoft.Insights/actionGroups', actionGroupsWithNamesAndSeverity[alertSev-1].name) //mutiple Action groups needed ?
           webHookProperties: {
           }
         }

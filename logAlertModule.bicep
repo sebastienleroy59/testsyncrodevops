@@ -1,7 +1,11 @@
 
-param actionGroupsWithNamesAndSeverity array = [//index 0 is critical index 4 verbose corresponding to alerts sev
-  'SquadraCritical','SquadraError'
-]
+var actionGroupSevSuffixes = ['Critical','Error','Warning','Informational']
+var actionGroupPrefix = 'Squadra'
+
+var actionGroupsWithNamesAndSeverity = [for (actionGroupSevSuffix, i) in actionGroupSevSuffixes: {
+  name: '${actionGroupPrefix}-${actionGroupSevSuffix}'
+  
+}]
 
 param targetResourceName string
 param alertDescription string=''
@@ -73,7 +77,7 @@ resource alert 'Microsoft.Insights/scheduledQueryRules@2021-08-01' = {
     //checkWorkspaceAlertsStorageConfigured: checkWorkspaceAlertsStorageConfigured
     actions: {
       actionGroups: [
-          resourceId(actionGroupRGName, 'Microsoft.Insights/actionGroups', actionGroupsWithNamesAndSeverity[alertSev-1]) //mutiple Action groups needed ?
+          resourceId(actionGroupRGName, 'Microsoft.Insights/actionGroups', actionGroupsWithNamesAndSeverity[alertSev-1].name) //mutiple Action groups needed ?
       ]
       
     }

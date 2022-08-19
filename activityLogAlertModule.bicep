@@ -1,7 +1,12 @@
 
-var actionGroupsWithNamesAndSeverity  = [//index 0 is critical index 4 verbose corresponding to alerts sev
-  'SquadraCritical','SquadraError'
-]
+var actionGroupSevSuffixes = ['Critical','Error','Warning','Informational']
+var actionGroupPrefix = 'Squadra'
+
+var actionGroupsWithNamesAndSeverity = [for (actionGroupSevSuffix, i) in actionGroupSevSuffixes: {
+  name: '${actionGroupPrefix}-${actionGroupSevSuffix}'
+  
+}]
+
 
 param targetResourceScope string
 param alertDescription string=''
@@ -50,7 +55,7 @@ resource alert 'Microsoft.Insights/activityLogAlerts@2020-10-01' = {
     actions: {
       actionGroups: [
         {
-        actionGroupId: resourceId(actionGroupRGName, 'Microsoft.Insights/actionGroups', actionGroupsWithNamesAndSeverity[alertSev-1]) //mutiple Action groups needed ?
+        actionGroupId: resourceId(actionGroupRGName, 'Microsoft.Insights/actionGroups', actionGroupsWithNamesAndSeverity[alertSev-1].name) //mutiple Action groups needed ?
         }
       ]
       
