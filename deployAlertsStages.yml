@@ -12,9 +12,9 @@ pool:
 stages:
 - stage: ActionGroups
 
-  dependsOn: ConvertCSV2Json
+  #dependsOn: ConvertCSV2Json
   jobs:
-  - job: DeployMetricAlerts
+  - job: DeployActionGroups
     steps:
     - checkout: none
     - task: AzureCLI@2
