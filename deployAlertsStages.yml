@@ -10,7 +10,7 @@ pool:
   name: Default
 
 stages:
-- stage: Create Action Groups
+- stage: ActionGroups
 
   dependsOn: ConvertCSV2Json
   jobs:
