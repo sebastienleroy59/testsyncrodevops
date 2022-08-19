@@ -10,6 +10,22 @@ pool:
   name: Default
 
 stages:
+- stage: Create Action Groups
+
+  dependsOn: ConvertCSV2Json
+  jobs:
+  - job: DeployMetricAlerts
+    steps:
+    - checkout: none
+    - task: AzureCLI@2
+      displayName: 'Deploy Action Groups'
+      inputs:
+        azureSubscription: $(azureServiceConnection)
+        scriptType: bash
+        scriptLocation: inlineScript
+        inlineScript: |
+          az deployment group create --resource-group $(resourceGroupName) --template-file deployActionGroups.bicep
+
 - stage: ConvertCSV2Json
   jobs:
   - job: ConvertMetricsAlertsCSVToJson
