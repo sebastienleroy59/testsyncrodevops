@@ -6,7 +6,7 @@ module LogAlertResource 'logAlertModule.bicep' =  [for (logAlertsParams,i) in Lo
   params: {
       alertDescription:''
       alertSev:int(logAlertsParams.alertSev)
-      evaluationFreq:logAlertsParams.eveluationFreq
+      evaluationFreq:logAlertsParams.evaluationFreq
       windowsSize:logAlertsParams.windowsSize
       resourceRG:logAlertsParams.resourceRG
       alertTreshold:int(logAlertsParams.alertTreshold)
