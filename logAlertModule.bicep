@@ -53,7 +53,7 @@ var allOfCriterias = !empty(alertMeasureColumn) ?  [
   }
 ]
 resource alert 'Microsoft.Insights/scheduledQueryRules@2021-08-01' = {
-  name: '${targetResourceTypeFriendly}-${targetResourceName}-${alertTimeAggregation}-${alertSev}'
+  name: '${targetResourceTypeFriendly}-${alertTreshold}-${alertTimeAggregation}-${alertSev}'
   location: resourceGroup().location
   //tags: {}
   properties: {
