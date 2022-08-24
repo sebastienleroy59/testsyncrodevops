@@ -8,7 +8,7 @@ var actionGroupsWithNamesAndSeverity = [for (actionGroupSevSuffix, i) in actionG
 }]
 param targetResourceName string
 param alertDescription string=''
-param eveluationFreq string=''
+param evaluationFreq string=''
 param windowsSize string=''
 param targetResourceType string=''
 param targetResourceTypeFriendly string=''
@@ -33,7 +33,7 @@ resource metricAlertResource 'microsoft.insights/metricAlerts@2018-03-01' ={
       scopes: [
         resourceId(resourceRG,targetResourceType, targetResourceName)
       ]
-      evaluationFrequency: eveluationFreq
+      evaluationFrequency: evaluationFreq
       windowSize: windowsSize
       criteria: {
         allOf: [
