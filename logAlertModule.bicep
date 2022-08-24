@@ -23,7 +23,7 @@ param alertDimensions array
 param alertQuery string=''
 
 //param alertTags object
-var actionGroupRGName = 'supervisionbiceppoc'
+var actionGroupRGName = 'rg-infra'
 
 var allOfCriterias = !empty(alertMeasureColumn) ?  [
   {
