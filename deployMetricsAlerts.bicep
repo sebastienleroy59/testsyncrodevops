@@ -5,7 +5,7 @@ name: 'MetricAlertDeployment-${MetricAlertsParams.targetResourceTypeFriendlyName
 params: {
     alertDescription:MetricAlertsParams.alertDescription
     alertSev:int(MetricAlertsParams.alertSev)
-    eveluationFreq:MetricAlertsParams.eveluationFreq
+    evaluationFreq:MetricAlertsParams.eveluationFreq
     windowsSize:MetricAlertsParams.windowsSize
     targetResourceType:MetricAlertsParams.targetResourceType
     targetResourceTypeFriendly:MetricAlertsParams.targetResourceTypeFriendlyName
