@@ -7,7 +7,7 @@ ticketing-mariadbsrv01;rg-ticketing;MariaDB;Microsoft.DBforMariaDB/servers;;Micr
 ticketing-mariadbsrv01;rg-ticketing;MariaDB;Microsoft.DBforMariaDB/servers;;Microsoft.DBforMariaDB/servers;storage_percent;1;;GreaterThanOrEqual;Average;PT5M;PT30M;80
 ticketing-mariadbsrv01;rg-ticketing;MariaDB;Microsoft.DBforMariaDB/servers;;Microsoft.DBforMariaDB/servers;active_connections;1;;GreaterThanOrEqual;Average;PT5M;PT30M;80
 ticketing-mariadbsrv01;rg-ticketing;MariaDB;Microsoft.DBforMariaDB/servers;;Microsoft.DBforMariaDB/servers;connections_failed;2;;GreaterThanOrEqual;Total;PT5M;PT30M;10
-ticketingkv;rg-ticketing;MariaDB;Microsoft.KeyVault/vaults;;Microsoft.KeyVault/vaults;Availability;1;;LessThan;Average;PT5M;PT30M;100
+ticketingkv;rg-ticketing;KV;Microsoft.KeyVault/vaults;;Microsoft.KeyVault/vaults;Availability;1;;LessThan;Average;PT5M;PT30M;100
 appgw;rg-ticketing;AppGw;Microsoft.Network/applicationGateways;;Microsoft.Network/applicationGateways;UnhealthyHostCount;1;;GreaterThanOrEqual;Average;PT5M;PT30M;0
 appgw;rg-ticketing;AppGw;Microsoft.Network/applicationGateways;;Microsoft.Network/applicationGateways;CapacityUnits;1;;GreaterThanOrEqual;Average;PT5M;PT30M;75
 appgw;rg-ticketing;AppGw;Microsoft.Network/applicationGateways;;Microsoft.Network/applicationGateways;ComputeUnits;1;;GreaterThanOrEqual;Average;PT5M;PT30M;75
