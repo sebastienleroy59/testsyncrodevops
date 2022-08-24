@@ -1,5 +1,5 @@
 ﻿targetResourceName;resourceRG;targetResourceTypeFriendlyName;targetResourceType;alertDescription;alertMetricNameSpace;alertMetricName;alertSev;alertDimensions;alertOperator;alertTimeAggregation;evaluationFreq;windowsSize;alertTreshold
 ticketing-mariadbsrv01;rg-ticketing;MariaDB;Microsoft.DBforMariaDB/servers;;Microsoft.DBforMariaDB/servers;cpu_percent;1;;GreaterThanOrEqual;Average;PT5M;PT15M;100
-ticketing-mariadbsrv01;rg-ticketing;MariaDB;Microsoft.DBforMariaDB/servers;;Microsoft.DBforMariaDB/servers;memory_percent;1;;GreaterThanOrEqual;Average;PT5M;PT15M;100
-ticketing-mariadbsrv01;rg-ticketing;MariaDB;Microsoft.DBforMariaDB/servers;;Microsoft.DBforMariaDB/servers;io_consumption_percent;1;;GreaterThanOrEqual;Average;PT5M;PT1H;90
-ticketing-mariadbsrv01;rg-ticketing;MariaDB;Microsoft.DBforMariaDB/servers;;Microsoft.DBforMariaDB/servers;storage_percent;1;;GreaterThanOrEqual;Average;PT10M;PT30M;80
+ticketing-mariadbsrv01;rg-ticketing;MariaDB;Microsoft.DBforMariaDB/servers;;Microsoft.DBforMariaDB/servers;memory_percent;2;;GreaterThanOrEqual;Average;PT5M;PT15M;100
+ticketing-mariadbsrv01;rg-ticketing;MariaDB;Microsoft.DBforMariaDB/servers;;Microsoft.DBforMariaDB/servers;io_consumption_percent;3;;GreaterThanOrEqual;Average;PT5M;PT1H;90
+ticketing-mariadbsrv01;rg-ticketing;MariaDB;Microsoft.DBforMariaDB/servers;;Microsoft.DBforMariaDB/servers;storage_percent;4;;GreaterThanOrEqual;Average;PT10M;PT30M;80
