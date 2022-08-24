@@ -1,7 +1,7 @@
 name: Deploy Alerts using bicep multistage
 variables:
-   azureServiceConnection: 'SC-MPNSeb'
-   resourceGroupName: 'supervisionbiceppoc'
+   azureServiceConnection: 'SC-Squadra12K€'
+   resourceGroupName: 'rg-infra'
    metricsTemplate: 'deployMetricsAlerts.bicep'
    logsTemplate: 'deployLogsAlerts.bicep'
    metricsParametersFilePath: '$(System.DefaultWorkingDirectory)/AlertsDefinitions/metricsAlerts.json'
