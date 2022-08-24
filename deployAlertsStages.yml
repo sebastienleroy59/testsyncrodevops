@@ -8,6 +8,7 @@ variables:
    logsParametersFilePath: '$(System.DefaultWorkingDirectory)/AlertsDefinitions/logsAlerts.json'
 pool:
   name: Default
+  demands: agent.name -equals mydockeragent
 
 stages:
 - stage: ActionGroups
