@@ -9,7 +9,7 @@ var actionGroupsWithNamesAndSeverity = [for (actionGroupSevSuffix, i) in actionG
 
 param targetResourceName string
 param alertDescription string=''
-param eveluationFreq string=''
+param evaluationFreq string=''
 param windowsSize string=''
 param targetResourceType string=''
 param targetResourceTypeFriendly string=''
@@ -66,7 +66,7 @@ resource alert 'Microsoft.Insights/scheduledQueryRules@2021-08-01' = {
     targetResourceTypes: [
       targetResourceType
     ]
-    evaluationFrequency: eveluationFreq
+    evaluationFrequency: evaluationFreq
     windowSize: windowsSize
     criteria: {
       allOf: allOfCriterias
