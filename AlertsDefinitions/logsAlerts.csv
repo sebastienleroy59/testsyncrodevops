@@ -1,2 +1,2 @@
-﻿targetResourceName;resourceRG;targetResourceType;targetResourceTypeFriendlyName;alertDescription;alertSev;alertDimensions;alertOperator;alertTimeAggregation;alertMeasureColumn;eveluationFreq;windowsSize;alertTreshold;alertQuery
+﻿targetResourceName;resourceRG;targetResourceType;targetResourceTypeFriendlyName;alertDescription;alertSev;alertDimensions;alertOperator;alertTimeAggregation;alertMeasureColumn;evaluationFreq;windowsSize;alertTreshold;alertQuery
 appgw;rg-ticketing;Microsoft.Network/applicationGateways;APPGW;;1;;GreaterThanOrEqual;Total;count_;PT1M;PT5M;90;AzureDiagnostics | where TimeGenerated > ago(15m) | where httpStatus_d >= 400 | summarize count() by httpStatus_d | project count_
