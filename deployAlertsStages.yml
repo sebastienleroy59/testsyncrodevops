@@ -7,8 +7,8 @@ variables:
    metricsParametersFilePath: '$(System.DefaultWorkingDirectory)/AlertsDefinitions/metricsAlerts.json'
    logsParametersFilePath: '$(System.DefaultWorkingDirectory)/AlertsDefinitions/logsAlerts.json'
 pool:
-  name: Default
-  demands: agent.name -equals mydockeragent
+  name: Azure Pipelines#Default
+  #demands: agent.name -equals mydockeragent
 
 stages:
 - stage: ActionGroups
