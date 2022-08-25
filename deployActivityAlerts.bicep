@@ -1,7 +1,7 @@
 param ActivitiesAlertsParams array
 
 module MetricAlertResource 'activityLogAlertModule.bicep' = [for (ActivityAlertsParam,i) in ActivitiesAlertsParams: {
-name: 'MetricAlertDeployment-${ActivityAlertsParam.targetResourceTypeFriendlyName}-${i}'
+name: 'MetricAlertDeployment-${ActivityAlertsParam.targetResourceTypeFriendly}-${i}'
 
 params: {
     
