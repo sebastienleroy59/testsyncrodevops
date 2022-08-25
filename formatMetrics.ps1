@@ -36,7 +36,22 @@ if($typeOfAlertstoFormat -ne "activity"){
     ((Get-Content -path "$($baseDir)/AlertsDefinitions/$($typeOfAlertstoFormat)Alerts.json" -Raw) -replace '"--TOREPLACE--"',$formattedAlerts ) | Set-Content -Path "$($baseDir)/AlertsDefinitions/$($typeOfAlertstoFormat)Alerts.json"
     Get-Content -Path "$($baseDir)/AlertsDefinitions/$($typeOfAlertstoFormat)Alerts.json"
 }else{
-    write-host "activitylogs deployment"
+    
+
+    f($alertLine.alertLevels -ne ""){
+        $levelsArray=@()
+        $levels = $alertLine.alertLevels.Split(',')
+    
+        foreach($level in $levels){
+            $splittedLevel = $level.Split('|')
+            $levelsArray+=$splittedLevel[0]; 
+        }
+   
+        $alertLine.alertLevels = $levelsArray
+        $alertLineIndex = $csvFileToConvert.IndexOf($alertLine)
+        $csvFileToConvert[$alertLineIndex].alertLevels= $alertLine.alertLevels 
+    }
+
     $formattedAlerts = $csvFileToConvert | ConvertTo-Json -AsArray -Depth 4
     #$formattedAlerts
     ((Get-Content -path "$($baseDir)/AlertsDefinitions/$($typeOfAlertstoFormat)Alerts.json" -Raw) -replace '"--TOREPLACE--"',$formattedAlerts ) | Set-Content -Path "$($baseDir)/AlertsDefinitions/$($typeOfAlertstoFormat)Alerts.json"
