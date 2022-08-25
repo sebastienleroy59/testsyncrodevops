@@ -9,11 +9,11 @@ param(
 )
 
 
-Write-Host $typeOfAlertstoFormat
-Write-Host $baseDir
-
-if($typeOfAlertstoFormat -ne "Activity"){
-    $csvFileToConvert=import-csv -Delimiter ";" "AlertsDefinitions/$($typeOfAlertstoFormat)Alerts.csv"
+#Write-Host $typeOfAlertstoFormat
+#Write-Host $baseDir
+$csvFileToConvert=import-csv -Delimiter ";" "AlertsDefinitions/$($typeOfAlertstoFormat)Alerts.csv"
+if($typeOfAlertstoFormat -ne "activity"){
+    
     
     foreach($alertLine in $csvFileToConvert){
         if($alertLine.alertDimensions -ne ""){
@@ -37,4 +37,8 @@ if($typeOfAlertstoFormat -ne "Activity"){
     Get-Content -Path "$($baseDir)/AlertsDefinitions/$($typeOfAlertstoFormat)Alerts.json"
 }else{
     write-host "activitylogs deployment"
+    $formattedAlerts = $csvFileToConvert | ConvertTo-Json -AsArray -Depth 4
+    #$formattedAlerts
+    ((Get-Content -path "$($baseDir)/AlertsDefinitions/$($typeOfAlertstoFormat)Alerts.json" -Raw) -replace '"--TOREPLACE--"',$formattedAlerts ) | Set-Content -Path "$($baseDir)/AlertsDefinitions/$($typeOfAlertstoFormat)Alerts.json"
+    Get-Content -Path "$($baseDir)/AlertsDefinitions/$($typeOfAlertstoFormat)Alerts.json"
 } 

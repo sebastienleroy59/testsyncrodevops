@@ -65,6 +65,22 @@ stages:
        targetPath: '$(System.DefaultWorkingDirectory)'
        artifact: 'ParametersFilesLogs'
        publishLocation: 'pipeline'
+  - job: ConvertActivityLogsAlertsCSVToJson
+    steps:
+    - task: PowerShell@2
+      displayName: 'FormatActivityLogsToJSON'
+      inputs:
+       pwsh: true
+       filePath: '$(Agent.BuildDirectory)/s/formatMetrics.ps1'
+       arguments:
+          -typeOfAlertstoFormat 'activity' 
+          -baseDir '$(System.DefaultWorkingDirectory)'   
+    - task: PublishPipelineArtifact@1
+      displayName: 'PublishActivityLogsArtifact'
+      inputs:
+       targetPath: '$(System.DefaultWorkingDirectory)'
+       artifact: 'ParametersFilesActivityLogs'
+       publishLocation: 'pipeline'
     
   - job: DevelopWaitingApproval
     dependsOn: ConvertMetricsAlertsCSVToJson
@@ -111,3 +127,20 @@ stages:
         scriptLocation: inlineScript
         inlineScript: |
           az deployment group create --resource-group $(resourceGroupName) --template-file $(logsTemplate) --parameters $(System.DefaultWorkingDirectory)/AlertsDefinitions/logsAlerts.json
+
+    - task: DownloadPipelineArtifact@2
+      displayName: 'DownloadAcitivyLogsArtifact'
+      inputs:
+        buildType: 'current'
+        artifactName: 'ParametersFilesActivityLogs'
+        targetPath: '$(System.DefaultWorkingDirectory)'
+        patterns: '**'
+
+    - task: AzureCLI@2
+      displayName: 'Deploy ActivityLog Alerts'
+      inputs:
+        azureSubscription: $(azureServiceConnection)
+        scriptType: bash
+        scriptLocation: inlineScript
+        inlineScript: |
+          az deployment group create --resource-group $(resourceGroupName) --template-file $(logsTemplate) --parameters $(System.DefaultWorkingDirectory)/AlertsDefinitions/ActivityLogsAlerts.json

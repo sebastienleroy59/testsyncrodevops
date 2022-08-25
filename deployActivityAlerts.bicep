@@ -7,15 +7,11 @@ params: {
     
     alertDescription:'test'
     levels:['Critical','Verbose']
-    status:[]
-    alertSev:1//used for actiongroup
-    targetResourceType:ActivityAlertsParam.targetResourceType
-    //targetResourceType:'microsoft.datafactory/factories'
-    targetResourceTypeFriendly:ActivityAlertsParam.targetResourceTypeFriendlyName
-    //targetResourceTypeFriendly:'ADFACTIV'
-    targetResourceScope:ActivityAlertsParam.targetResourceScope
-    alertOperationName:ActivityAlertsParam.alertOperationName
-    //alertOperationName:'Microsoft.DataFactory/factories/write'
+    status:['Succeeded']
+    alertSev:int(ActivityAlertsParam.alertSev)
+    targetResourceType:'Microsoft.KeyVault/vaults'
+    targetResourceTypeFriendly:'${ActivityAlertsParam.targetResourceTypeFriendly}s'
+    alertOperationName:'Microsoft.KeyVault/vaults/delete'
     
    
   }

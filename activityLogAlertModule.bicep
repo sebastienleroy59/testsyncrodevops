@@ -8,7 +8,6 @@ var actionGroupsWithNamesAndSeverity = [for (actionGroupSevSuffix, i) in actionG
 }]
 
 
-param targetResourceScope string
 param alertDescription string=''
 param targetResourceTypeFriendly string=''
 param alertSev int
@@ -17,15 +16,17 @@ param targetResourceType string=''
 param levels array
 param status array
 //param alertTags object
-var actionGroupRGName = 'supervisionbiceppoc'
+var actionGroupRGName = 'rg-infra'
 
 
 resource alert 'Microsoft.Insights/activityLogAlerts@2020-10-01' = {
-  name: '${targetResourceTypeFriendly}-Activitylog-${alertSev}'
+  name: '${targetResourceTypeFriendly}-Activitylog-${alertSev}' //split last operation name after /
   location: 'global'
   //tags: {}
   properties: {
-    scopes: ['/subscriptions/3d55714f-ef79-47c8-8f9e-1b229902ba0d/resourceGroups/POC-ADF/providers/Microsoft.DataFactory/factories']//to avoid to go out the 100 limit alerts
+    scopes: [
+        subscription().id
+    ]//to avoid to go out the 100 limit alerts
     condition: {
         allOf: [
             {
