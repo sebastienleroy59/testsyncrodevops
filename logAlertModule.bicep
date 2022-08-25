@@ -21,9 +21,9 @@ param alertOperator string=''
 param alertTimeAggregation string=''
 param alertDimensions array
 param alertQuery string=''
-
+param actionGroupRGName string =''
 //param alertTags object
-var actionGroupRGName = 'rg-infra'
+
 
 var allOfCriterias = !empty(alertMeasureColumn) ?  [
   {

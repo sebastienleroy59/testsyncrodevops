@@ -17,6 +17,7 @@ params: {
     alertMetricName:MetricAlertsParams.alertMetricName
     alertOperator:MetricAlertsParams.alertOperator
     alertTimeAggregation:MetricAlertsParams.alertTimeAggregation
+    actionGroupRGName:'rg-infra'
     /* alertDimensions: !empty(MetricAlertsParams.alertDimensions) ? [
                 {
                     name: MetricAlertsParams.alertDimensions//play with split maybe for multidimensions

@@ -15,8 +15,7 @@ param alertOperationName string=''
 param targetResourceType string=''
 param levels array
 param status array
-//param alertTags object
-var actionGroupRGName = 'rg-infra'
+param actionGroupRGName string =''
 
 
 resource alert 'Microsoft.Insights/activityLogAlerts@2020-10-01' = {

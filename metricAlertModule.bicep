@@ -21,7 +21,7 @@ param alertOperator string=''
 param alertTimeAggregation string=''
 param alertDimensions array
 //param alertTags object
-var actionGroupRGName = 'rg-infra'
+param actionGroupRGName string =''
 
 resource metricAlertResource 'microsoft.insights/metricAlerts@2018-03-01' ={
   //name: '${targetResourceTypeFriendly}-${targetResourceName}-${alertTimeAggregation}-${alertSev}'

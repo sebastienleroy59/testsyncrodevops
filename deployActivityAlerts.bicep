@@ -12,7 +12,7 @@ params: {
     targetResourceType:'Microsoft.KeyVault/vaults'
     targetResourceTypeFriendly:'${ActivityAlertsParam.targetResourceTypeFriendly}s'
     alertOperationName:'Microsoft.KeyVault/vaults/delete'
-    
+    actionGroupRGName:'rg-infra'
    
   }
 }] 
