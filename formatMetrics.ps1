@@ -38,19 +38,15 @@ if($typeOfAlertstoFormat -ne "activity"){
 }else{
     
     foreach($alertLine in $csvFileToConvert){
-    if($alertLine.alertLevels -ne ""){
-        $levelsArray=@()
-        $levels = $alertLine.alertLevels.Split('|')
+        if($alertLine.alertLevels -ne ""){
+            $levelsArray= $alertLine.alertLevels.Split('|')
+            $alertLine.alertLevels = $levelsArray
+        }
+        if($alertLine.alertStatus -ne ""){
+            $statusArray= $alertLine.alertStatus.Split('|')
+            $alertLine.alertStatus = $statusArray
+        }
     
-       # foreach($level in $levels){
-           # $splittedLevel = $level.Split('|')
-            $levelsArray+=$level; 
-        #}
-   
-        $alertLine.alertLevels = $levels
-        $alertLineIndex = $csvFileToConvert.IndexOf($alertLine)
-        $csvFileToConvert[$alertLineIndex].alertLevels= $alertLine.alertLevels 
-    }
     }
 
     $formattedAlerts = $csvFileToConvert | ConvertTo-Json -AsArray -Depth 4
