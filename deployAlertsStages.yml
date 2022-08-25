@@ -92,7 +92,7 @@ stages:
 
   dependsOn: ConvertCSV2Json
   jobs:
-  - job: Deploy All alerts types
+  - job: DeployAllAlertsTypes
     steps:
     - checkout: none
     - task: DownloadPipelineArtifact@2
