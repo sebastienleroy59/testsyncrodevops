@@ -42,12 +42,12 @@ if($typeOfAlertstoFormat -ne "activity"){
         $levelsArray=@()
         $levels = $alertLine.alertLevels.Split('|')
     
-        foreach($level in $levels){
+       # foreach($level in $levels){
            # $splittedLevel = $level.Split('|')
             $levelsArray+=$level; 
-        }
+        #}
    
-        $alertLine.alertLevels = $levelsArray
+        $alertLine.alertLevels = $levels
         $alertLineIndex = $csvFileToConvert.IndexOf($alertLine)
         $csvFileToConvert[$alertLineIndex].alertLevels= $alertLine.alertLevels 
     }
