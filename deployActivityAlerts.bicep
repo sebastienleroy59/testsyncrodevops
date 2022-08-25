@@ -6,8 +6,8 @@ name: 'MetricAlertDeployment-${ActivityAlertsParam.targetResourceTypeFriendly}-$
 params: {
     
     alertDescription:'test'
-    levels:['Critical','Verbose']
-    status:['Succeeded']
+    alertLevels:ActivityAlertsParam.alertLevels
+    alertStatus:ActivityAlertsParam.alertStatus
     alertSev:int(ActivityAlertsParam.alertSev)
     targetResourceType:'Microsoft.KeyVault/vaults'
     targetResourceTypeFriendly:'${ActivityAlertsParam.targetResourceTypeFriendly}s'

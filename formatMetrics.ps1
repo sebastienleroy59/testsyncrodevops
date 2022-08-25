@@ -38,7 +38,7 @@ if($typeOfAlertstoFormat -ne "activity"){
 }else{
     
 
-    f($alertLine.alertLevels -ne ""){
+    if($alertLine.alertLevels -ne ""){
         $levelsArray=@()
         $levels = $alertLine.alertLevels.Split(',')
     

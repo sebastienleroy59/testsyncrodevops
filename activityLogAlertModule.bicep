@@ -13,8 +13,8 @@ param targetResourceTypeFriendly string=''
 param alertSev int
 param alertOperationName string=''
 param targetResourceType string=''
-param levels array
-param status array
+param alertLevels array
+param alertStatus array
 param actionGroupRGName string =''
 
 
@@ -42,11 +42,11 @@ resource alert 'Microsoft.Insights/activityLogAlerts@2020-10-01' = {
             }
             {
               field:'level'
-              containsAny:!empty(levels) ? levels : ['*']
+              containsAny:!empty(alertLevels) ? alertLevels : ['*']
             }
             {
                 field:'status'
-                containsAny:!empty(status) ? status : ['*']
+                containsAny:!empty(alertStatus) ? alertStatus : ['*']
             }
 
            
