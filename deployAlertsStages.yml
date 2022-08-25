@@ -143,4 +143,4 @@ stages:
         scriptType: bash
         scriptLocation: inlineScript
         inlineScript: |
-          az deployment group create --resource-group $(resourceGroupName) --template-file $(logsTemplate) --parameters $(System.DefaultWorkingDirectory)/AlertsDefinitions/ActivityLogsAlerts.json
+          az deployment group create --resource-group $(resourceGroupName) --template-file $(logsTemplate) --parameters $(System.DefaultWorkingDirectory)/AlertsDefinitions/activityAlerts.json
