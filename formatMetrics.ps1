@@ -40,11 +40,11 @@ if($typeOfAlertstoFormat -ne "activity"){
 
     if($alertLine.alertLevels -ne ""){
         $levelsArray=@()
-        $levels = $alertLine.alertLevels.Split(',')
+        $levels = $alertLine.alertLevels.Split('|')
     
         foreach($level in $levels){
-            $splittedLevel = $level.Split('|')
-            $levelsArray+=$splittedLevel[0]; 
+           # $splittedLevel = $level.Split('|')
+            $levelsArray+=$level; 
         }
    
         $alertLine.alertLevels = $levelsArray
