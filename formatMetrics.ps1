@@ -37,7 +37,7 @@ if($typeOfAlertstoFormat -ne "activity"){
     Get-Content -Path "$($baseDir)/AlertsDefinitions/$($typeOfAlertstoFormat)Alerts.json"
 }else{
     
-
+    foreach($alertLine in $csvFileToConvert){
     if($alertLine.alertLevels -ne ""){
         $levelsArray=@()
         $levels = $alertLine.alertLevels.Split('|')
@@ -50,6 +50,7 @@ if($typeOfAlertstoFormat -ne "activity"){
         $alertLine.alertLevels = $levelsArray
         $alertLineIndex = $csvFileToConvert.IndexOf($alertLine)
         $csvFileToConvert[$alertLineIndex].alertLevels= $alertLine.alertLevels 
+    }
     }
 
     $formattedAlerts = $csvFileToConvert | ConvertTo-Json -AsArray -Depth 4
