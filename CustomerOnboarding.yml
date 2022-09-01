@@ -95,7 +95,7 @@ stages:
           scriptLocation: inlineScript
           inlineScript: |
            az version
-  - job: PrepareRunEnv
+  - job: ValidateRunEnv
     pool: server
     steps:
       - task: ManualValidation@0
@@ -108,6 +108,8 @@ stages:
             
          instructions: 'Please validate the build configuration and resume'
          onTimeout: 'resume' 
+  - job: ValidateRunEnv
+    steps:
       - task: AzureCLI@2
         displayName: 'Deploy Resource Group and LAW-storage account'
         inputs:
