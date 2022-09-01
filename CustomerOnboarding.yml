@@ -19,7 +19,7 @@ stages:
   - job: AuditDiag
     steps:
       - task: AzureCLI@2
-        displayName: 'Audit Diag Params'
+        displayName: 'Params'
         inputs:
           azureSubscription: $(azureServiceConnection)
           scriptType: bash
@@ -27,7 +27,7 @@ stages:
           inlineScript: |
            az version
       - task: AzureCLI@2
-        displayName: 'Audit Resources'
+        displayName: 'Resources'
         inputs:
           azureSubscription: $(azureServiceConnection)
           scriptType: bash
@@ -35,7 +35,7 @@ stages:
           inlineScript: |
            az version
       - task: AzureCLI@2
-        displayName: 'Audit Resources'
+        displayName: 'Extensions'
         inputs:
           azureSubscription: $(azureServiceConnection)
           scriptType: bash
@@ -43,7 +43,36 @@ stages:
           inlineScript: |
            az version
       - task: AzureCLI@2
-        displayName: 'Audit Resources'
+        displayName: 'Logs and Metrics'
+        inputs:
+          azureSubscription: $(azureServiceConnection)
+          scriptType: bash
+          scriptLocation: inlineScript
+          inlineScript: |
+           az version
+- stage: MatrixGeneration
+  jobs:
+  - job: MatrixGen
+    steps:
+      - task: AzureCLI@2
+        displayName: 'Metric matrix gen'
+        inputs:
+          azureSubscription: $(azureServiceConnection)
+          scriptType: bash
+          scriptLocation: inlineScript
+          inlineScript: |
+           az version
+    steps:
+      - task: AzureCLI@2
+        displayName: 'Get Diagnostics Params'
+        inputs:
+          azureSubscription: $(azureServiceConnection)
+          scriptType: bash
+          scriptLocation: inlineScript
+          inlineScript: |
+           az version
+      - task: AzureCLI@2
+        displayName: 'Diagnostics Params settings gen'
         inputs:
           azureSubscription: $(azureServiceConnection)
           scriptType: bash
