@@ -11,7 +11,7 @@ pool:
   #name: Azure Pipelines
   name: Default
   #Default
-  demands: agent.name -equals mydockeragent
+  #demands: agent.name -equals mydockeragent
 
 stages:
 - stage: Audit
