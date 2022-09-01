@@ -1,6 +1,6 @@
 name: Deploy Alerts using bicep multistage
 variables:
-   azureServiceConnection: 'SC-Squadra12K€'
+   azureServiceConnection: 'Squadra12k-SEBL'
    resourceGroupName: 'rg-infra'
    metricsTemplate: 'deployMetricsAlerts.bicep'
    logsTemplate: 'deployLogsAlerts.bicep'
