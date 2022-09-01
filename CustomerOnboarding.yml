@@ -50,11 +50,13 @@ stages:
           scriptLocation: inlineScript
           inlineScript: |
            az version
-- stage: MatrixGeneration
+- stage: MatrixGenerationAndDeployrunEnv
+  
   jobs:
   - job: MatrixGen
-
+    
     steps:
+      - checkout : none
       - task: AzureCLI@2
         displayName: 'Metric matrix gen'
         inputs:
@@ -107,7 +109,7 @@ stages:
             sebastien.dillier@squadra-run.com
             sebastien.leroy@squadra-run.com
             
-         instructions: 'Please validate the build configuration and resume'
+         instructions: 'Please validate the build in order to deploy RG and storage accounts and LAW on customer infra'
          onTimeout: 'resume' 
   - job: DeployRunEnv
     dependsOn: ValidateRunEnv
