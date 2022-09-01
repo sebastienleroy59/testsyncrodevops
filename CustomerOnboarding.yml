@@ -1,0 +1,133 @@
+name: Deploy Alerts using bicep multistage
+variables:
+   azureServiceConnection: 'SC-Squadra12K€'
+   resourceGroupName: 'rg-infra'
+   metricsTemplate: 'deployMetricsAlerts.bicep'
+   logsTemplate: 'deployLogsAlerts.bicep'
+   activityTemplate: 'deployActivityAlerts.bicep'
+   metricsParametersFilePath: '$(System.DefaultWorkingDirectory)/AlertsDefinitions/metricsAlerts.json'
+   logsParametersFilePath: '$(System.DefaultWorkingDirectory)/AlertsDefinitions/logsAlerts.json'
+pool:
+  #name: Azure Pipelines
+  name: Default
+  #Default
+  demands: agent.name -equals mydockeragent
+
+stages:
+- stage: Audit
+  - job: AuditDiag
+    steps:
+    - task: AuditDiagsParams
+      displayName: 'Audit Diag Params'
+      inputs:
+        azureSubscription: $(azureServiceConnection)
+        scriptType: bash
+        scriptLocation: inlineScript
+        inlineScript: |
+          az version
+    - task: AuditResources
+      displayName: 'Audit Resources'
+      inputs:
+        azureSubscription: $(azureServiceConnection)
+        scriptType: bash
+        scriptLocation: inlineScript
+        inlineScript: |
+          az version
+    - task: AuditExtensions
+      displayName: 'Audit Extensions'
+      inputs:
+        azureSubscription: $(azureServiceConnection)
+        scriptType: bash
+        scriptLocation: inlineScript
+        inlineScript: |
+          az version
+    - task: AuditMetricAlertsLogs
+      displayName: 'Audit MetricsAlerts and logs Params'
+      inputs:
+        azureSubscription: $(azureServiceConnection)
+        scriptType: bash
+        scriptLocation: inlineScript
+        inlineScript: |
+          az version
+
+
+  - job: DeployActionGroups
+  - job: DeployActionGroups
+  - job: DeployActionGroups
+  - job: DeployActionGroups
+  - job: DeployActionGroups
+
+- stage: ActionGroups
+
+
+  jobs:
+  - job: DeployActionGroups
+    steps:
+    
+    - task: AzureCLI@2
+      displayName: 'Deploy Action Groups'
+      inputs:
+        azureSubscription: $(azureServiceConnection)
+        scriptType: bash
+        scriptLocation: inlineScript
+        inlineScript: |
+            az version
+
+- stage: ConvertCSV2Json
+  jobs:
+  - job: ConvertMetricsAlertsCSVToJson
+    steps:
+
+          
+       - task: AzureCLI@2
+      displayName: 'Deploy Action Groups'
+      inputs:
+        azureSubscription: $(azureServiceConnection)
+        scriptType: bash
+        scriptLocation: inlineScript
+        inlineScript: |
+            az version
+   
+  - job: ConvertLogsAlertsCSVToJson
+    steps:
+      - task: AzureCLI@2
+      displayName: 'Deploy Action Groups'
+      inputs:
+        azureSubscription: $(azureServiceConnection)
+        scriptType: bash
+        scriptLocation: inlineScript
+        inlineScript: |
+            az version
+    
+  - job: ConvertActivityLogsAlertsCSVToJson
+    steps:
+     - task: AzureCLI@2
+      displayName: 'Deploy Action Groups'
+      inputs:
+        azureSubscription: $(azureServiceConnection)
+        scriptType: bash
+        scriptLocation: inlineScript
+        inlineScript: |
+            az version
+    
+  - job: DevelopWaitingApproval
+    dependsOn: ConvertMetricsAlertsCSVToJson
+    pool: server
+    timeoutInMinutes: 4320 # 3 days
+
+- stage: DeployAlerts
+
+  dependsOn: ConvertCSV2Json
+  jobs:
+  - job: DeployAllAlertsTypes
+    steps:
+    - checkout: none
+    - task: AzureCLI@2
+      displayName: 'Deploy Action Groups'
+      inputs:
+        azureSubscription: $(azureServiceConnection)
+        scriptType: bash
+        scriptLocation: inlineScript
+        inlineScript: |
+            az version
+
