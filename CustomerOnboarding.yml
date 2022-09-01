@@ -53,7 +53,7 @@ stages:
 - stage: MatrixGeneration
   jobs:
   - job: MatrixGen
-    pool: server
+
     steps:
       - task: AzureCLI@2
         displayName: 'Metric matrix gen'
@@ -95,6 +95,9 @@ stages:
           scriptLocation: inlineScript
           inlineScript: |
            az version
+  - job: MatrixGen
+    pool: server
+    steps:
       - task: ManualValidation@0
         timeoutInMinutes: 1440 # matrix ruploaded to storage account and validated
         
