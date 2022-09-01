@@ -97,6 +97,7 @@ stages:
            az version
   - job: ValidateRunEnv
     pool: server
+    dependsOn: MatrixGen
     steps:
       - task: ManualValidation@0
         timeoutInMinutes: 1440 # matrix ruploaded to storage account and validated
