@@ -96,6 +96,7 @@ stages:
            az version
       - task: ManualValidation@0
         timeoutInMinutes: 1440 # matrix ruploaded to storage account and validated
+        pool: server
         inputs:
          notifyUsers: |
             sebastien.dillier@squadra-run.com
