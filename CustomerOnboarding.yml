@@ -18,67 +18,109 @@ stages:
   jobs:
   - job: AuditDiag
     steps:
-      - task: AzureCLI@2
+      - task: PowerShell@2
         displayName: 'Params'
         inputs:
           azureSubscription: $(azureServiceConnection)
-          scriptType: bash
-          scriptLocation: inlineScript
+          pwsh: true
+          targetType: 'inline'
+          script: inlineScript
           inlineScript: |
-           az version
-      - task: AzureCLI@2
+          write-host "ok"  
+      - task: PowerShell@2
         displayName: 'Resources'
         inputs:
           azureSubscription: $(azureServiceConnection)
-          scriptType: bash
-          scriptLocation: inlineScript
+          pwsh: true
+          targetType: 'inline'
+          script: inlineScript
           inlineScript: |
-           az version
-      - task: AzureCLI@2
+          write-host "ok"  
+      - task: PowerShell@2
         displayName: 'Extensions'
         inputs:
           azureSubscription: $(azureServiceConnection)
-          scriptType: bash
-          scriptLocation: inlineScript
+          pwsh: true
+          targetType: 'inline'
+          script: inlineScript
           inlineScript: |
-           az version
-      - task: AzureCLI@2
+          write-host "ok"  
+      - task: PowerShell@2
         displayName: 'Logs and Metrics'
         inputs:
           azureSubscription: $(azureServiceConnection)
-          scriptType: bash
-          scriptLocation: inlineScript
+          pwsh: true
+          targetType: 'inline'
+          script: inlineScript
           inlineScript: |
-           az version
+          write-host "ok"  
 - stage: MatrixGeneration
   jobs:
   - job: MatrixGen
     steps:
-      - task: AzureCLI@2
+      - task: PowerShell@2
         displayName: 'Metric matrix gen'
         inputs:
           azureSubscription: $(azureServiceConnection)
-          scriptType: bash
-          scriptLocation: inlineScript
+          pwsh: true
+          targetType: 'inline'
+          script: inlineScript
           inlineScript: |
-           az version
-           
-      - task: AzureCLI@2
+          write-host "ok"  
+      - task: PowerShell@2
+        displayName: 'Log matrix gen'
+        inputs:
+          azureSubscription: $(azureServiceConnection)
+          pwsh: true
+          targetType: 'inline'
+          script: inlineScript
+          inlineScript: |
+          write-host "ok"  
+      - task: PowerShell@2
+        displayName: 'Admin alerts matrix gen'
+        inputs:
+          azureSubscription: $(azureServiceConnection)
+          pwsh: true
+          targetType: 'inline'
+          script: inlineScript
+          inlineScript: |
+          write-host "ok"  
+      - task: PowerShell@2
         displayName: 'Get Diagnostics Params'
         inputs:
           azureSubscription: $(azureServiceConnection)
-          scriptType: bash
-          scriptLocation: inlineScript
+          pwsh: true
+          targetType: 'inline'
+          script: inlineScript
           inlineScript: |
-           az version
-      - task: AzureCLI@2
+          write-host "ok"  
+      - task: PowerShell@2
         displayName: 'Diagnostics Params settings gen'
         inputs:
           azureSubscription: $(azureServiceConnection)
-          scriptType: bash
-          scriptLocation: inlineScript
+          pwsh: true
+          targetType: 'inline'
+          script: inlineScript
           inlineScript: |
-           az version
+          write-host "ok"  
+      - task: ManualValidation@0
+        timeoutInMinutes: 1440 # matrix ruploaded to storage account and validated
+        inputs:
+         notifyUsers: |
+            sebastien.dillier@squadra-run.com
+            sebastien.leroy@squadra-run.com
+            
+         instructions: 'Please validate the build configuration and resume'
+         onTimeout: 'resume' 
+      - task: PowerShell@2
+        displayName: 'Deploy Resource Group and LAW-storage account'
+        inputs:
+          azureSubscription: $(azureServiceConnection)
+          pwsh: true
+          targetType: 'inline'
+          script: inlineScript
+          inlineScript: |
+          write-host "ok"  
 
 - stage: ActionGroups
 
@@ -87,7 +129,7 @@ stages:
   - job: DeployActionGroups
     steps:
     
-    - task: AzureCLI@2
+    - task: PowerShell@2
       displayName: 'Deploy Action Groups'
       inputs:
         azureSubscription: $(azureServiceConnection)
@@ -102,7 +144,7 @@ stages:
     steps:
 
           
-       - task: AzureCLI@2
+       - task: PowerShell@2
          displayName: 'Deploy Action Groups'
          inputs:
           azureSubscription: $(azureServiceConnection)
@@ -113,7 +155,7 @@ stages:
    
   - job: ConvertLogsAlertsCSVToJson
     steps:
-      - task: AzureCLI@2
+      - task: PowerShell@2
         inputs:
           azureSubscription: $(azureServiceConnection)
           scriptType: bash
@@ -122,7 +164,7 @@ stages:
            az version
   - job: ConvertActivityLogsAlertsCSVToJson
     steps:
-     - task: AzureCLI@2
+     - task: PowerShell@2
        displayName: 'Deploy Action Groups'
        inputs:
         azureSubscription: $(azureServiceConnection)
@@ -143,7 +185,7 @@ stages:
   - job: DeployAllAlertsTypes
     steps:
     - checkout: none
-    - task: AzureCLI@2
+    - task: PowerShell@2
       displayName: 'Deploy Action Groups'
       inputs:
         azureSubscription: $(azureServiceConnection)
