@@ -15,47 +15,41 @@ pool:
 
 stages:
 - stage: Audit
+  jobs:
   - job: AuditDiag
     steps:
-    - task: AuditDiagsParams
-      displayName: 'Audit Diag Params'
-      inputs:
-        azureSubscription: $(azureServiceConnection)
-        scriptType: bash
-        scriptLocation: inlineScript
-        inlineScript: |
-          az version
-    - task: AuditResources
-      displayName: 'Audit Resources'
-      inputs:
-        azureSubscription: $(azureServiceConnection)
-        scriptType: bash
-        scriptLocation: inlineScript
-        inlineScript: |
-          az version
-    - task: AuditExtensions
-      displayName: 'Audit Extensions'
-      inputs:
-        azureSubscription: $(azureServiceConnection)
-        scriptType: bash
-        scriptLocation: inlineScript
-        inlineScript: |
-          az version
-    - task: AuditMetricAlertsLogs
-      displayName: 'Audit MetricsAlerts and logs Params'
-      inputs:
-        azureSubscription: $(azureServiceConnection)
-        scriptType: bash
-        scriptLocation: inlineScript
-        inlineScript: |
-          az version
-
-
-  - job: DeployActionGroups
-  - job: DeployActionGroups
-  - job: DeployActionGroups
-  - job: DeployActionGroups
-  - job: DeployActionGroups
+      - task: AzureCLI@2
+        displayName: 'Audit Diag Params'
+        inputs:
+          azureSubscription: $(azureServiceConnection)
+          scriptType: bash
+          scriptLocation: inlineScript
+          inlineScript: |
+           az version
+      - task: AzureCLI@2
+        displayName: 'Audit Resources'
+        inputs:
+          azureSubscription: $(azureServiceConnection)
+          scriptType: bash
+          scriptLocation: inlineScript
+          inlineScript: |
+           az version
+      - task: AzureCLI@2
+        displayName: 'Audit Resources'
+        inputs:
+          azureSubscription: $(azureServiceConnection)
+          scriptType: bash
+          scriptLocation: inlineScript
+          inlineScript: |
+           az version
+      - task: AzureCLI@2
+        displayName: 'Audit Resources'
+        inputs:
+          azureSubscription: $(azureServiceConnection)
+          scriptType: bash
+          scriptLocation: inlineScript
+          inlineScript: |
+           az version
 
 - stage: ActionGroups
 
@@ -71,8 +65,8 @@ stages:
         scriptType: bash
         scriptLocation: inlineScript
         inlineScript: |
-            az version
-
+         az version
+        
 - stage: ConvertCSV2Json
   jobs:
   - job: ConvertMetricsAlertsCSVToJson
@@ -80,30 +74,28 @@ stages:
 
           
        - task: AzureCLI@2
-      displayName: 'Deploy Action Groups'
-      inputs:
-        azureSubscription: $(azureServiceConnection)
-        scriptType: bash
-        scriptLocation: inlineScript
-        inlineScript: |
-            az version
+         displayName: 'Deploy Action Groups'
+         inputs:
+          azureSubscription: $(azureServiceConnection)
+          scriptType: bash
+          scriptLocation: inlineScript
+          inlineScript: |
+           az version
    
   - job: ConvertLogsAlertsCSVToJson
     steps:
       - task: AzureCLI@2
-      displayName: 'Deploy Action Groups'
-      inputs:
-        azureSubscription: $(azureServiceConnection)
-        scriptType: bash
-        scriptLocation: inlineScript
-        inlineScript: |
-            az version
-    
+        inputs:
+          azureSubscription: $(azureServiceConnection)
+          scriptType: bash
+          scriptLocation: inlineScript
+          inlineScript: |
+           az version
   - job: ConvertActivityLogsAlertsCSVToJson
     steps:
      - task: AzureCLI@2
-      displayName: 'Deploy Action Groups'
-      inputs:
+       displayName: 'Deploy Action Groups'
+       inputs:
         azureSubscription: $(azureServiceConnection)
         scriptType: bash
         scriptLocation: inlineScript
