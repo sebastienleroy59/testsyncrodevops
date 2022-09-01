@@ -53,6 +53,7 @@ stages:
 - stage: MatrixGeneration
   jobs:
   - job: MatrixGen
+    pool: server
     steps:
       - task: AzureCLI@2
         displayName: 'Metric matrix gen'
@@ -96,7 +97,7 @@ stages:
            az version
       - task: ManualValidation@0
         timeoutInMinutes: 1440 # matrix ruploaded to storage account and validated
-        pool: server
+        
         inputs:
          notifyUsers: |
             sebastien.dillier@squadra-run.com
@@ -117,6 +118,17 @@ stages:
 
 
   jobs:
+  - job: DeployDiagsParams
+    steps:
+    
+    - task: AzureCLI@2
+      displayName: 'Deploy Diags Paramas'
+      inputs:
+        azureSubscription: $(azureServiceConnection)
+        scriptType: batch
+        scriptLocation: inlineScript
+        inlineScript: |
+         az version  
   - job: DeployActionGroups
     steps:
     
