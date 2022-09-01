@@ -110,7 +110,7 @@ stages:
           scriptType: batch
           scriptLocation: inlineScript
           inlineScript: |
-         az version      
+           az version      
 
 - stage: ActionGroups
 
