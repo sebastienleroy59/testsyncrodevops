@@ -62,7 +62,7 @@ stages:
           scriptLocation: inlineScript
           inlineScript: |
            az version
-    steps:
+           
       - task: AzureCLI@2
         displayName: 'Get Diagnostics Params'
         inputs:
