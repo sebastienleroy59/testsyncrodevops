@@ -95,7 +95,7 @@ stages:
           scriptLocation: inlineScript
           inlineScript: |
            az version
-  - job: MatrixGen
+  - job: PrepareRunEnv
     pool: server
     steps:
       - task: ManualValidation@0
