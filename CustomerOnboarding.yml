@@ -110,6 +110,7 @@ stages:
          instructions: 'Please validate the build configuration and resume'
          onTimeout: 'resume' 
   - job: DeployRunEnv
+    dependsOn: ValidateRunEnv
     steps:
       - task: AzureCLI@2
         displayName: 'Deploy Resource Group and LAW-storage account'
