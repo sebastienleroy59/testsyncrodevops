@@ -40,12 +40,12 @@ $azResources = Get-AZResource
     }
 
     
-$azSubName = $azSub.Name
-$File = 'GetParamDiag' + $azSubName + '.csv'
+#$azSubName = $azSub.Name
+#$File = 'GetParamDiag' + $azSubName + '.csv'
 
 $outputObject = $outputObject | Sort-Object 'Typeresource' -Unique 
 
-$outputObject | Export-Csv -Path $File -Delimiter ";" 
+$outputObject | Export-Csv -Path $env:clientFileNamePrefix"_GetParamDiag.csv" -Delimiter ";" -NoTypeInformation
 
 #Create a context object using Azure AD credentials
 #$ctx = New-AzStorageContext -StorageAccountName $StorageAccountName -UseConnectedAccount
