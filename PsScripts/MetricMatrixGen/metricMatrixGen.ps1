@@ -15,7 +15,7 @@ foreach ($rg in $RGs) {
     if(!$resourceTypeInRG.ResourceType.Contains('networkSecurityGroups') -and !$resourceTypeInRG.ResourceType.Contains('virtualMachines/extensions') -and !$resourceTypeInRG.ResourceType.Contains('extensions') -and !$resourceTypeInRG.ResourceType.Contains('registries/replications')  -and !$resourceTypeInRG.ResourceType.Contains('virtualNetworkLinks')){ #skip Microsoft.Compute/virtualMachines/extensions
         foreach ($resource in $resourcesByTypeInRg) {
             #try {
-                write-host $resourceTypeInRG.ResourceType
+                write-host $resourceTypeInRG.ResourceType " ---- " $resource.ResourceId
                 $metrics =  Get-AzMetricDefinition -ResourceId $resource.ResourceId -WarningAction SilentlyContinue  
                  foreach($metric in $metrics)
                 {
