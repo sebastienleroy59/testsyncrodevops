@@ -108,18 +108,20 @@ stages:
           Destination: AzureBlob
           storage: $(StorageAccountName)
           ContainerName: $(NameContainer)
+      
       - task: PowerShell@2
         displayName: 'Download Metric Alert csv matrix'
         inputs:
            targetType: inline
            errorActionPreference: continue
+           azurePowerShellVersion: LatestVersion
            pwsh: true
            script: |
              $ctx = New-AzStorageContext -StorageAccountName $env:StorageAccountName -UseConnectedAccount
              $container = Get-AzStorageContainer -Name $env:NameContainer -Context $ctx 
              #Get-ChildItem -File -Filter *.bicep | Set-AzStorageBlobContent -Container $container.Name -Context $ctx
              mkdir alertsCsv
-             Get-AzStorageBlobContent -Container $container.Name -Blob alertsCsv\SquadraDevOps_0410a600-1bea-44c9-b7ee-3e4847c6a600__GetParamDiag.csv -Context $ctx
+             Get-AzStorageBlobContent -Container $container.Name -Blob SquadraDevOps_0410a600-1bea-44c9-b7ee-3e4847c6a600__GetParamDiag.csv -Destination alertsCsv -Context $ctx
              Get-ChildItem
             
   - job: ValidateRunEnv
