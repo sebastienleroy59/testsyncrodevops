@@ -21,7 +21,8 @@
     {"resource":"microsoft.Portal/dashboards"},
     {"resource":"microsoft.Network/privateDnsZones"},
     {"resource":"microsoft.Network/privateEndpoints"},
-    {"resource":"microsoft.visualstudio/account"}
+    {"resource":"microsoft.visualstudio/account"},
+    {"resource":"Microsoft.Network/networkInterfaces"}
 ]
 
 

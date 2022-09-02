@@ -12,11 +12,11 @@ foreach ($rg in $RGs) {
     foreach($resourceTypeInRG in $resourcesTypesInRG){
     $resourcesByTypeInRg = Get-AzResource -ResourceGroupName $rg.ResourceGroupName -ResourceType $resourceTypeInRG.ResourceType -WarningAction SilentlyContinue
     $isExcludedResource = $exclude.resource | Where-Object {$_ -match $resourceTypeInRG.ResourceType} | Measure-Object
-    write-host "Resultat :" $isExcludedResource
+    write-host "ResourceType In ExludeDico :" $resourceTypeInRG.ResourceType " --- " $isExcludedResource.Count -ForegroundColor Blue
        if($isExcludedResource.Count -eq 0){
         foreach ($resource in $resourcesByTypeInRg) {
-            #try {
-                write-host $resourceTypeInRG.ResourceType " ---- " $resource.ResourceId
+            try { 
+                
                 $metrics =  Get-AzMetricDefinition -ResourceId $resource.ResourceId -WarningAction SilentlyContinue  
                  foreach($metric in $metrics)
                 {
@@ -39,11 +39,11 @@ foreach ($rg in $RGs) {
                 } 
            
              
-            #}
-            #catch {
-                #Write-Host "Execution finished with an error..." -ForegroundColor Red
-                #Write-Host $errors[0]
-            #}
+            }
+            catch {
+                Write-Host "Execution finished with an error..." -ForegroundColor Red
+                
+            }
         } 
 
     }
