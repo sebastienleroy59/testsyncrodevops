@@ -60,7 +60,7 @@ stages:
       - task: AzureFileCopy@4
         displayName: 'Upload Audit files to Storage account'
         inputs:
-          SourcePath: '*.bicep'
+          SourcePath: '$(clientFileNamePrefix)*.bicep'
           azureSubscription: $(azureServiceConnection)
           Destination: AzureBlob
           storage: $(StorageAccountName)
