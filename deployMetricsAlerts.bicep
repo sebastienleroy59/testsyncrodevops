@@ -1,6 +1,6 @@
 param MetricsAlertsParams array
 
-module MetricAlertResource 'metricAlertModule.bicep' = [for (MetricAlertsParams,i) in MetricsAlertsParams: {
+module MetricAlertResource 'BicepModules/metricAlertModule.bicep' = [for (MetricAlertsParams,i) in MetricsAlertsParams: {
 name: 'MetricAlertDeployment-${MetricAlertsParams.targetResourceTypeFriendlyName}-${i}'
 params: {
     alertDescription:MetricAlertsParams.alertDescription
@@ -18,15 +18,6 @@ params: {
     alertOperator:MetricAlertsParams.alertOperator
     alertTimeAggregation:MetricAlertsParams.alertTimeAggregation
     actionGroupRGName:'rg-infra'
-    /* alertDimensions: !empty(MetricAlertsParams.alertDimensions) ? [
-                {
-                    name: MetricAlertsParams.alertDimensions//play with split maybe for multidimensions
-                    operator: 'Include'
-                    values: [
-                        '*'
-                    ]
-                }
-            ] : []  */
     alertDimensions: !empty(MetricAlertsParams.alertDimensions) ? MetricAlertsParams.alertDimensions : [] 
   }
 }] 

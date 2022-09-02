@@ -10,7 +10,7 @@ param(
 
 
 write-Host $typeOfAlertstoFormat
-#Write-Host $baseDir
+
 $csvFileToConvert=import-csv -Delimiter ";" "AlertsDefinitions/$($typeOfAlertstoFormat)Alerts.csv"
 if($typeOfAlertstoFormat -ne "activity"){
     
@@ -32,7 +32,7 @@ if($typeOfAlertstoFormat -ne "activity"){
     }
     
     $formattedAlerts = $csvFileToConvert | ConvertTo-Json -AsArray -Depth 4
-    #$formattedAlerts
+
     ((Get-Content -path "$($baseDir)/AlertsDefinitions/$($typeOfAlertstoFormat)Alerts.json" -Raw) -replace '"--TOREPLACE--"',$formattedAlerts ) | Set-Content -Path "$($baseDir)/AlertsDefinitions/$($typeOfAlertstoFormat)Alerts.json"
     Get-Content -Path "$($baseDir)/AlertsDefinitions/$($typeOfAlertstoFormat)Alerts.json"
 }else{
@@ -50,7 +50,6 @@ if($typeOfAlertstoFormat -ne "activity"){
     }
 
     $formattedAlerts = $csvFileToConvert | ConvertTo-Json -AsArray -Depth 4
-    #$formattedAlerts
     ((Get-Content -path "$($baseDir)/AlertsDefinitions/$($typeOfAlertstoFormat)Alerts.json" -Raw) -replace '"--TOREPLACE--"',$formattedAlerts ) | Set-Content -Path "$($baseDir)/AlertsDefinitions/$($typeOfAlertstoFormat)Alerts.json"
     Get-Content -Path "$($baseDir)/AlertsDefinitions/$($typeOfAlertstoFormat)Alerts.json"
 } 

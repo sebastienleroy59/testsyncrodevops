@@ -58,14 +58,14 @@ stages:
   - job: MatrixGen
     steps:
       - checkout : none
-      - task: AzureCLI@2
-        displayName: 'Metric matrix gen'
+      - task: PowerShell@2
+        displayName: 'Metrics Alerts Generation'
         inputs:
-          azureSubscription: $(azureServiceConnection)
-          scriptType: batch
-          scriptLocation: inlineScript
-          inlineScript: |
-           az version
+         pwsh: true
+         filePath: '$(Agent.BuildDirectory)/s/PsScripts/metricMatrixGen.ps1'
+       #arguments:
+        #  -typeOfAlertstoFormat 'metrics'
+         # -baseDir '$(System.DefaultWorkingDirectory)'
       - task: AzureCLI@2
         displayName: 'Log matrix gen'
         inputs:
