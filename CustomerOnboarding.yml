@@ -122,9 +122,9 @@ stages:
           location: 'France Central'
           csmFile: '$(System.DefaultWorkingDirectory)/loganalytics.bicep'
           deploymentName: rgandlog
-        outputs:
-          resourceGroupName: resourceGroupName
-          logAnalyticsWorkspaceId: logAnalyticsWorkspaceId    
+        #outputs:
+         # resourceGroupName: resourceGroupName
+          #logAnalyticsWorkspaceId: logAnalyticsWorkspaceId    
 
 - stage: Deploy
   jobs:
