@@ -6,7 +6,7 @@ $outputObject = @()
 foreach ($rg in $RGs) {
 
 
-    $resourcesTypesInRG = Get-AzResource -ResourceGroupName $rg | Select-Object -Unique -Property ResourceType -WarningAction SilentlyContinue
+    $resourcesTypesInRG = Get-AzResource -ResourceGroupName $rg.ResourceGroupName | Select-Object -Unique -Property ResourceType -WarningAction SilentlyContinue
 
     
     foreach($resourceTypeInRG in $resourcesTypesInRG){
