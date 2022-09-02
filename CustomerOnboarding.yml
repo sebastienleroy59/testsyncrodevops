@@ -62,7 +62,10 @@ stages:
         displayName: 'Metrics Alerts Generation'
         inputs:
          pwsh: true
-         filePath: 'PsScripts/metricMatrixGen.ps1'
+         targetType: inline
+         script: |
+          Get-ChildItem -R
+         #filePath: 'PsScripts\metricMatrixGen.ps1'
          #filePath: '$(Agent.BuildDirectory)/s/PsScripts/metricMatrixGen.ps1'
        #arguments:
         #  -typeOfAlertstoFormat 'metrics'
