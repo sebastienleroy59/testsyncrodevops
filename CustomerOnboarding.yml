@@ -109,20 +109,7 @@ stages:
           storage: $(StorageAccountName)
           ContainerName: $(NameContainer)
       
-      - task: PowerShell@2
-        displayName: 'Download Metric Alert csv matrix'
-        inputs:
-           targetType: inline
-           errorActionPreference: continue
-           azurePowerShellVersion: LatestVersion
-           pwsh: true
-           script: |
-             $ctx = New-AzStorageContext -StorageAccountName $env:StorageAccountName -UseConnectedAccount
-             $container = Get-AzStorageContainer -Name $env:NameContainer -Context $ctx 
-             mkdir alertsCsv
-             Get-AzStorageBlobContent -Container $container.Name -Blob $env:clientFileNamePrefix"__verbosMetricMatrix.csv" -Destination alertsCsv -Context $ctx
-             Get-AzStorageBlobContent -Container $container.Name -Blob $env:clientFileNamePrefix"__NonVerboseMetricMatrix.csv" -Destination alertsCsv -Context $ctx
-             Get-ChildItem  -Path alertsCsv
+
              
             
   - job: ValidateRunEnv
@@ -130,7 +117,7 @@ stages:
     dependsOn: MatrixGen
     steps:
       - task: ManualValidation@0
-        timeoutInMinutes: 1440 # matrix ruploaded to storage account and validated
+        timeoutInMinutes: 1440 # matrix reuploaded to storage account and validated
         
         inputs:
          notifyUsers: |
@@ -178,14 +165,33 @@ stages:
   jobs:
   - job: ConvertMetricsAlertsCSVToJson
     steps:  
-       - task: AzureCLI@2
-         displayName: 'Deploy Action Groups'
+       - task: PowerShell@2
+         displayName: 'Download Metric Alert logs adminalerts csv matrixes' ### ajouter le download des logs, admin alerts
          inputs:
-          azureSubscription: $(azureServiceConnection)
-          scriptType: batch
-          scriptLocation: inlineScript
-          inlineScript: |
-           az version
+            targetType: inline
+            errorActionPreference: continue
+            azurePowerShellVersion: LatestVersion
+            pwsh: true
+            script: |
+              $ctx = New-AzStorageContext -StorageAccountName $env:StorageAccountName -UseConnectedAccount
+              $container = Get-AzStorageContainer -Name $env:NameContainer -Context $ctx 
+              mkdir alertsCsv
+              Get-AzStorageBlobContent -Container $container.Name -Blob $env:clientFileNamePrefix"_verbosMetricMatrix.csv" -Destination alertsCsv -Context $ctx
+              Get-AzStorageBlobContent -Container $container.Name -Blob $env:clientFileNamePrefix"_NonVerboseMetricMatrix.csv" -Destination alertsCsv -Context $ctx
+              #Get-ChildItem  -Path alertsCsv
+         - task: PowerShell@2
+           displayName: 'FormatMetricsToJSON'
+           inputs:
+            pwsh: true
+            filePath: 'PsScripts/formatMetrics.ps1'
+            arguments:
+              -typeOfAlertstoFormat 'metrics'
+              -baseDir '$(System.DefaultWorkingDirectory)'
+    - task: PublishPipelineArtifact@1
+      inputs:
+       targetPath: '$(System.DefaultWorkingDirectory)'
+       artifact: 'ParametersFilesMetrics'
+       publishLocation: 'pipeline'
   - job: ConvertLogsAlertsCSVToJson
     steps:
       - task: AzureCLI@2
