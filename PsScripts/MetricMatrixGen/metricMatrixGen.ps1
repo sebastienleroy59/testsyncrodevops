@@ -54,9 +54,9 @@ foreach ($rg in $RGs) {
 }
 
 
-$outputObject | Export-Csv -NoTypeInformation "clientNameVerboseMAtricx.csv" #verbose csv
+$outputObject | Export-Csv -NoTypeInformation $env:clientFileNamePrefix"_verbosMetricMatrix.csv" #verbose csv
 
-$outputObject | Sort-Object -Property MtricNamespace,MetricValue -Unique | Export-Csv -NoTypeInformation "clientNameNonVerbosMatrix.csv"
+$outputObject | Sort-Object -Property MtricNamespace,MetricValue -Unique | Export-Csv -NoTypeInformation "_NonVerboseMetricMatrix.csv"
 
 Get-ChildItem -Recurse 
 
