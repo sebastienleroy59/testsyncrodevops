@@ -56,7 +56,7 @@ stages:
   - job: MatrixGen
     steps:
       #- checkout : none
-      - task: PowerShell@5
+      - task: PowerShell@2
         displayName: 'Metrics Alerts Generation'
         inputs:
          pwsh: true
@@ -92,7 +92,18 @@ stages:
           ScriptPath: PsScripts/Matriceclientdiag.ps1
           errorActionPreference: continue
           azurePowerShellVersion: LatestVersion
-
+      - task: PowerShell@2
+        displayName: 'Upload Audit files to Storage account'
+        inputs:
+          azureSubscription: $(azureServiceConnection)
+          targetType: inline
+          pwsh: true
+          errorActionPreference: continue
+          azurePowerShellVersion: LatestVersion
+          script: |
+            $ctx = New-AzStorageContext -StorageAccountName $env:StorageAccountName -UseConnectedAccount
+            $container = Get-AzStorageContainer -Name $env:NameContainer -Context $ctx 
+             Get-ChildItem -File -Recurse -Filter *.csv | Set-AzStorageBlobContent -Container $container.Name -Context $ctx
             
   - job: ValidateRunEnv
     pool: server
