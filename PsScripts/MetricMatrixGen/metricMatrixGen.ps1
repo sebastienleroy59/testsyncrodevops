@@ -15,7 +15,7 @@ foreach ($rg in $RGs) {
     write-host "ResourceType In ExludeDico :" $resourceTypeInRG.ResourceType " --- " $isExcludedResource.Count -ForegroundColor Blue
        if($isExcludedResource.Count -eq 0){
         foreach ($resource in $resourcesByTypeInRg) {
-            #try { 
+            try { 
                 
                 $metrics =  Get-AzMetricDefinition -ResourceId $resource.ResourceId -WarningAction SilentlyContinue  
                  foreach($metric in $metrics)
@@ -38,11 +38,11 @@ foreach ($rg in $RGs) {
                 } 
            
              
-            #}
-            #catch {
-             #   Write-Host "Execution finished with an error..." -ForegroundColor Red
+            }
+            catch {
+               Write-Host "Execution finished with an error..." -ForegroundColor Red
                 
-            #}
+            }
         } 
 
     }
