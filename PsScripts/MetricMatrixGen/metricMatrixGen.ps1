@@ -1,4 +1,4 @@
-$RGs = Get-AZResource
+$RGs = Get-AzResourceGroup
 $suggestedPercentage = 10
 $exclude = Get-Content -Path PsScripts\MetricMatrixGen\exclude.json | ConvertFrom-JSON
 $outputObject = @()
