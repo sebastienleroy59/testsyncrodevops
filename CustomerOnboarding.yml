@@ -63,8 +63,8 @@ stages:
           SourcePath: '*.bicep'
           azureSubscription: $(azureServiceConnection)
           Destination: AzureBlob
-          storage: $(NameContainer)
-          ContainerName: diag
+          storage: $(StorageAccountName)
+          ContainerName: $(NameContainer)
 
       # - task: PowerShell@2
       #   displayName: 'Upload Audit files to Storage account'
