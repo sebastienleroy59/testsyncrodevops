@@ -59,10 +59,10 @@ stages:
     steps:
       - checkout : none
       - task: PowerShell@2
-      displayName: 'Metrics Alerts Generation'
-      inputs:
-       pwsh: true
-       filePath: '$(Agent.BuildDirectory)/s/PsScripts/metricMatrixGen.ps1'
+        displayName: 'Metrics Alerts Generation'
+        inputs:
+         pwsh: true
+         filePath: '$(Agent.BuildDirectory)/s/PsScripts/metricMatrixGen.ps1'
        #arguments:
         #  -typeOfAlertstoFormat 'metrics'
          # -baseDir '$(System.DefaultWorkingDirectory)'
