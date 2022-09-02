@@ -48,15 +48,15 @@ $outputObject = $outputObject | Sort-Object 'Typeresource' -Unique
 $outputObject | Export-Csv -Path $File -Delimiter ";" 
 
 #Create a context object using Azure AD credentials
-$ctx = New-AzStorageContext -StorageAccountName $StorageAccountName -UseConnectedAccount
+#$ctx = New-AzStorageContext -StorageAccountName $StorageAccountName -UseConnectedAccount
 
 #Create a container object
-$container = Get-AzStorageContainer -Name $NameContainer -Context $ctx 
+#$container = Get-AzStorageContainer -Name $NameContainer -Context $ctx 
 
-$containerName = $container.Name
+#$containerName = $container.Name
 
 #Upload a single named file
-Set-AzStorageBlobContent -File $File -Container $containerName -Context $ctx
+#Set-AzStorageBlobContent -File $File -Container $containerName -Context $ctx
 
 
 

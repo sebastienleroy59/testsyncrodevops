@@ -100,9 +100,11 @@ stages:
           errorActionPreference: continue
           azurePowerShellVersion: LatestVersion
           script: |
+            $azSub = Get-AzSubscription -SubscriptionId $Subscription
+            Set-AzContext $azSub.id | Out-Null
             $ctx = New-AzStorageContext -StorageAccountName $env:StorageAccountName -UseConnectedAccount
             $container = Get-AzStorageContainer -Name $env:NameContainer -Context $ctx 
-             Get-ChildItem -File -Recurse -Filter *.csv | Set-AzStorageBlobContent -Container $container.Name -Context $ctx
+            Get-ChildItem -File -Recurse -Filter *.csv | Set-AzStorageBlobContent -Container $container.Name -Context $ctx
             
   - job: ValidateRunEnv
     pool: server
