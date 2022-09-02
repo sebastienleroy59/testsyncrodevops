@@ -5,13 +5,17 @@ param(
     
     [Parameter(Mandatory=$true)]
     #[ValidatePattern('^[a-zA-Z0-9]+$')]
-    [String] $baseDir   
+    [String] $baseDir,
+    
+    [Parameter(Mandatory=$true)]
+    #[ValidatePattern('^[a-zA-Z0-9]+$')]
+    [String] $csvFilePath   
 )
 
 
-write-Host $typeOfAlertstoFormat
+write-Host $typeOfAlertstoFormat - $csvFilePath
 
-$csvFileToConvert=import-csv -Delimiter ";" "AlertsDefinitions/$($typeOfAlertstoFormat)Alerts.csv"
+$csvFileToConvert=import-csv -Delimiter ";" $csvFilePath
 if($typeOfAlertstoFormat -ne "activity"){
     
     
