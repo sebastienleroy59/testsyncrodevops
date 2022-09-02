@@ -57,16 +57,19 @@ stages:
   jobs:
   - job: MatrixGen
     steps:
-      - task: AzurePowerShell@5
+      - task: PowerShell@2
         displayName: 'Upload Audit files to Storage account'
         inputs:
           targetType: inline
-          azureSubscription: $(azureServiceConnection)
+          #azureSubscription: $(azureServiceConnection)
           errorActionPreference: continue
           azurePowerShellVersion: LatestVersion
+          pwsh: true
           script: |
             Get-ChildItem
-            
+            $ctx = New-AzStorageContext -StorageAccountName $env:StorageAccountName -UseConnectedAccount
+            $container = Get-AzStorageContainer -Name $env:NameContainer -Context $ctx 
+            Get-ChildItem -File -Filter *.bicep | Set-AzStorageBlobContent -Container $container.Name -Context $ctx
       #- checkout : none
       - task: PowerShell@2
         displayName: 'Metrics Alerts Generation'
