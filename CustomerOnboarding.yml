@@ -92,7 +92,7 @@ stages:
           ScriptPath: PsScripts/Matriceclientdiag.ps1
           errorActionPreference: continue
           azurePowerShellVersion: LatestVersion
-      - task: AzurePowerShell@5
+      - task: AzurePowerShell@2
         displayName: 'Upload Audit files to Storage account'
         inputs:
           azureSubscription: $(azureServiceConnection)
