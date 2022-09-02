@@ -209,4 +209,22 @@ stages:
         ScriptPath: PsScripts/auditfinaldiag.ps1
         errorActionPreference: continue
         azurePowerShellVersion: LatestVersion
+  - job: MetriqueFinal
+    steps:
+    - task: AzurePowerShell@5
+      displayName: 'Audit Final Metrique'
+      inputs:
+        azureSubscription: $(azureServiceConnection)
+        ScriptPath: PsScripts/PsScripts/AuditFinalMetrique.ps1
+        errorActionPreference: continue
+        azurePowerShellVersion: LatestVersion
+  - job: ResourceFinal
+    steps:
+    - task: AzurePowerShell@5
+      displayName: 'Audit Final Resource'
+      inputs:
+        azureSubscription: $(azureServiceConnection)
+        ScriptPath: PsScripts/PsScripts/AuditFinalResource.ps1
+        errorActionPreference: continue
+        azurePowerShellVersion: LatestVersion
 
