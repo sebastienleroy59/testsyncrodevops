@@ -2,7 +2,7 @@ $RGs = Get-AzResourceGroup
 $suggestedPercentage = 10
 $exclude = Get-Content -Path PsScripts\MetricMatrixGen\exclude.json | ConvertFrom-JSON
 $outputObject = @()
-
+$outputObjectVerbose = @()
 foreach ($rg in $RGs) {
 
 
@@ -28,14 +28,13 @@ foreach ($rg in $RGs) {
 
                     $metricSplitted = $metric.ResourceId -split('/')
                     $propToCheck = $metricSplitted[6]+"/"+$metricSplitted[7].replace(' ','')
-                    $res= ($exclude.PSObject.Properties.Match($propToCheck).count -eq 1 -and $exclude.$propToCheck.Contains($metric.Name.Value) -eq $true )
-                    if(!$res){
-                        if($verboseOutput){
-                            $outputObject += [PSCustomObject]@{targetResourceName=$resource.Name;resourceRG=$rg.ResourceGroupName;targetResourceType=$resourceTypeInRG.ResourceType;alertDescription="";alertMetricNameSpace=$propToCheck;alertMetricName=$metric.Name.Value;alertSev=1;alertDimensions="";alertOperator="GreaterThanOrEqual";alertTimeAggregation="Average";evaluationFreq="PT5M";windowsSize="PT30M";alertTreshold=$suggestedTresholdVal} ###retreivemtricunit to make it dynamic
-                        }else{
+                    
+                       
+                            $outputObjectVerbose += [PSCustomObject]@{targetResourceName=$resource.Name;resourceRG=$rg.ResourceGroupName;targetResourceType=$resourceTypeInRG.ResourceType;alertDescription="";alertMetricNameSpace=$propToCheck;alertMetricName=$metric.Name.Value;alertSev=1;alertDimensions="";alertOperator="GreaterThanOrEqual";alertTimeAggregation="Average";evaluationFreq="PT5M";windowsSize="PT30M";alertTreshold=$suggestedTresholdVal} ###retreivemtricunit to make it dynamic
+                        
                             $outputObject += [PSCustomObject]@{MtricNamespace=$propToCheck;MetricValue=$metric.Name.Value;Sev=1;EvaluationFreq="PT5M";TimeWindow="PT30M";TresHold="XX";} ###retreivemtricunit to make it dynamic
-                        }
-                    }
+                        
+                    
                 } 
            
              
@@ -54,9 +53,9 @@ foreach ($rg in $RGs) {
 }
 
 
-$outputObject | Export-Csv -NoTypeInformation $env:clientFileNamePrefix"_verbosMetricMatrix.csv" #verbose csv
+$outputObjectVerbose | Export-Csv -NoTypeInformation $env:clientFileNamePrefix"_verbosMetricMatrix.csv" #verbose csv
 
-$outputObject | Sort-Object -Property MtricNamespace,MetricValue -Unique | Export-Csv -NoTypeInformation "_NonVerboseMetricMatrix.csv"
+$outputObject | Sort-Object -Property MtricNamespace,MetricValue -Unique | Export-Csv -NoTypeInformation $env:clientFileNamePrefix"_NonVerboseMetricMatrix.csv"
 
 Get-ChildItem -Recurse 
 
