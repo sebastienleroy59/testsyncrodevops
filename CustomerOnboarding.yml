@@ -57,12 +57,13 @@ stages:
   jobs:
   - job: MatrixGen
     steps:
-      - checkout : none
+      #- checkout : none
       - task: PowerShell@2
         displayName: 'Metrics Alerts Generation'
         inputs:
          pwsh: true
-         filePath: '$(Agent.BuildDirectory)/s/PsScripts/metricMatrixGen.ps1'
+         filePath: '$(System.DefaultWorkingDirectory)/PsScripts/MetricMatrixGen/metricMatrixGen.ps1'
+         #filePath: '$(Agent.BuildDirectory)/s/PsScripts/metricMatrixGen.ps1'
        #arguments:
         #  -typeOfAlertstoFormat 'metrics'
          # -baseDir '$(System.DefaultWorkingDirectory)'
