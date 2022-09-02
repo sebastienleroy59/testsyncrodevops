@@ -1,0 +1,27 @@
+[
+    {"resource":"microsoft.operationalInsights/querypacks"},
+    {"resource":"microsoft.operationalInsights/smartDetectorAlertRules"},
+    {"resource":"microsoft.alertsmanagement/smartDetectorAlertRules"},
+    {"resource":"microsoft.alertsmanagement/smartDetectorAlertRules"},
+    {"resource":"microsoft.Network/networkWatchers"},
+    {"resource":"microsoft.Compute/virtualMachines/extensions"},
+    {"resource":"microsoft.DevTestLab/schedules"},
+    {"resource":"microsoft.insights/actiongroups"},
+    {"resource":"microsoft.Insights/actiongroups"},
+    {"resource":"microsoft.Automation/automationAccounts/runbooks"},
+    {"resource":"microsoft.insights/activityLogAlerts"},
+    {"resource":"microsoft.Insights/scheduledqueryrules"},
+    {"resource":"microsoft.Maintenance/maintenanceConfigurations"},
+    {"resource":"microsoft.OperationsManagement/solutions"},
+    {"resource":"microsoft.insights/metricalerts"},
+    {"resource":"microsoft.ManagedIdentity/userAssignedIdentities"},
+    {"resource":"microsoft.Network/privateDnsZones/virtualNetworkLinks"},
+    {"resource":"microsoft.Web/certificates"},
+    {"resource":"microsoft.insights/workbooks"},
+    {"resource":"microsoft.Portal/dashboards"},
+    {"resource":"microsoft.Network/privateDnsZones"},
+    {"resource":"microsoft.Network/privateEndpoints"}
+]
+
+
+                

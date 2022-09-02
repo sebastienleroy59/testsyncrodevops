@@ -11,8 +11,8 @@ foreach ($rg in $RGs) {
     
     foreach($resourceTypeInRG in $resourcesTypesInRG){
     $resourcesByTypeInRg = Get-AzResource -ResourceGroupName $rg.ResourceGroupName -ResourceType $resourceTypeInRG.ResourceType -WarningAction SilentlyContinue
-    ####NO METRICS FOR FOLLOWING RESOURCES TYPES store in json later or do it by api call ?####
-    if(!$resourceTypeInRG.ResourceType.Contains('microsoft.Network/networkInterfaces') -and !$resourceTypeInRG.ResourceType.Contains('Microsoft.ManagedIdentity/userAssignedIdentities') -and !$resourceTypeInRG.ResourceType.Contains('microsoft.visualstudio/account') -and !$resourceTypeInRG.ResourceType.Contains('networkSecurityGroups') -and !$resourceTypeInRG.ResourceType.Contains('virtualMachines/extensions') -and !$resourceTypeInRG.ResourceType.Contains('extensions') -and !$resourceTypeInRG.ResourceType.Contains('registries/replications')  -and !$resourceTypeInRG.ResourceType.Contains('virtualNetworkLinks')){ #skip Microsoft.Compute/virtualMachines/extensions
+    $isExcludedResource = $exclude.resource | Where-Object {$_ -match $resourceTypeInRG.ResourceType} | Measure-Object
+       if(isExcludedResource -eq 0){
         foreach ($resource in $resourcesByTypeInRg) {
             #try {
                 write-host $resourceTypeInRG.ResourceType " ---- " $resource.ResourceId
