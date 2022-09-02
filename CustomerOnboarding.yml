@@ -63,7 +63,7 @@ stages:
           SourcePath: '*.bicep'
           azureSubscription: $(azureServiceConnection)
           Destination: AzureBlob
-          storage: $env:NameContainer
+          storage: $(NameContainer)
           ContainerName: diag
 
       # - task: PowerShell@2
