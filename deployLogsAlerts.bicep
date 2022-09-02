@@ -18,15 +18,6 @@ module LogAlertResource 'BicepModules/logAlertModule.bicep' =  [for (logAlertsPa
       alertMeasureColumn: !empty(logAlertsParams.alertMeasurecolumn)  ? logAlertsParams.alertMeasurecolumn : '' //Metric Measure Column can not be specified on Time Aggregation of Count
       alertQuery:logAlertsParams.alertQuery
       actionGroupRGName:'rg-infra'
-/*       alertDimensions: !empty(logAlertsParams.alertDimensions) ? [
-        {
-            name: logAlertsParams.alertDimensions//play with split maybe for multidimensions
-            operator: 'Include'
-            values: [
-                '*'
-            ]
-        }
-    ] : []  */
-    alertDimensions: !empty(logAlertsParams.alertDimensions) ? logAlertsParams.alertDimensions : [] 
+      alertDimensions: !empty(logAlertsParams.alertDimensions) ? logAlertsParams.alertDimensions : [] 
   }
 }]

@@ -1,28 +1,4 @@
-<#
-    ---SUPMATRIXGEN v1.0---
-    1 > Edit exclude.json to exclude the metrics you don't need #https://docs.microsoft.com/en-us/azure/azure-monitor/essentials/metrics-supported
-    2 > Connect-AzAccount to the subscription
-    3 > .\creatematrice.ps1 -csvOutputPath "yourpath.csv" -verboseOutput
-    
-#>
-###IMPLEMENT ADMIN ALERTS (ACTIVITYLOG) + KQL QUERIES + CREER SCRIPT AUDIT DIAG SETTINGS AND CHECK MULTI REGION
-param(
-    [Parameter()]
-    #verbose Output ==> True
-    #filtered on resourceTypesOnly => False
-    [bool]$verboseOutput = $true,
- 
-    [Parameter()]
-     # path of the output csv file
-    [string]$csvOutputPath = 'matrix.csv'
-)
-
-    
-
-
 $RGs = Get-AZResource
-
-
 $suggestedPercentage = 10
 $exclude = Get-Content -Path .\exclude.json | ConvertFrom-JSON
 $outputObject = @()
@@ -76,10 +52,11 @@ foreach ($rg in $RGs) {
 
 }
 
-#$outputObject
- if($verboseOutput){
-    $outputObject | Export-Csv -NoTypeInformation $csvOutputPath
-}else{
-    $outputObject | Sort-Object -Property MtricNamespace,MetricValue -Unique | Export-Csv -NoTypeInformation $csvOutputPath
-}
+
+$outputObject | Export-Csv -NoTypeInformation "clientNameVerboseMAtricx.csv" #verbose csv
+
+$outputObject | Sort-Object -Property MtricNamespace,MetricValue -Unique | Export-Csv -NoTypeInformation "clientNameNonVerbosMatrix.csv"
+
+Get-ChildItem -Recurse 
+
  
