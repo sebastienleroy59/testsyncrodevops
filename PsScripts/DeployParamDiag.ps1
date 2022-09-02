@@ -7,11 +7,11 @@ $azSub = Get-AzSubscription -SubscriptionId $Subscription
 
 Set-AzContext $azSub.id | Out-Null
 
-#$ctx = New-AzStorageContext -StorageAccountName $StorageAccountName -UseConnectedAccount
+$ctx = New-AzStorageContext -StorageAccountName $StorageAccountName -UseConnectedAccount
 
-#$container = Get-AzStorageContainer -Name $NameContainer -Context $ctx 
+$container = Get-AzStorageContainer -Name $NameContainer -Context $ctx 
 
-#$containerName = $container.Name
+$containerName = $container.Name
 
 #$azSubName = $azSub.Name
 
@@ -19,7 +19,7 @@ $logWkspcResourceId = Get-AzOperationalInsightsWorkspace -Name 'Supervision' -Re
 
 #$Blob = 'MatriceParamDiag' + $azSubName + '.csv'
 
-#Get-AzStorageBlobContent -Context $ctx -Container $containerName -Blob $Blob -Destination $Blob 
+Get-AzStorageBlobContent -Context $ctx -Container $containerName -Blob $env:clientFileNamePrefix"_MatriceParamDiag.csv" -Destination $Blob 
 
 $CSV = Import-Csv -Path $env:clientFileNamePrefix"_MatriceParamDiag.csv" -Delimiter ";"
 
