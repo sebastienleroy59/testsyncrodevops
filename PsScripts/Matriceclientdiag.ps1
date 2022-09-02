@@ -19,12 +19,11 @@ $outputObject = @()
 
 $azSubName = $azSub.Name
 
-$Blob = 'GetParamDiag' + $azSubName + '.csv'
 
 #Get-AzStorageBlobContent -Context $ctx -Container $containerName -Blob $Blob -Destination $Blob
 
 
-$CSV = Import-Csv -Path $Blob -Delimiter ";"
+$CSV = Import-Csv -Path $env:clientFileNamePrefix"_GetParamDiag.csv" -Delimiter ";"
 
 
     foreach ($Type in $CSV) {
@@ -42,10 +41,7 @@ $CSV = Import-Csv -Path $Blob -Delimiter ";"
 
     }
 
-
-$File = 'MatriceParamDiag' + $azSubName + '.csv'
-
-$outputObject | Export-Csv -Path $File -Delimiter ";" 
+$outputObject | Export-Csv -Path $env:clientFileNamePrefix"_MatriceParamDiag.csv" -Delimiter ";" 
 
 
 #Upload a single named file
