@@ -95,7 +95,6 @@ stages:
       - task: PowerShell@2
         displayName: 'Upload Audit files to Storage account'
         inputs:
-          azureSubscription: $(azureServiceConnection)
           targetType: inline
           pwsh: true
           errorActionPreference: continue
