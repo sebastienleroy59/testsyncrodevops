@@ -111,7 +111,7 @@ stages:
           ScriptPath: PsScripts/Matriceclientdiag.ps1
           errorActionPreference: continue
           azurePowerShellVersion: LatestVersion
-      - task: AzureFileCopy@4
+      - task: AzureFileCopy@4 #ServiceConnection must have Storage Blob Data Contributor role on Container
         displayName: 'Upload Audit files to Storage account'
         inputs:
           
