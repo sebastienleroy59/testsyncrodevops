@@ -62,7 +62,8 @@ stages:
         displayName: 'Metrics Alerts Generation'
         inputs:
          pwsh: true
-         filePath: '$(Agent.BuildDirectory)/s/PsScripts/metricMatrixGen.ps1'
+         filePath: 'PsScripts/metricMatrixGen.ps1'
+         #filePath: '$(Agent.BuildDirectory)/s/PsScripts/metricMatrixGen.ps1'
        #arguments:
         #  -typeOfAlertstoFormat 'metrics'
          # -baseDir '$(System.DefaultWorkingDirectory)'
