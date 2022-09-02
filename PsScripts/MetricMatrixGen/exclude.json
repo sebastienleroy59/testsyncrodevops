@@ -23,6 +23,8 @@
     {"resource":"microsoft.Network/privateEndpoints"},
     {"resource":"microsoft.visualstudio/account"},
     {"resource":"Microsoft.Network/networkInterfaces"}
+    {"resource":"icrosoft.Network/networkSecurityGroups"},
+    {"resource":"Microsoft.Network/publicIPAddresses"}
 ]
 
 
