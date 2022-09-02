@@ -1,6 +1,6 @@
 $RGs = Get-AZResource
 $suggestedPercentage = 10
-$exclude = Get-Content -Path .\exclude.json | ConvertFrom-JSON
+$exclude = Get-Content -Path exclude.json | ConvertFrom-JSON
 $outputObject = @()
 
 foreach ($rg in $RGs) {
