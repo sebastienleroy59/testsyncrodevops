@@ -52,11 +52,10 @@ stages:
           ScriptPath: PsScripts/AuditExtensions.ps1
           errorActionPreference: continue
           azurePowerShellVersion: LatestVersion
+
 - stage: MatrixGenerationAndDeployrunEnv
-  
   jobs:
   - job: MatrixGen
-    
     steps:
       - checkout : none
       - task: AzureCLI@2
@@ -115,33 +114,29 @@ stages:
   - job: DeployRunEnv
     dependsOn: ValidateRunEnv
     steps:
-      - task: AzureCLI@2
+      - task: AzureResourceManagerTemplateDeployment@3
         displayName: 'Deploy Resource Group and LAW-storage account'
         inputs:
-          azureSubscription: $(azureServiceConnection)
-          scriptType: batch
-          scriptLocation: inlineScript
-          inlineScript: |
-           az version      
+          azureResourceManagerConnection: $(azureServiceConnection)
+          subscriptionId: $(SubscriptionId)
+          resourceGroupName: $(resourceGroupName)
+          location: 'France Central'
+          csmFile: '$(System.DefaultWorkingDirectory)/loganalytics.bicep'
+          deploymentName: rgandlog    
 
-- stage: ActionGroups
-
-
+- stage: Deploy
   jobs:
   - job: DeployDiagsParams
     steps:
-    
-    - task: AzureCLI@2
+    - task: AzurePowerShell@5
       displayName: 'Deploy Diags Paramas'
       inputs:
         azureSubscription: $(azureServiceConnection)
-        scriptType: batch
-        scriptLocation: inlineScript
-        inlineScript: |
-         az version  
+        ScriptPath: PsScripts/DeployParamDiag.ps1
+        errorActionPreference: continue
+        azurePowerShellVersion: LatestVersion
   - job: DeployActionGroups
     steps:
-    
     - task: AzureCLI@2
       displayName: 'Deploy Action Groups'
       inputs:
@@ -154,9 +149,7 @@ stages:
 - stage: ConvertCSV2Json
   jobs:
   - job: ConvertMetricsAlertsCSVToJson
-    steps:
-
-          
+    steps:  
        - task: AzureCLI@2
          displayName: 'Deploy Action Groups'
          inputs:
@@ -165,7 +158,6 @@ stages:
           scriptLocation: inlineScript
           inlineScript: |
            az version
-   
   - job: ConvertLogsAlertsCSVToJson
     steps:
       - task: AzureCLI@2
@@ -184,15 +176,13 @@ stages:
         scriptType: batch
         scriptLocation: inlineScript
         inlineScript: |
-            az version
-    
+            az version 
   - job: DevelopWaitingApproval
     dependsOn: ConvertMetricsAlertsCSVToJson
     pool: server
     timeoutInMinutes: 4320 # 3 days
 
 - stage: DeployAlerts
-
   dependsOn: ConvertCSV2Json
   jobs:
   - job: DeployAllAlertsTypes
@@ -206,4 +196,16 @@ stages:
         scriptLocation: inlineScript
         inlineScript: |
             az version
+
+- stage: AuditFinal
+  jobs:
+  - job: DiagFinal
+    steps:
+    - task: AzurePowerShell@5
+      displayName: 'Audit Final Param Diag'
+      inputs:
+        azureSubscription: $(azureServiceConnection)
+        ScriptPath: PsScripts/auditfinaldiag.ps1
+        errorActionPreference: continue
+        azurePowerShellVersion: LatestVersion
 
