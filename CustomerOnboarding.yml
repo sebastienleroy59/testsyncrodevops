@@ -111,7 +111,7 @@ stages:
           ScriptPath: PsScripts/Matriceclientdiag.ps1
           errorActionPreference: continue
           azurePowerShellVersion: LatestVersion
-      - task: AzureFileCopy@4
+      - task: AzureFileCopy@5
         displayName: 'Upload Audit files to Storage account'
         inputs:
           
