@@ -10,7 +10,7 @@ foreach ($rg in $RGs) {
 
     
     foreach($resourceTypeInRG in $resourcesTypesInRG){
-    $resourcesByTypeInRg = Get-AzResource -ResourceGroupName $rg -ResourceType $resourceTypeInRG.ResourceType -WarningAction SilentlyContinue
+    $resourcesByTypeInRg = Get-AzResource -ResourceGroupName $rg.ResourceGroupName -ResourceType $resourceTypeInRG.ResourceType -WarningAction SilentlyContinue
     ####NO METRICS FOR FOLLOWING RESOURCES TYPES store in json later or do it by api call ?####
     if(!$resourceTypeInRG.ResourceType.Contains('networkSecurityGroups') -and !$resourceTypeInRG.ResourceType.Contains('virtualMachines/extensions') -and !$resourceTypeInRG.ResourceType.Contains('extensions') -and !$resourceTypeInRG.ResourceType.Contains('registries/replications')  -and !$resourceTypeInRG.ResourceType.Contains('virtualNetworkLinks')){ #skip Microsoft.Compute/virtualMachines/extensions
         foreach ($resource in $resourcesByTypeInRg) {
@@ -30,7 +30,7 @@ foreach ($rg in $RGs) {
                     $res= ($exclude.PSObject.Properties.Match($propToCheck).count -eq 1 -and $exclude.$propToCheck.Contains($metric.Name.Value) -eq $true )
                     if(!$res){
                         if($verboseOutput){
-                            $outputObject += [PSCustomObject]@{targetResourceName=$resource.Name;resourceRG=$rg;targetResourceType=$resourceTypeInRG.ResourceType;alertDescription="";alertMetricNameSpace=$propToCheck;alertMetricName=$metric.Name.Value;alertSev=1;alertDimensions="";alertOperator="GreaterThanOrEqual";alertTimeAggregation="Average";evaluationFreq="PT5M";windowsSize="PT30M";alertTreshold=$suggestedTresholdVal} ###retreivemtricunit to make it dynamic
+                            $outputObject += [PSCustomObject]@{targetResourceName=$resource.Name;resourceRG=$rg.ResourceGroupName;targetResourceType=$resourceTypeInRG.ResourceType;alertDescription="";alertMetricNameSpace=$propToCheck;alertMetricName=$metric.Name.Value;alertSev=1;alertDimensions="";alertOperator="GreaterThanOrEqual";alertTimeAggregation="Average";evaluationFreq="PT5M";windowsSize="PT30M";alertTreshold=$suggestedTresholdVal} ###retreivemtricunit to make it dynamic
                         }else{
                             $outputObject += [PSCustomObject]@{MtricNamespace=$propToCheck;MetricValue=$metric.Name.Value;Sev=1;EvaluationFreq="PT5M";TimeWindow="PT30M";TresHold="XX";} ###retreivemtricunit to make it dynamic
                         }
