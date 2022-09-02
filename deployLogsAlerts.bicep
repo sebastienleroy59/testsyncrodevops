@@ -1,7 +1,7 @@
 
 param LogsAlertsParams array
 
-module LogAlertResource 'logAlertModule.bicep' =  [for (logAlertsParams,i) in LogsAlertsParams: {
+module LogAlertResource 'BicepModules/logAlertModule.bicep' =  [for (logAlertsParams,i) in LogsAlertsParams: {
   name: 'LogAlertDeployment-${logAlertsParams.targetResourceTypeFriendlyName}-${i}'
   params: {
       alertDescription:''

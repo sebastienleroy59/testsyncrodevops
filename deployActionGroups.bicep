@@ -4,7 +4,7 @@ var actionGroupSevSuffixes = ['Critical','Error','Warning','Informational']//fin
 var squadraMail = 'support@squadra-run.com'
 var squadraPhone = '34444444'
 var squadraMailName = 'SquadraMail'
-module LogAlertResource 'actionGroupModule.bicep' =  [for (actionGroupSevSuffix,i) in actionGroupSevSuffixes: {
+module LogAlertResource 'BicepModules/actionGroupModule.bicep' =  [for (actionGroupSevSuffix,i) in actionGroupSevSuffixes: {
   name: '${actionGroupPrefix}-${actionGroupSevSuffix}-${i}'
   params: {
       actionGroupName:'${actionGroupPrefix}-${actionGroupSevSuffix}'
