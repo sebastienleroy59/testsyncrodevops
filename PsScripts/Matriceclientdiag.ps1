@@ -17,7 +17,7 @@ $outputObject = @()
 
 #$containerName = $container.Name
 
-$azSubName = $azSub.Name
+#$azSubName = $azSub.Name
 
 
 #Get-AzStorageBlobContent -Context $ctx -Container $containerName -Blob $Blob -Destination $Blob
