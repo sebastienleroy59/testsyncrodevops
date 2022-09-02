@@ -12,7 +12,8 @@ foreach ($rg in $RGs) {
     foreach($resourceTypeInRG in $resourcesTypesInRG){
     $resourcesByTypeInRg = Get-AzResource -ResourceGroupName $rg.ResourceGroupName -ResourceType $resourceTypeInRG.ResourceType -WarningAction SilentlyContinue
     $isExcludedResource = $exclude.resource | Where-Object {$_ -match $resourceTypeInRG.ResourceType} | Measure-Object
-       if($isExcludedResource -eq 0){
+    write-host "Resultat :" $isExcludedResource
+       if($isExcludedResource.Count -eq 0){
         foreach ($resource in $resourcesByTypeInRg) {
             #try {
                 write-host $resourceTypeInRG.ResourceType " ---- " $resource.ResourceId
