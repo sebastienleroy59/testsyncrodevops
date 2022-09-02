@@ -97,6 +97,7 @@ stages:
         inputs:
           azureSubscription: $(azureServiceConnection)
           targetType: inline
+          pwsh: true
           errorActionPreference: continue
           azurePowerShellVersion: LatestVersion
           script: |
