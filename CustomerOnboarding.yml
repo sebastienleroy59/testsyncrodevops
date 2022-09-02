@@ -120,8 +120,8 @@ stages:
              $ctx = New-AzStorageContext -StorageAccountName $env:StorageAccountName -UseConnectedAccount
              $container = Get-AzStorageContainer -Name $env:NameContainer -Context $ctx 
              mkdir alertsCsv
-             Get-AzStorageBlobContent -Container $container.Name -Blob $env:clientFileNamePrefix__verbosMetricMatrix.csv -Destination alertsCsv -Context $ctx
-             Get-AzStorageBlobContent -Container $container.Name -Blob $env:clientFileNamePrefix__NonVerboseMetricMatrix.csv -Destination alertsCsv -Context $ctx
+             Get-AzStorageBlobContent -Container $container.Name -Blob $env:clientFileNamePrefix"__verbosMetricMatrix.csv" -Destination alertsCsv -Context $ctx
+             Get-AzStorageBlobContent -Container $container.Name -Blob $env:clientFileNamePrefix"__NonVerboseMetricMatrix.csv" -Destination alertsCsv -Context $ctx
              Get-ChildItem  -Path alertsCsv
              
             
