@@ -14,7 +14,7 @@ foreach ($rg in $RGs) {
     ####NO METRICS FOR FOLLOWING RESOURCES TYPES store in json later or do it by api call ?####
     if(!$resourceTypeInRG.ResourceType.Contains('networkSecurityGroups') -and !$resourceTypeInRG.ResourceType.Contains('virtualMachines/extensions') -and !$resourceTypeInRG.ResourceType.Contains('extensions') -and !$resourceTypeInRG.ResourceType.Contains('registries/replications')  -and !$resourceTypeInRG.ResourceType.Contains('virtualNetworkLinks')){ #skip Microsoft.Compute/virtualMachines/extensions
         foreach ($resource in $resourcesByTypeInRg) {
-            try {
+            #try {
                 write-host $resourceTypeInRG.ResourceType
                 $metrics =  Get-AzMetricDefinition -ResourceId $resource.ResourceId -WarningAction SilentlyContinue  
                  foreach($metric in $metrics)
@@ -38,11 +38,11 @@ foreach ($rg in $RGs) {
                 } 
            
              
-            }
-            catch {
-                Write-Host "Execution finished with an error..." -ForegroundColor Red
-                Write-Host $errors[0]
-            }
+            #}
+            #catch {
+                #Write-Host "Execution finished with an error..." -ForegroundColor Red
+                #Write-Host $errors[0]
+            #}
         } 
 
     }
