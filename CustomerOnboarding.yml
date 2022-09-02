@@ -1,12 +1,18 @@
 name: Deploy Alerts using bicep multistage
 variables:
    azureServiceConnection: 'Squadra12k-SEBL'
+   Location: 'francecentral'
    resourceGroupName: 'rg-infra'
    metricsTemplate: 'deployMetricsAlerts.bicep'
    logsTemplate: 'deployLogsAlerts.bicep'
    activityTemplate: 'deployActivityAlerts.bicep'
    metricsParametersFilePath: '$(System.DefaultWorkingDirectory)/AlertsDefinitions/metricsAlerts.json'
    logsParametersFilePath: '$(System.DefaultWorkingDirectory)/AlertsDefinitions/logsAlerts.json'
+   StorageAccountName: 'testparamdiag'
+   NameContainer: 'paramdiag'
+   SubscriptionId: '0410a600-1bea-44c9-b7ee-3e4847c6a600'
+   templatePathBICEPST: '$(System.DefaultWorkingDirectory)/storageaccount.bicep'
+   logWkspcResourceId: '/subscriptions/0410a600-1bea-44c9-b7ee-3e4847c6a600/resourceGroups/RG-TESTSEBL/providers/Microsoft.OperationalInsights/workspaces/Supervision'
 pool:
   #name: Azure Pipelines
   name: Default
@@ -18,38 +24,34 @@ stages:
   jobs:
   - job: AuditDiag
     steps:
-      - task: AzureCLI@2
+      - task: AzurePowerShell@5
         displayName: 'Params'
         inputs:
           azureSubscription: $(azureServiceConnection)
-          scriptType: batch
-          scriptLocation: inlineScript
-          inlineScript: |
-           az version
-      - task: AzureCLI@2
+          scriptPath: PsScripts/auditparamDiag.ps1
+          errorActionPreference: continue
+          azurePowerShellVersion: LatestVersion  
+      - task: AzurePowerShell@5
         displayName: 'Resources'
         inputs:
           azureSubscription: $(azureServiceConnection)
-          scriptType: batch
-          scriptLocation: inlineScript
-          inlineScript: |
-           az version
-      - task: AzureCLI@2
+          ScriptPath: PsScripts/Auditresource.ps1
+          errorActionPreference: continue
+          azurePowerShellVersion: LatestVersion
+      - task: AzurePowerShell@5
         displayName: 'Extensions'
         inputs:
           azureSubscription: $(azureServiceConnection)
-          scriptType: batch
-          scriptLocation: inlineScript
-          inlineScript: |
-           az version
-      - task: AzureCLI@2
+          ScriptPath: PsScripts/AuditExtensions.ps1
+          errorActionPreference: continue
+          azurePowerShellVersion: LatestVersion
+      - task: AzurePowerShell@5
         displayName: 'Logs and Metrics'
         inputs:
           azureSubscription: $(azureServiceConnection)
-          scriptType: batch
-          scriptLocation: inlineScript
-          inlineScript: |
-           az version
+          ScriptPath: PsScripts/AuditExtensions.ps1
+          errorActionPreference: continue
+          azurePowerShellVersion: LatestVersion
 - stage: MatrixGenerationAndDeployrunEnv
   
   jobs:
@@ -81,22 +83,20 @@ stages:
           scriptLocation: inlineScript
           inlineScript: |
            az version
-      - task: AzureCLI@2
+      - task: AzurePowerShell@5
         displayName: 'Get Diagnostics Params'
         inputs:
           azureSubscription: $(azureServiceConnection)
-          scriptType: batch
-          scriptLocation: inlineScript
-          inlineScript: |
-           az version
-      - task: AzureCLI@2
+          ScriptPath: PsScripts/GetdiagSettingCategory.ps1
+          errorActionPreference: continue
+          azurePowerShellVersion: LatestVersion
+      - task: AzurePowerShell@5
         displayName: 'Diagnostics Params settings gen'
         inputs:
           azureSubscription: $(azureServiceConnection)
-          scriptType: batch
-          scriptLocation: inlineScript
-          inlineScript: |
-           az version
+          ScriptPath: PsScripts/Matriceclientdiag.ps1
+          errorActionPreference: continue
+          azurePowerShellVersion: LatestVersion
   - job: ValidateRunEnv
     pool: server
     dependsOn: MatrixGen
@@ -108,6 +108,7 @@ stages:
          notifyUsers: |
             sebastien.dillier@squadra-run.com
             sebastien.leroy@squadra-run.com
+            romain.rodrigues@squadra-run.com
             
          instructions: 'Please validate the build in order to deploy RG and storage accounts and LAW on customer infra'
          onTimeout: 'resume' 
