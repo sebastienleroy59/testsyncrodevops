@@ -1,7 +1,7 @@
-$logWkspcResourceId = $env:logWkspcResourceId
 $StorageAccountName = $env:StorageAccountName
 $NameContainer = $env:NameContainer
 $Subscription = $env:SubscriptionId
+$resourceGroupName = $env:resourceGroupName
 
 $azSub = Get-AzSubscription -SubscriptionId $Subscription
 
@@ -14,6 +14,8 @@ $container = Get-AzStorageContainer -Name $NameContainer -Context $ctx
 $containerName = $container.Name
 
 $azSubName = $azSub.Name
+
+$logWkspcResourceId = Get-AzOperationalInsightsWorkspace -Name 'Supervision' -ResourceGroupName $resourceGroupName | Select-Object ResourceId
 
 $Blob = 'MatriceParamDiag' + $azSubName + '.csv'
 

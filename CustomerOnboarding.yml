@@ -2,7 +2,7 @@ name: Deploy Alerts using bicep multistage
 variables:
    azureServiceConnection: 'Squadra12k-SEBL'
    Location: 'francecentral'
-   resourceGroupName: 'rg-infra'
+   resourceGroupName: 'rg-test-cmr'
    metricsTemplate: 'deployMetricsAlerts.bicep'
    logsTemplate: 'deployLogsAlerts.bicep'
    activityTemplate: 'deployActivityAlerts.bicep'
@@ -11,8 +11,6 @@ variables:
    StorageAccountName: 'testparamdiag'
    NameContainer: 'paramdiag'
    SubscriptionId: '0410a600-1bea-44c9-b7ee-3e4847c6a600'
-   templatePathBICEPST: '$(System.DefaultWorkingDirectory)/storageaccount.bicep'
-   logWkspcResourceId: '/subscriptions/0410a600-1bea-44c9-b7ee-3e4847c6a600/resourceGroups/RG-TESTSEBL/providers/Microsoft.OperationalInsights/workspaces/Supervision'
 pool:
   #name: Azure Pipelines
   name: Default
@@ -123,7 +121,10 @@ stages:
           resourceGroupName: $(resourceGroupName)
           location: 'France Central'
           csmFile: '$(System.DefaultWorkingDirectory)/loganalytics.bicep'
-          deploymentName: rgandlog    
+          deploymentName: rgandlog
+        outputs:
+          resourceGroupName: resourceGroupName
+          logAnalyticsWorkspaceId: logAnalyticsWorkspaceId    
 
 - stage: Deploy
   jobs:
