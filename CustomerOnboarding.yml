@@ -63,9 +63,9 @@ stages:
        
 
       #- checkout : none
-       - task: PowerShell@2
-         displayName: 'Metrics Alerts Generation'
-         inputs:
+      - task: PowerShell@2
+        displayName: 'Metrics Alerts Generation'
+        inputs:
           pwsh: true
           filePath: 'PsScripts/MetricMatrixGen/metricMatrixGen.ps1'
          
