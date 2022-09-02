@@ -49,7 +49,7 @@ stages:
         displayName: 'Logs and Metrics'
         inputs:
           azureSubscription: $(azureServiceConnection)
-          ScriptPath: PsScripts/AuditExtensions.ps1
+          ScriptPath: PsScripts/Auditmetrique.ps1
           errorActionPreference: continue
           azurePowerShellVersion: LatestVersion
 
