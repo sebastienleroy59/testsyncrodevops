@@ -57,7 +57,7 @@ stages:
   jobs:
   - job: MatrixGen
     steps:
-      - checkout : none
+      #- checkout : none
       - task: PowerShell@2
         displayName: 'Metrics Alerts Generation'
         inputs:
