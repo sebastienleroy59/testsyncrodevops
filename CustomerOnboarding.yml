@@ -110,8 +110,8 @@ stages:
           ContainerName: $(NameContainer)
       
       - task: PowerShell@2
-         displayName: 'Download Metric Alert csv matrix'
-         inputs:
+        displayName: 'Download Metric Alert csv matrix'
+        inputs:
            targetType: inline
            errorActionPreference: continue
            azurePowerShellVersion: LatestVersion
