@@ -60,26 +60,14 @@ stages:
     
 
 
-      # - task: PowerShell@2
-      #   displayName: 'Upload Audit files to Storage account'
-      #   inputs:
-      #     targetType: inline
-      #     #azureSubscription: $(azureServiceConnection)
-      #     errorActionPreference: continue
-      #     azurePowerShellVersion: LatestVersion
-      #     pwsh: true
-      #     script: |
-      #       Get-ChildItem
-      #       Connect-
-      #       $ctx = New-AzStorageContext -StorageAccountName $env:StorageAccountName -UseConnectedAccount
-      #       $container = Get-AzStorageContainer -Name $env:NameContainer -Context $ctx 
-      #       Get-ChildItem -File -Filter *.bicep | Set-AzStorageBlobContent -Container $container.Name -Context $ctx
+       
+
       #- checkout : none
-      - task: PowerShell@2
-        displayName: 'Metrics Alerts Generation'
-        inputs:
-         pwsh: true
-         filePath: 'PsScripts/MetricMatrixGen/metricMatrixGen.ps1'
+      # - task: PowerShell@2
+      #   displayName: 'Metrics Alerts Generation'
+      #   inputs:
+      #    pwsh: true
+      #    filePath: 'PsScripts/MetricMatrixGen/metricMatrixGen.ps1'
          
       - task: AzureCLI@2
         displayName: 'Log matrix gen'
@@ -120,6 +108,20 @@ stages:
           Destination: AzureBlob
           storage: $(StorageAccountName)
           ContainerName: $(NameContainer)
+      - task: PowerShell@2
+         displayName: 'Download Metric Alert csv matrix'
+         inputs:
+           targetType: inline
+           errorActionPreference: continue
+           azurePowerShellVersion: LatestVersion
+           pwsh: true
+           script: |
+             $ctx = New-AzStorageContext -StorageAccountName $env:StorageAccountName -UseConnectedAccount
+             $container = Get-AzStorageContainer -Name $env:NameContainer -Context $ctx 
+             #Get-ChildItem -File -Filter *.bicep | Set-AzStorageBlobContent -Container $container.Name -Context $ctx
+             mkdir alertsCsv
+             Get-AzStorageBlobContent -Container $container.Name -Blob alertsCsv\SquadraDevOps_0410a600-1bea-44c9-b7ee-3e4847c6a600__GetParamDiag.csv -Context $ctx
+             Get-ChildItem
             
   - job: ValidateRunEnv
     pool: server
