@@ -224,14 +224,23 @@ stages:
   - job: DeployAllAlertsTypes
     steps:
     - checkout: none
+    - task: DownloadPipelineArtifact@2
+      displayName: 'DownloadMetricsArtifact'
+      inputs:
+        buildType: 'current'
+        artifactName: 'ParametersFilesMetrics'
+        targetPath: '$(System.DefaultWorkingDirectory)'
+        patterns: '**'
+
     - task: AzureCLI@2
-      displayName: 'Deploy Action Groups'
+      displayName: 'Deploy Metrics Alerts'
       inputs:
         azureSubscription: $(azureServiceConnection)
-        scriptType: batch
+        scriptType: bash
         scriptLocation: inlineScript
         inlineScript: |
-            az version
+          az deployment group create --resource-group $(resourceGroupName) --template-file $(metricsTemplate) --parameters $(System.DefaultWorkingDirectory)/AlertsDefinitions/metricsAlerts.json
+
 
 - stage: AuditFinal
   jobs:
