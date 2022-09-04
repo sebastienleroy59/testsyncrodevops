@@ -236,7 +236,7 @@ stages:
       displayName: 'Deploy Metrics Alerts'
       inputs:
         azureSubscription: $(azureServiceConnection)
-        scriptType: bash
+        scriptType: batch
         scriptLocation: inlineScript
         inlineScript: |
           az deployment group create --resource-group $(resourceGroupName) --template-file $(metricsTemplate) --parameters $(System.DefaultWorkingDirectory)/AlertsDefinitions/metricsAlerts.json
