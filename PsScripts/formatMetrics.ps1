@@ -16,7 +16,7 @@ param(
 write-Host $typeOfAlertstoFormat - $csvFilePath
 
 $csvFileToConvert=import-csv -Delimiter ";" $csvFilePath
-csvFileToConvert
+$csvFileToConvert
 if($typeOfAlertstoFormat -ne "activity"){
     
     
