@@ -193,6 +193,7 @@ stages:
           targetPath: '$(System.DefaultWorkingDirectory)'
           artifact: 'ParametersFilesMetrics'
           publishLocation: 'pipeline'
+          path: alertsCsv
   - job: ConvertLogsAlertsCSVToJson
     steps:
       - task: AzureCLI@2
