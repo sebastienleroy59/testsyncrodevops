@@ -187,7 +187,7 @@ stages:
             arguments:
              -typeOfAlertstoFormat 'metrics'
              -baseDir '$(System.DefaultWorkingDirectory)'
-             -csvFilePath "$(System.DefaultWorkingDirectory)\alertsCsv\$($env:clientFileNamePrefix)_NonVerboseMetricMatrix.csv"
+             -csvFilePath "$(System.DefaultWorkingDirectory)\alertsCsv\$($env:clientFileNamePrefix)_verbosMetricMatrix.csv"
        - task: PublishPipelineArtifact@1
          inputs:
           targetPath: '$(System.DefaultWorkingDirectory)'
