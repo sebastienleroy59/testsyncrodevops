@@ -13,15 +13,15 @@ $container = Get-AzStorageContainer -Name $NameContainer -Context $ctx
 
 $containerName = $container.Name
 
-$azSubName = $azSub.Name
+#$azSubName = $azSub.Name
 
 $logWkspcResourceId = Get-AzOperationalInsightsWorkspace -Name 'Supervision' -ResourceGroupName $resourceGroupName | Select-Object ResourceId
 
-$Blob = 'MatriceParamDiag' + $azSubName + '.csv'
+#$Blob = 'MatriceParamDiag' + $azSubName + '.csv'
 
-Get-AzStorageBlobContent -Context $ctx -Container $containerName -Blob $Blob -Destination $Blob 
+Get-AzStorageBlobContent -Context $ctx -Container $containerName -Blob $env:clientFileNamePrefix"_MatriceParamDiag.csv" -Destination $Blob 
 
-$CSV = Import-Csv -Path "./_InternalTooling/DiagnosticSettingsAudit/$Blob" -Delimiter ";"
+$CSV = Import-Csv -Path $env:clientFileNamePrefix"_MatriceParamDiag.csv" -Delimiter ";"
 
 $CSV
 

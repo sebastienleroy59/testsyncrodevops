@@ -8,9 +8,11 @@ variables:
    activityTemplate: 'deployActivityAlerts.bicep'
    metricsParametersFilePath: '$(System.DefaultWorkingDirectory)/AlertsDefinitions/metricsAlerts.json'
    logsParametersFilePath: '$(System.DefaultWorkingDirectory)/AlertsDefinitions/logsAlerts.json'
-   StorageAccountName: 'testparamdiag'
-   NameContainer: 'paramdiag'
+   StorageAccountName: 'squadrastorage'
+   NameContainer: 'customersaudits'
    SubscriptionId: '0410a600-1bea-44c9-b7ee-3e4847c6a600'
+   clientName: 'SquadraDevOps'
+   clientFileNamePrefix: '$(clientName)_$(SubscriptionId)_'
 pool:
   #name: Azure Pipelines
   name: Default
@@ -55,16 +57,18 @@ stages:
   jobs:
   - job: MatrixGen
     steps:
+    
+
+
+       
+
       #- checkout : none
       - task: PowerShell@2
         displayName: 'Metrics Alerts Generation'
         inputs:
-         pwsh: true
-         filePath: '$(System.DefaultWorkingDirectory)/PsScripts/MetricMatrixGen/metricMatrixGen.ps1'
-         #filePath: '$(Agent.BuildDirectory)/s/PsScripts/metricMatrixGen.ps1'
-       #arguments:
-        #  -typeOfAlertstoFormat 'metrics'
-         # -baseDir '$(System.DefaultWorkingDirectory)'
+          pwsh: true
+          filePath: 'PsScripts/MetricMatrixGen/metricMatrixGen.ps1'
+         
       - task: AzureCLI@2
         displayName: 'Log matrix gen'
         inputs:
@@ -95,12 +99,25 @@ stages:
           ScriptPath: PsScripts/Matriceclientdiag.ps1
           errorActionPreference: continue
           azurePowerShellVersion: LatestVersion
+      - task: AzureFileCopy@4 #ServiceConnection must have Storage Blob Data Contributor role on Container
+        displayName: 'Upload Audit files to Storage account'
+        inputs:
+          
+          SourcePath: '$(System.DefaultWorkingDirectory)/*.csv'
+          azureSubscription: $(azureServiceConnection)
+          Destination: AzureBlob
+          storage: $(StorageAccountName)
+          ContainerName: $(NameContainer)
+      
+
+             
+            
   - job: ValidateRunEnv
     pool: server
     dependsOn: MatrixGen
     steps:
       - task: ManualValidation@0
-        timeoutInMinutes: 1440 # matrix ruploaded to storage account and validated
+        timeoutInMinutes: 1440 # matrix reuploaded to storage account and validated
         
         inputs:
          notifyUsers: |
@@ -121,11 +138,7 @@ stages:
           resourceGroupName: $(resourceGroupName)
           location: 'France Central'
           csmFile: '$(System.DefaultWorkingDirectory)/loganalytics.bicep'
-          deploymentName: rgandlog
-        #outputs:
-         # resourceGroupName: resourceGroupName
-          #logAnalyticsWorkspaceId: logAnalyticsWorkspaceId    
-
+          deploymentName: rgandlog 
 - stage: Deploy
   jobs:
   - job: DeployDiagsParams
@@ -152,14 +165,34 @@ stages:
   jobs:
   - job: ConvertMetricsAlertsCSVToJson
     steps:  
-       - task: AzureCLI@2
-         displayName: 'Deploy Action Groups'
+       - task: PowerShell@2
+         displayName: 'Download Metric Alert logs adminalerts csv matrixes' ### ajouter le download des logs, admin alerts
          inputs:
-          azureSubscription: $(azureServiceConnection)
-          scriptType: batch
-          scriptLocation: inlineScript
-          inlineScript: |
-           az version
+            targetType: inline
+            errorActionPreference: continue
+            pwsh: true
+            script: |
+              $ctx = New-AzStorageContext -StorageAccountName $env:StorageAccountName -UseConnectedAccount
+              $container = Get-AzStorageContainer -Name $env:NameContainer -Context $ctx 
+              mkdir alertsCsv
+              Get-AzStorageBlobContent -Container $container.Name -Blob $env:clientFileNamePrefix"_verbosMetricMatrix.csv" -Destination alertsCsv -Context $ctx
+              Get-AzStorageBlobContent -Container $container.Name -Blob $env:clientFileNamePrefix"_NonVerboseMetricMatrix.csv" -Destination alertsCsv -Context $ctx
+              #Get-ChildItem  -Path alertsCsv
+
+       - task: PowerShell@2
+         displayName: 'FormatMetricsToJSON'
+         inputs:
+            pwsh: true
+            filePath: 'PsScripts/formatMetrics.ps1'
+            arguments:
+             -typeOfAlertstoFormat 'metrics'
+             -baseDir '$(System.DefaultWorkingDirectory)'
+             -csvFilePath '$(System.DefaultWorkingDirectory)\alertsCsv\$($env:clientFileNamePrefix)_NonVerboseMetricMatrix.csv'
+       - task: PublishPipelineArtifact@1
+         inputs:
+          targetPath: '$(System.DefaultWorkingDirectory)'
+          artifact: 'ParametersFilesMetrics'
+          publishLocation: 'pipeline'
   - job: ConvertLogsAlertsCSVToJson
     steps:
       - task: AzureCLI@2

@@ -16,18 +16,18 @@ $azMetriqueV2s = Get-AzMetricAlertRuleV2
     }
 
 
-$azSubName = $azSub.Name
-$FileV2 = 'AuditFinalAlertRuleV2' + $azSubName + '.csv'
+#$azSubName = $azSub.Name
+#$FileV2 = 'AuditFinalAlertRuleV2' + $azSubName + '.csv'
 
-$outputObject | Export-Csv -Path $FileV2 -Delimiter ";" 
+$outputObject | Export-Csv -Path $env:clientFileNamePrefix"_AuditFinalAlertRuleV2.csv" -Delimiter ";" 
 
 #Create a context object using Azure AD credentials
-$ctx = New-AzStorageContext -StorageAccountName $StorageAccountName -UseConnectedAccount
+#$ctx = New-AzStorageContext -StorageAccountName $StorageAccountName -UseConnectedAccount
 
 #Create a container object
-$container = Get-AzStorageContainer -Name $NameContainer -Context $ctx 
+#$container = Get-AzStorageContainer -Name $NameContainer -Context $ctx 
 
-$containerName = $container.Name
+#$containerName = $container.Name
 
 #Upload a single named file
-Set-AzStorageBlobContent -File $FileV2 -Container $containerName -Context $ctx
+#Set-AzStorageBlobContent -File $FileV2 -Container $containerName -Context $ctx
