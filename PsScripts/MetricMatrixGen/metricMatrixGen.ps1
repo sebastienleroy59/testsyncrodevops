@@ -53,7 +53,7 @@ foreach ($rg in $RGs) {
 }
 
 
-$outputObjectVerbose | Export-Csv -NoTypeInformation $env:clientFileNamePrefix"_verbosMetricMatrix.csv" -Delimiter ";" #verbose csv
+$outputObjectVerbose | Export-Csv -NoTypeInformation $env:clientFileNamePrefix"_verboseMetricMatrix.csv" -Delimiter ";" #verbose csv
 
 $outputObject | Sort-Object -Property MtricNamespace,MetricValue -Unique | Export-Csv -NoTypeInformation $env:clientFileNamePrefix"_NonVerboseMetricMatrix.csv"  -Delimiter ";" 
 
