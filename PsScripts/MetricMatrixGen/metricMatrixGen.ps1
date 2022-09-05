@@ -30,7 +30,7 @@ foreach ($rg in $RGs) {
                     $propToCheck = $metricSplitted[6]+"/"+$metricSplitted[7].replace(' ','')
                     
                        
-                            $outputObjectVerbose += [PSCustomObject]@{MetricNamespace=$propToCheck;targetResourceName=$resource.Name;targetResourceTypeFriendlyName=$resource.Name.Substring(0,3);resourceRG=$rg.ResourceGroupName;targetResourceType=$resourceTypeInRG.ResourceType;alertDescription="";alertMetricNameSpace=$propToCheck;alertMetricName=$metric.Name.Value;alertSev=1;alertDimensions="";alertOperator="GreaterThanOrEqual";alertTimeAggregation="Average";evaluationFreq="PT5M";windowsSize="PT30M";alertTreshold=$suggestedTresholdVal} ###retreivemtricunit to make it dynamic
+                            $outputObjectVerbose += [PSCustomObject]@{MetricNamespace=$propToCheck;targetResourceName=$resource.Name;targetResourceTypeFriendlyName=$resource.Name.Substring(0,3);resourceRG=$rg.ResourceGroupName;targetResourceType=$resourceTypeInRG.ResourceType;alertDescription="";alertMetricNameSpace=$propToCheck;alertMetricName=$metric.Name.Value;alertSev=1;alertDimensions="";alertOperator="GreaterThanOrEqual";alertTimeAggregation="Average";evaluationFreq="PT5M";windowsSize="PT30M";alertTreshold=[math]::Round($suggestedTresholdVal)} ###retreivemtricunit to make it dynamic
                         
                             $outputObject += [PSCustomObject]@{MetricNamespace=$propToCheck;MetricValue=$metric.Name.Value;Sev=1;EvaluationFreq="PT5M";TimeWindow="PT30M";TresHold="XX";} ###retreivemtricunit to make it dynamic
                         
