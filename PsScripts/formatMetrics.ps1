@@ -20,7 +20,7 @@ $csvFileToConvert
 if($typeOfAlertstoFormat -ne "activity"){
     
     
-    foreach($alertLine in $csvFileToConvert){
+    foreach($alertLine in $csvFileToConvert){ ###DANS LE CSV Status|Exclude|test!test2!test3,ActivityName|Include|*;
         if($alertLine.alertDimensions -ne ""){
             $dimensionsArray=@()
             $dimensions = $alertLine.alertDimensions.Split(',')
