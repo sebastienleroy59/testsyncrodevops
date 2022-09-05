@@ -176,20 +176,20 @@ stages:
               Get-AzStorageBlobContent -Container $container.Name -Blob $env:clientFileNamePrefix"_verbosMetricMatrix.csv" -Destination alertsCsv -Context $ctx
               Get-AzStorageBlobContent -Container $container.Name -Blob $env:clientFileNamePrefix"_NonVerboseMetricMatrix.csv" -Destination alertsCsv -Context $ctx
               #Get-ChildItem  -Path alertsCsv
-         - task: PowerShell@2
-           displayName: 'FormatMetricsToJSON'
-           inputs:
+       - task: PowerShell@2
+         displayName: 'FormatMetricsToJSON'
+         inputs:
             pwsh: true
             filePath: 'PsScripts/formatMetrics.ps1'
             arguments:
               -typeOfAlertstoFormat 'metrics'
               -baseDir '$(System.DefaultWorkingDirectory)'
               -csvFilePath '$(System.DefaultWorkingDirectory)\alertsCsv\'
-    - task: PublishPipelineArtifact@1
-      inputs:
-       targetPath: '$(System.DefaultWorkingDirectory)'
-       artifact: 'ParametersFilesMetrics'
-       publishLocation: 'pipeline'
+       - task: PublishPipelineArtifact@1
+         inputs:
+           targetPath: '$(System.DefaultWorkingDirectory)'
+           artifact: 'ParametersFilesMetrics'
+           publishLocation: 'pipeline'
   - job: ConvertLogsAlertsCSVToJson
     steps:
       - task: AzureCLI@2
