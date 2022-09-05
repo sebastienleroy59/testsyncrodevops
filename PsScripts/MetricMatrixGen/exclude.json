@@ -25,7 +25,8 @@
     {"resource":"Microsoft.Network/networkInterfaces"},
     {"resource":"Microsoft.Network/networkSecurityGroups"},
     {"resource":"Microsoft.Network/publicIPAddresses"},
-    {"resource":"Microsoft.Network/virtualNetworks"}
+    {"resource":"Microsoft.Network/virtualNetworks"},
+    {"resource":"Microsoft.OperationalInsights/workspaces"}
 ]
 
 
