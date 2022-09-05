@@ -27,7 +27,8 @@
     {"resource":"Microsoft.Network/publicIPAddresses"},
     {"resource":"Microsoft.Network/virtualNetworks"},
     {"resource":"Microsoft.OperationalInsights/workspaces"},
-    {"resource":"Microsoft.Compute/disks"}
+    {"resource":"Microsoft.Compute/disks"} 
+    
 ]
 
 
