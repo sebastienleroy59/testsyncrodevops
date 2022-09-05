@@ -258,6 +258,13 @@ stages:
         scriptLocation: inlineScript
         inlineScript: |
           az deployment group create --resource-group $(resourceGroupName) --template-file $(metricsTemplate) --parameters $(System.DefaultWorkingDirectory)/metricsAlerts.json
+    - task: DownloadPipelineArtifact@2
+      displayName: 'DownloadLogsArtifact'
+      inputs:
+        buildType: 'current'
+        artifactName: 'ParametersFilesLogs'
+        targetPath: '$(System.DefaultWorkingDirectory)'
+        patterns: '**'
     - task: AzureCLI@2
       displayName: 'Deploy Logs Alerts'
       inputs:
@@ -266,6 +273,13 @@ stages:
         scriptLocation: inlineScript
         inlineScript: |
           az deployment group create --resource-group $(resourceGroupName) --template-file $(logsTemplate) --parameters $(System.DefaultWorkingDirectory)/logsAlerts.json
+    - task: DownloadPipelineArtifact@2
+      displayName: 'DownloadAcitivyLogsArtifact'
+      inputs:
+        buildType: 'current'
+        artifactName: 'ParametersFilesActivityLogs'
+        targetPath: '$(System.DefaultWorkingDirectory)'
+        patterns: '**'
     - task: AzureCLI@2
       displayName: 'Deploy ActivityLogs Alerts'
       inputs:
