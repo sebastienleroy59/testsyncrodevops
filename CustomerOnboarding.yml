@@ -258,6 +258,22 @@ stages:
         scriptLocation: inlineScript
         inlineScript: |
           az deployment group create --resource-group $(resourceGroupName) --template-file $(metricsTemplate) --parameters $(System.DefaultWorkingDirectory)/metricsAlerts.json
+    - task: AzureCLI@2
+      displayName: 'Deploy Logs Alerts'
+      inputs:
+        azureSubscription: $(azureServiceConnection)
+        scriptType: batch
+        scriptLocation: inlineScript
+        inlineScript: |
+          az deployment group create --resource-group $(resourceGroupName) --template-file $(logsTemplate) --parameters $(System.DefaultWorkingDirectory)/logsAlerts.json
+    - task: AzureCLI@2
+      displayName: 'Deploy ActivityLogs Alerts'
+      inputs:
+        azureSubscription: $(azureServiceConnection)
+        scriptType: batch
+        scriptLocation: inlineScript
+        inlineScript: |
+          az deployment group create --resource-group $(resourceGroupName) --template-file $(activityTemplate) --parameters $(System.DefaultWorkingDirectory)/activityAlerts.json
 
 
 - stage: AuditFinal
