@@ -34,6 +34,8 @@ foreach($Resource in $Resources){
                     evaluationFreq = "PT1M"
                     windowsSize = "PT5M"
                     alertTreshold = ""
+                    alertDimensions = ""
+                    alertMeasureColumn = ""
                     alertQuery = $Logs[$index].queries[$i] -join ","
                 }
             }
@@ -41,5 +43,6 @@ foreach($Resource in $Resources){
     }
 }
 
+
 ## Export en CSV
-$outputObject | Export-Csv -Path ".\MatriceLogsKQL.csv" -Delimiter ";" -NoTypeInformation
+$outputObject | Export-Csv -Path $env:clientFileNamePrefix"_MatriceLogsKQL.csv" -Delimiter ";" -NoTypeInformation

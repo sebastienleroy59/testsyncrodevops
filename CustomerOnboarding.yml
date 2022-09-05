@@ -69,16 +69,13 @@ stages:
           pwsh: true
           filePath: 'PsScripts/MetricMatrixGen/metricMatrixGen.ps1'
          
-      - task: AzureCLI@2
-        displayName: 'Log matrix gen'
+      - task: PowerShell@2
+        displayName: 'Logs Alerts Generation'
         inputs:
-          azureSubscription: $(azureServiceConnection)
-          scriptType: batch
-          scriptLocation: inlineScript
-          inlineScript: |
-           az version
+          pwsh: true
+          filePath: 'PsScripts/LogMatrixGen/logMatrixGen.ps1'
       - task: AzureCLI@2
-        displayName: 'Admin alerts matrix gen'
+        displayName: 'Admin alerts matrix gen' ###todo
         inputs:
           azureSubscription: $(azureServiceConnection)
           scriptType: batch
@@ -170,67 +167,48 @@ stages:
          inputs:
             targetType: inline
             errorActionPreference: continue
+            azurePowerShellVersion: LatestVersion
             pwsh: true
             script: |
               $ctx = New-AzStorageContext -StorageAccountName $env:StorageAccountName -UseConnectedAccount
               $container = Get-AzStorageContainer -Name $env:NameContainer -Context $ctx 
               mkdir alertsCsv
-              Get-AzStorageBlobContent -Container $container.Name -Blob "$($env:clientFileNamePrefix)_verboseMetricMatrix.csv" -Destination alertsCsv -Context $ctx
-              Get-AzStorageBlobContent -Container $container.Name -Blob "$($env:clientFileNamePrefix)_NonVerboseMetricMatrix.csv" -Destination alertsCsv -Context $ctx
-              Get-AzStorageBlobContent -Container $container.Name -Blob "$($env:clientFileNamePrefix)_logsAlerts.csv" -Destination alertsCsv -Context $ctx
-              Get-AzStorageBlobContent -Container $container.Name -Blob "$($env:clientFileNamePrefix)_activitysAlerts.csv" -Destination alertsCsv -Context $ctx
-              
-
-       - task: PowerShell@2
-         displayName: 'FormatMetricsToJSON'
-         inputs:
+              Get-AzStorageBlobContent -Container $container.Name -Blob $env:clientFileNamePrefix"_verbosMetricMatrix.csv" -Destination alertsCsv -Context $ctx
+              Get-AzStorageBlobContent -Container $container.Name -Blob $env:clientFileNamePrefix"_NonVerboseMetricMatrix.csv" -Destination alertsCsv -Context $ctx
+              #Get-ChildItem  -Path alertsCsv
+         - task: PowerShell@2
+           displayName: 'FormatMetricsToJSON'
+           inputs:
             pwsh: true
             filePath: 'PsScripts/formatMetrics.ps1'
             arguments:
-             -typeOfAlertstoFormat 'metrics'
-             -baseDir '$(System.DefaultWorkingDirectory)'
-             -csvFilePath "$(System.DefaultWorkingDirectory)\alertsCsv\$($env:clientFileNamePrefix)_verboseMetricMatrix.csv"
-       - task: PublishPipelineArtifact@1
-         inputs:
-            targetPath: '$(System.DefaultWorkingDirectory)'
-            artifact: 'ParametersFilesMetrics'
-            publishLocation: 'pipeline'
-            path: AlertsDefinitions
-  
-
-       - task: PowerShell@2
-         displayName: 'FormatLogsToJSON'
-         inputs:
-            pwsh: true
-            filePath: 'PsScripts/formatMetrics.ps1'
-            arguments:
-             -typeOfAlertstoFormat 'logs' 
-             -baseDir '$(System.DefaultWorkingDirectory)'   
-             -csvFilePath "$(System.DefaultWorkingDirectory)\alertsCsv\$($env:clientFileNamePrefix)_logsAlerts.csv"
-       - task: PublishPipelineArtifact@1
-         displayName: 'PublishLogsArtifact'
-         inputs:
-            targetPath: '$(System.DefaultWorkingDirectory)'
-            artifact: 'ParametersFilesLogs'
-            publishLocation: 'pipeline'
-            path: AlertsDefinitions
-
-       - task: PowerShell@2
-         displayName: 'FormatActivityLogsToJSON'
-         inputs:
-            pwsh: true
-            filePath: 'PsScripts/formatMetrics.ps1'
-            arguments:
-             -typeOfAlertstoFormat 'activity' 
-             -baseDir '$(System.DefaultWorkingDirectory)'   
-             -csvFilePath "$(System.DefaultWorkingDirectory)\alertsCsv\$($env:clientFileNamePrefix)_activitysAlerts.csv"
-       - task: PublishPipelineArtifact@1
-         displayName: 'PublishActivityLogsArtifact'
-         inputs:
-            targetPath: '$(System.DefaultWorkingDirectory)'
-            artifact: 'ParametersFilesActivityLogs'
-            publishLocation: 'pipeline'
-            path: AlertsDefinitions
+              -typeOfAlertstoFormat 'metrics'
+              -baseDir '$(System.DefaultWorkingDirectory)'
+              -csvFilePath '$(System.DefaultWorkingDirectory)\alertsCsv\'
+    - task: PublishPipelineArtifact@1
+      inputs:
+       targetPath: '$(System.DefaultWorkingDirectory)'
+       artifact: 'ParametersFilesMetrics'
+       publishLocation: 'pipeline'
+  - job: ConvertLogsAlertsCSVToJson
+    steps:
+      - task: AzureCLI@2
+        inputs:
+          azureSubscription: $(azureServiceConnection)
+          scriptType: batch
+          scriptLocation: inlineScript
+          inlineScript: |
+           az version
+  - job: ConvertActivityLogsAlertsCSVToJson
+    steps:
+     - task: AzureCLI@2
+       displayName: 'Deploy Action Groups'
+       inputs:
+        azureSubscription: $(azureServiceConnection)
+        scriptType: batch
+        scriptLocation: inlineScript
+        inlineScript: |
+            az version 
   - job: DevelopWaitingApproval
     dependsOn: ConvertMetricsAlertsCSVToJson
     pool: server
@@ -242,53 +220,14 @@ stages:
   - job: DeployAllAlertsTypes
     steps:
     - checkout: none
-    - task: DownloadPipelineArtifact@2
-      displayName: 'DownloadMetricsArtifact'
-      inputs:
-        buildType: 'current'
-        artifactName: 'ParametersFilesMetrics'
-        targetPath: '$(System.DefaultWorkingDirectory)'
-        patterns: '**'
-
     - task: AzureCLI@2
-      displayName: 'Deploy Metrics Alerts'
+      displayName: 'Deploy Action Groups'
       inputs:
         azureSubscription: $(azureServiceConnection)
         scriptType: batch
         scriptLocation: inlineScript
         inlineScript: |
-          az deployment group create --resource-group $(resourceGroupName) --template-file $(metricsTemplate) --parameters $(System.DefaultWorkingDirectory)/metricsAlerts.json
-    - task: DownloadPipelineArtifact@2
-      displayName: 'DownloadLogsArtifact'
-      inputs:
-        buildType: 'current'
-        artifactName: 'ParametersFilesLogs'
-        targetPath: '$(System.DefaultWorkingDirectory)'
-        patterns: '**'
-    - task: AzureCLI@2
-      displayName: 'Deploy Logs Alerts'
-      inputs:
-        azureSubscription: $(azureServiceConnection)
-        scriptType: batch
-        scriptLocation: inlineScript
-        inlineScript: |
-          az deployment group create --resource-group $(resourceGroupName) --template-file $(logsTemplate) --parameters $(System.DefaultWorkingDirectory)/logsAlerts.json
-    - task: DownloadPipelineArtifact@2
-      displayName: 'DownloadAcitivyLogsArtifact'
-      inputs:
-        buildType: 'current'
-        artifactName: 'ParametersFilesActivityLogs'
-        targetPath: '$(System.DefaultWorkingDirectory)'
-        patterns: '**'
-    - task: AzureCLI@2
-      displayName: 'Deploy ActivityLogs Alerts'
-      inputs:
-        azureSubscription: $(azureServiceConnection)
-        scriptType: batch
-        scriptLocation: inlineScript
-        inlineScript: |
-          az deployment group create --resource-group $(resourceGroupName) --template-file $(activityTemplate) --parameters $(System.DefaultWorkingDirectory)/activityAlerts.json
-
+            az version
 
 - stage: AuditFinal
   jobs:
