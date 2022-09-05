@@ -204,9 +204,9 @@ stages:
             pwsh: true
             filePath: 'PsScripts/formatMetrics.ps1'
             arguments:
-            -typeOfAlertstoFormat 'logs' 
-            -baseDir '$(System.DefaultWorkingDirectory)'   
-            -csvFilePath "$(System.DefaultWorkingDirectory)\alertsCsv\$($env:clientFileNamePrefix)_logsAlerts.csv"
+             -typeOfAlertstoFormat 'logs' 
+             -baseDir '$(System.DefaultWorkingDirectory)'   
+             -csvFilePath "$(System.DefaultWorkingDirectory)\alertsCsv\$($env:clientFileNamePrefix)_logsAlerts.csv"
        - task: PublishPipelineArtifact@1
          displayName: 'PublishLogsArtifact'
          inputs:
@@ -221,9 +221,9 @@ stages:
             pwsh: true
             filePath: 'PsScripts/formatMetrics.ps1'
             arguments:
-          -typeOfAlertstoFormat 'activity' 
-          -baseDir '$(System.DefaultWorkingDirectory)'   
-          -csvFilePath "$(System.DefaultWorkingDirectory)\alertsCsv\$($env:clientFileNamePrefix)_activitysAlerts.csv"
+             -typeOfAlertstoFormat 'activity' 
+             -baseDir '$(System.DefaultWorkingDirectory)'   
+             -csvFilePath "$(System.DefaultWorkingDirectory)\alertsCsv\$($env:clientFileNamePrefix)_activitysAlerts.csv"
        - task: PublishPipelineArtifact@1
          displayName: 'PublishActivityLogsArtifact'
          inputs:
