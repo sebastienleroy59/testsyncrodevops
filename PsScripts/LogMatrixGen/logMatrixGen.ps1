@@ -1,7 +1,7 @@
 #Créer une matrice CSV où l'on récupère les ressources de la subscription, puis on y ajoute les KQL logs associés (voir DicoLogs.json)
 
 ## On converti notre JSON en Array dans une variable $Logs
-$Logs = Get-Content -Raw Queries.json | ConvertFrom-Json
+$Logs = Get-Content -Raw PsScripts\LogMatrixGen\Queries.json | ConvertFrom-Json
 
 $outputObject = @()
 
