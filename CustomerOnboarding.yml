@@ -175,7 +175,7 @@ stages:
               $ctx = New-AzStorageContext -StorageAccountName $env:StorageAccountName -UseConnectedAccount
               $container = Get-AzStorageContainer -Name $env:NameContainer -Context $ctx 
               mkdir alertsCsv
-              Get-AzStorageBlobContent -Container $container.Name -Blob "$($env:clientFileNamePrefix)_verboesMetricMatrix.csv" -Destination alertsCsv -Context $ctx
+              Get-AzStorageBlobContent -Container $container.Name -Blob "$($env:clientFileNamePrefix)_verboseMetricMatrix.csv" -Destination alertsCsv -Context $ctx
               Get-AzStorageBlobContent -Container $container.Name -Blob "$($env:clientFileNamePrefix)_NonVerboseMetricMatrix.csv" -Destination alertsCsv -Context $ctx
               #Get-ChildItem  -Path alertsCsv
 
@@ -187,7 +187,7 @@ stages:
             arguments:
              -typeOfAlertstoFormat 'metrics'
              -baseDir '$(System.DefaultWorkingDirectory)'
-             -csvFilePath "$(System.DefaultWorkingDirectory)\alertsCsv\$($env:clientFileNamePrefix)_NonVerboseMetricMatrix.csv"
+             -csvFilePath "$(System.DefaultWorkingDirectory)\alertsCsv\$($env:clientFileNamePrefix)_verboseMetricMatrix.csv"
        - task: PublishPipelineArtifact@1
          inputs:
           targetPath: '$(System.DefaultWorkingDirectory)'
