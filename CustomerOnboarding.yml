@@ -190,11 +190,12 @@ stages:
              -csvFilePath "$(System.DefaultWorkingDirectory)\alertsCsv\$($env:clientFileNamePrefix)_verboseMetricMatrix.csv"
        - task: PublishPipelineArtifact@1
          inputs:
-          targetPath: '$(System.DefaultWorkingDirectory)'
-          artifact: 'ParametersFilesMetrics'
-          publishLocation: 'pipeline'
-          path: AlertsDefinitions
-- job: ConvertLogsAlertsCSVToJson
+            targetPath: '$(System.DefaultWorkingDirectory)'
+            artifact: 'ParametersFilesMetrics'
+            publishLocation: 'pipeline'
+            path: AlertsDefinitions
+  
+  - job: ConvertLogsAlertsCSVToJson
     steps:
     - task: PowerShell@2
       displayName: 'FormatLogsToJSON'
