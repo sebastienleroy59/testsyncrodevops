@@ -197,42 +197,40 @@ stages:
             publishLocation: 'pipeline'
             path: AlertsDefinitions
   
-  - job: ConvertLogsAlertsCSVToJson
-    steps:
-    - task: PowerShell@2
-      displayName: 'FormatLogsToJSON'
-      inputs:
-       pwsh: true
-       filePath: 'PsScripts/formatMetrics.ps1'
-       arguments:
-          -typeOfAlertstoFormat 'logs' 
-          -baseDir '$(System.DefaultWorkingDirectory)'   
-          -csvFilePath "$(System.DefaultWorkingDirectory)\alertsCsv\$($env:clientFileNamePrefix)_logsAlerts.csv"
-    - task: PublishPipelineArtifact@1
-      displayName: 'PublishLogsArtifact'
-      inputs:
-       targetPath: '$(System.DefaultWorkingDirectory)'
-       artifact: 'ParametersFilesLogs'
-       publishLocation: 'pipeline'
-       path: AlertsDefinitions
-  - job: ConvertActivityLogsAlertsCSVToJson
-    steps:
-    - task: PowerShell@2
-      displayName: 'FormatActivityLogsToJSON'
-      inputs:
-       pwsh: true
-       filePath: 'PsScripts/formatMetrics.ps1'
-       arguments:
+
+       - task: PowerShell@2
+         displayName: 'FormatLogsToJSON'
+         inputs:
+            pwsh: true
+            filePath: 'PsScripts/formatMetrics.ps1'
+            arguments:
+            -typeOfAlertstoFormat 'logs' 
+            -baseDir '$(System.DefaultWorkingDirectory)'   
+            -csvFilePath "$(System.DefaultWorkingDirectory)\alertsCsv\$($env:clientFileNamePrefix)_logsAlerts.csv"
+       - task: PublishPipelineArtifact@1
+         displayName: 'PublishLogsArtifact'
+         inputs:
+            targetPath: '$(System.DefaultWorkingDirectory)'
+            artifact: 'ParametersFilesLogs'
+            publishLocation: 'pipeline'
+            path: AlertsDefinitions
+
+       - task: PowerShell@2
+         displayName: 'FormatActivityLogsToJSON'
+         inputs:
+            pwsh: true
+            filePath: 'PsScripts/formatMetrics.ps1'
+            arguments:
           -typeOfAlertstoFormat 'activity' 
           -baseDir '$(System.DefaultWorkingDirectory)'   
           -csvFilePath "$(System.DefaultWorkingDirectory)\alertsCsv\$($env:clientFileNamePrefix)_activitysAlerts.csv"
-    - task: PublishPipelineArtifact@1
-      displayName: 'PublishActivityLogsArtifact'
-      inputs:
-       targetPath: '$(System.DefaultWorkingDirectory)'
-       artifact: 'ParametersFilesActivityLogs'
-       publishLocation: 'pipeline'
-       path: AlertsDefinitions
+       - task: PublishPipelineArtifact@1
+         displayName: 'PublishActivityLogsArtifact'
+         inputs:
+            targetPath: '$(System.DefaultWorkingDirectory)'
+            artifact: 'ParametersFilesActivityLogs'
+            publishLocation: 'pipeline'
+            path: AlertsDefinitions
   - job: DevelopWaitingApproval
     dependsOn: ConvertMetricsAlertsCSVToJson
     pool: server
