@@ -177,7 +177,7 @@ stages:
               mkdir alertsCsv
               Get-AzStorageBlobContent -Container $container.Name -Blob "$($env:clientFileNamePrefix)_verboseMetricMatrix.csv" -Destination alertsCsv -Context $ctx
               Get-AzStorageBlobContent -Container $container.Name -Blob "$($env:clientFileNamePrefix)_NonVerboseMetricMatrix.csv" -Destination alertsCsv -Context $ctx
-              #Get-ChildItem  -Path alertsCsv
+              
 
        - task: PowerShell@2
          displayName: 'FormatMetricsToJSON'
@@ -194,25 +194,42 @@ stages:
           artifact: 'ParametersFilesMetrics'
           publishLocation: 'pipeline'
           path: AlertsDefinitions
-  - job: ConvertLogsAlertsCSVToJson
+- job: ConvertLogsAlertsCSVToJson
     steps:
-      - task: AzureCLI@2
-        inputs:
-          azureSubscription: $(azureServiceConnection)
-          scriptType: batch
-          scriptLocation: inlineScript
-          inlineScript: |
-           az version
+    - task: PowerShell@2
+      displayName: 'FormatLogsToJSON'
+      inputs:
+       pwsh: true
+       filePath: 'PsScripts/formatMetrics.ps1'
+       arguments:
+          -typeOfAlertstoFormat 'logs' 
+          -baseDir '$(System.DefaultWorkingDirectory)'   
+          -csvFilePath "$(System.DefaultWorkingDirectory)\alertsCsv\$($env:clientFileNamePrefix)_logsAlerts.csv"
+    - task: PublishPipelineArtifact@1
+      displayName: 'PublishLogsArtifact'
+      inputs:
+       targetPath: '$(System.DefaultWorkingDirectory)'
+       artifact: 'ParametersFilesLogs'
+       publishLocation: 'pipeline'
+       path: AlertsDefinitions
   - job: ConvertActivityLogsAlertsCSVToJson
     steps:
-     - task: AzureCLI@2
-       displayName: 'Deploy Action Groups'
-       inputs:
-        azureSubscription: $(azureServiceConnection)
-        scriptType: batch
-        scriptLocation: inlineScript
-        inlineScript: |
-            az version 
+    - task: PowerShell@2
+      displayName: 'FormatActivityLogsToJSON'
+      inputs:
+       pwsh: true
+       filePath: 'PsScripts/formatMetrics.ps1'
+       arguments:
+          -typeOfAlertstoFormat 'activity' 
+          -baseDir '$(System.DefaultWorkingDirectory)'   
+          -csvFilePath "$(System.DefaultWorkingDirectory)\alertsCsv\$($env:clientFileNamePrefix)_activitysAlerts.csv"
+    - task: PublishPipelineArtifact@1
+      displayName: 'PublishActivityLogsArtifact'
+      inputs:
+       targetPath: '$(System.DefaultWorkingDirectory)'
+       artifact: 'ParametersFilesActivityLogs'
+       publishLocation: 'pipeline'
+       path: AlertsDefinitions
   - job: DevelopWaitingApproval
     dependsOn: ConvertMetricsAlertsCSVToJson
     pool: server
