@@ -24,7 +24,8 @@
     {"resource":"microsoft.visualstudio/account"},
     {"resource":"Microsoft.Network/networkInterfaces"},
     {"resource":"Microsoft.Network/networkSecurityGroups"},
-    {"resource":"Microsoft.Network/publicIPAddresses"}
+    {"resource":"Microsoft.Network/publicIPAddresses"},
+    {"resource":"Microsoft.Network/virtualNetworks"}
 ]
 
 
