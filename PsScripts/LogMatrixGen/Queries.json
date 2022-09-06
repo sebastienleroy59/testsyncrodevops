@@ -19,6 +19,26 @@
             "InsightsMetrics | where Origin == vm.azm.ms | where Namespace == Network and Name == ReadBytesPerSecond | summarize AggregatedValue = avg(Val) by bin(TimeGenerated, 15m), Computer, _ResourceId",
             "InsightsMetrics | where Origin == vm.azm.ms | where Namespace == Network and Name == WriteBytesPerSecond | summarize AggregatedValue = avg(Val) by bin(TimeGenerated, 15m), Computer, _ResourceId"
         ]
+    },
+
+    {
+        "resource":"Microsoft.Web/serverFarms",
+        "queries":[
+            "AppServiceAppLogs | project CustomLevel, _ResourceId | summarize count() by CustomLevel, _ResourceId",
+            "AppServiceHTTPLogs | where ScStatus >= 500 | reduce by strcat(CsMethod, ':\\', CsUriStem)",
+            "AppServiceHTTPLogs | summarize avg(TimeTaken), percentiles(TimeTaken, 90, 95, 99) by _ResourceId",
+            "InsightsMetrics | where Origin == vm.azm.ms | where Namespace == Network and Name == ReadBytesPerSecond | summarize AggregatedValue = avg(Val) by bin(TimeGenerated, 15m), Computer, _ResourceId",
+            "InsightsMetrics | where Origin == vm.azm.ms | where Namespace == Network and Name == WriteBytesPerSecond | summarize AggregatedValue = avg(Val) by bin(TimeGenerated, 15m), Computer, _ResourceId"
+        ]
+        
+    },
+
+    {
+        "resource":"Microsoft.Web/sites",
+        "queries":[
+            "AppServiceAppLogs | summarize count()  by CustomLevel, bin(TimeGenerated, 1h), _ResourceId | render barchart "
+        ]
+        
     }
 ]
 
