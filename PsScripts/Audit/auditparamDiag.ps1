@@ -1,5 +1,3 @@
-$StorageAccountName = $env:StorageAccountName
-$NameContainer = $env:NameContainer
 $Subscription = $env:SubscriptionId
 
 

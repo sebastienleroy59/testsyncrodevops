@@ -18,5 +18,8 @@
     {"resource":"microsoft.insights/workbooks"},
     {"resource":"Microsoft.Portal/dashboards"},
     {"resource":"Microsoft.Network/privateDnsZones"},
+    {"resource":"Microsoft.Insights/dataCollectionRules"},
+    {"resource":"Microsoft.Network/publicIPPrefixes"},
+    {"resource":"microsoft.visualstudio/account"},
     {"resource":"Microsoft.Network/privateEndpoints"}
 ]
