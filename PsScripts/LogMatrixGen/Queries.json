@@ -11,11 +11,13 @@
     },
 
     {
-        "resource":"Microsoft.Network/Test",
+        "resource":"Microsoft.Compute/virtualMachines",
         "queries":[
-            "1",
-            "2",
-            "3"
+            "Heartbeat | summarize TimeGenerated=max(TimeGenerated) by Computer, _ResourceId | extend Duration = datetime_diff('minute',now(),TimeGenerated) | summarize AggregatedValue = min(Duration) by Computer, bin(TimeGenerated,5m), _ResourceId",
+            "InsightsMetrics | where Origin == vm.azm.ms | where Namespace == Memory and Name == AvailableMB | extend TotalMemory = toreal(todynamic(Tags)[vm.azm.ms/memorySizeMB]) | extend AvailableMemoryPercentage = (toreal(Val) / TotalMemory) * 100.0 | summarize AggregatedValue = avg(AvailableMemoryPercentage) by bin(TimeGenerated, 15m), Computer, _ResourceId",
+            "InsightsMetrics | where Origin == vm.azm.ms | where Namespace == LogicalDisk and Name == FreeSpacePercentage | summarize AggregatedValue = avg(Val) by bin(TimeGenerated, 15m), Computer, _ResourceId",
+            "InsightsMetrics | where Origin == vm.azm.ms | where Namespace == Network and Name == ReadBytesPerSecond | summarize AggregatedValue = avg(Val) by bin(TimeGenerated, 15m), Computer, _ResourceId",
+            "InsightsMetrics | where Origin == vm.azm.ms | where Namespace == Network and Name == WriteBytesPerSecond | summarize AggregatedValue = avg(Val) by bin(TimeGenerated, 15m), Computer, _ResourceId"
         ]
     }
 ]
