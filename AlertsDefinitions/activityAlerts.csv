@@ -1,2 +1,2 @@
 targetResourceType;targetResourceTypeFriendly;alertSev;alertOperationName;alertLevels;alertStatus
-Microsoft.KeyVault/vaults;KV;1;Microsoft.KeyVault/vaults/delete;Critical|Error;Failed|Started,
+Microsoft.KeyVault/vaults;KV;1;Microsoft.KeyVault/vaults/delete;Critical|Error;Failed|Started
