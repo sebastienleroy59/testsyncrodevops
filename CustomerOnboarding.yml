@@ -52,6 +52,15 @@ stages:
           ScriptPath: PsScripts/Audit/Auditmetrique.ps1
           errorActionPreference: continue
           azurePowerShellVersion: LatestVersion
+      - task: AzureFileCopy@4 #ServiceConnection must have Storage Blob Data Contributor role on Container
+        displayName: 'Upload Matrix files to Storage account'
+        inputs:
+          
+          SourcePath: '$(System.DefaultWorkingDirectory)/*.csv'
+          azureSubscription: $(azureServiceConnection)
+          Destination: AzureBlob
+          storage: $(StorageAccountName)
+          ContainerName: $(NameContainer)
 
 - stage: MatrixGenerationAndDeployrunEnv
   jobs:
@@ -94,7 +103,7 @@ stages:
           errorActionPreference: continue
           azurePowerShellVersion: LatestVersion
       - task: AzureFileCopy@4 #ServiceConnection must have Storage Blob Data Contributor role on Container
-        displayName: 'Upload Audit files to Storage account'
+        displayName: 'Upload Matrix files to Storage account'
         inputs:
           
           SourcePath: '$(System.DefaultWorkingDirectory)/*.csv'
