@@ -9,9 +9,6 @@ Set-AzContext $azSub.id | Out-Null
 
 $azResources = Get-AZResource
 
-#$azSubName = $azSub.Name
-#$File = 'AuditFinalResource' + $azSubName + '.csv'
-
 $azResources | Export-Csv -Path $env:clientFileNamePrefix"_AuditFinalResource.csv" -Delimiter ";" 
 
 #Create a context object using Azure AD credentials
