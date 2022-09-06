@@ -44,4 +44,3 @@ Set-AzContext $azSub.id | Out-Null
         $azlogs | Export-csv -Path $env:clientFileNamePrefix"_AuditParamDiag.csv" -Delimiter ";" 
     }
 
-    
