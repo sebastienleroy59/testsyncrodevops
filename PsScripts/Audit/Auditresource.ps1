@@ -7,11 +7,9 @@ $azSub = Get-AzSubscription -SubscriptionId $Subscription
 
 Set-AzContext $azSub.id | Out-Null
 
-$azResourcesType = Get-AZResource -ResourceType 'Microsoft.Compute/virtualMachines/extensions';'Microsoft.OperationalInsights';'microsoft.insights';'Microsoft.AlertsManagement';'Microsoft.OperationsManagement';'Microsoft.GuestConfiguration'
+$azResources = Get-AZResource
 
-#$azSubName = $azSub.Name
-
-$azResourcesType | Export-Csv -Path $env:clientFileNamePrefix"_AuditExtensions.csv" -Delimiter ";" 
+$azResources | Export-Csv -Path $env:clientFileNamePrefix"_AuditResource.csv" -Delimiter ";" 
 
 #Create a context object using Azure AD credentials
 #$ctx = New-AzStorageContext -StorageAccountName $StorageAccountName -UseConnectedAccount

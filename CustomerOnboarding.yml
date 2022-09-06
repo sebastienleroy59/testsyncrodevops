@@ -35,21 +35,21 @@ stages:
         displayName: 'Resources'
         inputs:
           azureSubscription: $(azureServiceConnection)
-          ScriptPath: PsScripts/Auditresource.ps1
+          ScriptPath: PsScripts/Audit/Auditresource.ps1
           errorActionPreference: continue
           azurePowerShellVersion: LatestVersion
       - task: AzurePowerShell@5
         displayName: 'Extensions'
         inputs:
           azureSubscription: $(azureServiceConnection)
-          ScriptPath: PsScripts/AuditExtensions.ps1
+          ScriptPath: PsScripts/Audit/AuditExtensions.ps1
           errorActionPreference: continue
           azurePowerShellVersion: LatestVersion
       - task: AzurePowerShell@5
         displayName: 'Logs and Metrics'
         inputs:
           azureSubscription: $(azureServiceConnection)
-          ScriptPath: PsScripts/Auditmetrique.ps1
+          ScriptPath: PsScripts/Audit/Auditmetrique.ps1
           errorActionPreference: continue
           azurePowerShellVersion: LatestVersion
 
@@ -292,7 +292,7 @@ stages:
       displayName: 'Audit Final Param Diag'
       inputs:
         azureSubscription: $(azureServiceConnection)
-        ScriptPath: PsScripts/auditfinaldiag.ps1
+        ScriptPath: PsScripts/AuditFinal/auditfinaldiag.ps1
         errorActionPreference: continue
         azurePowerShellVersion: LatestVersion
   - job: MetriqueFinal
@@ -301,7 +301,7 @@ stages:
       displayName: 'Audit Final Metrique'
       inputs:
         azureSubscription: $(azureServiceConnection)
-        ScriptPath: PsScripts/PsScripts/AuditFinalMetrique.ps1
+        ScriptPath: PsScripts/AuditFinal/AuditFinalMetrique.ps1
         errorActionPreference: continue
         azurePowerShellVersion: LatestVersion
   - job: ResourceFinal
@@ -310,7 +310,7 @@ stages:
       displayName: 'Audit Final Resource'
       inputs:
         azureSubscription: $(azureServiceConnection)
-        ScriptPath: PsScripts/PsScripts/AuditFinalResource.ps1
+        ScriptPath: PsScripts/AuditFinal/AuditFinalResource.ps1
         errorActionPreference: continue
         azurePowerShellVersion: LatestVersion
 
