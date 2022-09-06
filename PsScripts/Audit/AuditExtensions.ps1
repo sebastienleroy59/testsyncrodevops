@@ -16,7 +16,7 @@ foreach ($azResource in $azResources ) {
 
     if($isIncludeResource.Count -eq 1){
 
-    $azResourcesType = Get-AZResource 
+    $azResourcesType = Get-AZResource -ResourceType $azResource.ResourceType
 
     }
 

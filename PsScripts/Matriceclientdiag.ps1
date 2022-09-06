@@ -10,20 +10,20 @@ Set-AzContext $azSub.id | Out-Null
 $outputObject = @()
 
 #Create a context object using Azure AD credentials
-$ctx = New-AzStorageContext -StorageAccountName $StorageAccountName -UseConnectedAccount
+#$ctx = New-AzStorageContext -StorageAccountName $StorageAccountName -UseConnectedAccount
 
 #Create a container object
-$container = Get-AzStorageContainer -Name $NameContainer -Context $ctx 
+#$container = Get-AzStorageContainer -Name $NameContainer -Context $ctx 
 
-$containerName = $container.Name
+#$containerName = $container.Name
 
 #$azSubName = $azSub.Name
-$Blob = $env:clientFileNamePrefix + "_GetParamDiag.csv"
+#$Blob = $env:clientFileNamePrefix + "_GetParamDiag.csv"
 
-Get-AzStorageBlobContent -Context $ctx -Container $containerName -Blob $Blob -Destination $Blob
+#Get-AzStorageBlobContent -Context $ctx -Container $containerName -Blob $Blob -Destination $Blob
 
 
-$CSV = Import-Csv -Path $Blob -Delimiter ";"
+$CSV = Import-Csv -Path $env:clientFileNamePrefix"_GetParamDiag.csv" -Delimiter ";"
 
 
     foreach ($Type in $CSV) {
