@@ -209,7 +209,7 @@ stages:
             arguments:
              -typeOfAlertstoFormat 'logs' 
              -baseDir '$(System.DefaultWorkingDirectory)'   
-             -csvFilePath "$(System.DefaultWorkingDirectory)\alertsCsv\$($env:clientFileNamePrefix)_logsAlerts.csv"
+             -csvFilePath "$(System.DefaultWorkingDirectory)\alertsCsv\$($env:clientFileNamePrefix)_MatriceLogsKQL.csv"
        - task: PublishPipelineArtifact@1
          displayName: 'PublishLogsArtifact'
          inputs:
