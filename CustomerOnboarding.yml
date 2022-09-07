@@ -28,7 +28,7 @@ stages:
         displayName: 'Params'
         inputs:
           azureSubscription: $(azureServiceConnection)
-          scriptPath: PsScripts/auditparamDiag.ps1
+          scriptPath: PsScripts/Audit/auditparamDiag.ps1
           errorActionPreference: continue
           azurePowerShellVersion: LatestVersion  
       - task: AzurePowerShell@5
