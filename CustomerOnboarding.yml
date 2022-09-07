@@ -322,4 +322,13 @@ stages:
         ScriptPath: PsScripts/AuditFinal/AuditFinalResource.ps1
         errorActionPreference: continue
         azurePowerShellVersion: LatestVersion
+    - task: AzureFileCopy@4 #ServiceConnection must have Storage Blob Data Contributor role on Container
+      displayName: 'Upload Matrix files to Storage account'
+      inputs:
+          
+        SourcePath: '$(System.DefaultWorkingDirectory)/*.csv'
+        azureSubscription: $(azureServiceConnection)
+        Destination: AzureBlob
+        storage: $(StorageAccountName)
+        ContainerName: $(NameContainer)
 

@@ -1,5 +1,3 @@
-$StorageAccountName = $env:StorageAccountName
-$NameContainer = $env:NameContainer
 $Subscription = $env:SubscriptionId
 $exclude = Get-Content -Path PsScripts\excluderesourcediag.json | ConvertFrom-JSON
 
@@ -42,24 +40,11 @@ $azResources = Get-AZResource
 
     }
 
-    
-#$azSubName = $azSub.Name
-#$File = 'GetParamDiag' + $azSubName + '.csv'
-
 $outputObject = $outputObject | Sort-Object 'Typeresource' -Unique 
 
 $outputObject | Export-Csv -Path $env:clientFileNamePrefix"_GetParamDiag.csv" -Delimiter ";" -NoTypeInformation
 
-#Create a context object using Azure AD credentials
-#$ctx = New-AzStorageContext -StorageAccountName $StorageAccountName -UseConnectedAccount
 
-#Create a container object
-#$container = Get-AzStorageContainer -Name $NameContainer -Context $ctx 
-
-#$containerName = $container.Name
-
-#Upload a single named file
-#Set-AzStorageBlobContent -File $File -Container $containerName -Context $ctx
 
 
 
