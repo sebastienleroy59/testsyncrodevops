@@ -1,5 +1,3 @@
-$StorageAccountName = $env:StorageAccountName
-$NameContainer = $env:NameContainer
 $Subscription = $env:SubscriptionId
 
 
@@ -41,22 +39,8 @@ Set-AzContext $azSub.id | Out-Null
             
         }
         
-        # Save Diagnostic settings report for each Azure Subscription
-        #$azSubName = $azSub.Name
-        #$Path = '$(System.DefaultWorkingDirectory)'
-        #$File = 'AuditfinalParamDiag' + $azSubName + '.csv'
 
         $azlogs | Export-csv -Path $env:clientFileNamePrefix"_AuditfinalParamDiag.csv" -Delimiter ";" 
     }
 
-    #Create a context object using Azure AD credentials
-    #$ctx = New-AzStorageContext -StorageAccountName $StorageAccountName -UseConnectedAccount
-
-    #Create a container object
-    #$container = Get-AzStorageContainer -Name $NameContainer -Context $ctx 
-
-    #$containerName = $container.Name
-
-    #Upload a single named file
-    #Set-AzStorageBlobContent -File $File -Container $containerName -Context $ctx
 
