@@ -1,8 +1,8 @@
 [
     {"resource":"Microsoft.Compute/virtualMachines/extensions"},
-    {"resource":"Microsoft.OperationalInsights"},
-    {"resource":"microsoft.insights"},
-    {"resource":"Microsoft.AlertsManagement"},
-    {"resource":"Microsoft.OperationsManagement"},
+    {"resource":"Microsoft.OperationalInsights/*"},
+    {"resource":"microsoft.insights/*"},
+    {"resource":"Microsoft.AlertsManagement/*"},
+    {"resource":"Microsoft.OperationsManagement/*"},
     {"resource":"Microsoft.GuestConfiguration"}  
 ]
