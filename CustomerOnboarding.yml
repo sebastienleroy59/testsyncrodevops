@@ -181,7 +181,6 @@ stages:
               Get-AzStorageBlobContent -Container $container.Name -Blob "$($env:clientFileNamePrefix)_verboseMetricMatrix.csv" -Destination alertsCsv -Context $ctx
               Get-AzStorageBlobContent -Container $container.Name -Blob "$($env:clientFileNamePrefix)_NonVerboseMetricMatrix.csv" -Destination alertsCsv -Context $ctx
               Get-AzStorageBlobContent -Container $container.Name -Blob "$($env:clientFileNamePrefix)_MatriceLogsKQL.csv" -Destination alertsCsv -Context $ctx
-              Get-AzStorageBlobContent -Container $container.Name -Blob "$($env:clientFileNamePrefix)_activitysAlerts.csv" -Destination alertsCsv -Context $ctx
               
 
        - task: PowerShell@2
@@ -218,15 +217,15 @@ stages:
             publishLocation: 'pipeline'
             path: AlertsDefinitions
 
-       - task: PowerShell@2
-         displayName: 'FormatActivityLogsToJSON'
-         inputs:
-            pwsh: true
-            filePath: 'PsScripts/formatMetrics.ps1'
-            arguments:
-             -typeOfAlertstoFormat 'activity' 
-             -baseDir '$(System.DefaultWorkingDirectory)'   
-             -csvFilePath "$(System.DefaultWorkingDirectory)\alertsCsv\$($env:clientFileNamePrefix)_activitysAlerts.csv"
+       #- task: PowerShell@2
+        # displayName: 'FormatActivityLogsToJSON'
+        # inputs:
+         #   pwsh: true
+          #  filePath: 'PsScripts/formatMetrics.ps1'
+           # arguments:
+            # -typeOfAlertstoFormat 'activity' 
+             #-baseDir '$(System.DefaultWorkingDirectory)'   
+             #-csvFilePath "$(System.DefaultWorkingDirectory)\alertsCsv\$($env:clientFileNamePrefix)_activitysAlerts.csv"
        - task: PublishPipelineArtifact@1
          displayName: 'PublishActivityLogsArtifact'
          inputs:
