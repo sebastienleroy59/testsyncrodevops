@@ -3,7 +3,7 @@
         "resource":"Microsoft.Network/applicationGateways",
         "queries":[
             "AzureDiagnostics | where ResourceType == APPLICATIONGATEWAYS and OperationName == ApplicationGatewayAccess | summarize AggregatedValue = count() by bin(TimeGenerated, 1h), _ResourceId | render timechart",
-            "AzureDiagnostics | where ResourceType == APPLICATIONGATEWAYS and OperationName == ApplicationGatewayAccess and httpStatus_d > 399 | summarize AggregatedValue = count() by bin(TimeGenerated, 1h), ResourceId | render timechart",
+            "AzureDiagnostics | where ResourceType == 'APPLICATIONGATEWAYS' and OperationName == 'ApplicationGatewayAccess' and httpStatus_d > 399 | summarize AggregatedValue = count() by bin(TimeGenerated, 1h), ResourceId | render timechart",
             "AzureDiagnostics | where ResourceType == APPLICATIONGATEWAYS and OperationName == ApplicationGatewayAccess | summarize AggregatedValue = count() by clientIP_s | top 10 by AggregatedValue",
             "AzureDiagnostics | where ResourceType == APPLICATIONGATEWAYS and OperationName == ApplicationGatewayAccess and httpStatus_d > 399 | summarize AggregatedValue = count() by userAgent_s, _ResourceId | sort by AggregatedValue desc"
         ]
