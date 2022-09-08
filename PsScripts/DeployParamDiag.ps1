@@ -13,7 +13,7 @@ $container = Get-AzStorageContainer -Name $NameContainer -Context $ctx
 
 $containerName = $container.Name
 
-Get-AzStorageBlobContent -Context $ctx -Container $containerName -Blob $env:clientFileNamePrefix"_MatriceParamDiag.csv" -Destination $Blob 
+Get-AzStorageBlobContent -Context $ctx -Container $containerName -Blob $env:clientFileNamePrefix"_MatriceParamDiag.csv" -Destination $(System.DefaultWorkingDirectory)
 
 $CSV = Import-Csv -Path $env:clientFileNamePrefix"_MatriceParamDiag.csv" -Delimiter ";"
 
