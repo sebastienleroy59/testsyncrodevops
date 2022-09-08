@@ -6,6 +6,7 @@ variables:
    metricsTemplate: 'deployMetricsAlerts.bicep'
    logsTemplate: 'deployLogsAlerts.bicep'
    activityTemplate: 'deployActivityAlerts.bicep'
+   ActionsgroupTemplate: 'deployActionGroups.bicep'
    metricsParametersFilePath: '$(System.DefaultWorkingDirectory)/AlertsDefinitions/metricsAlerts.json'
    logsParametersFilePath: '$(System.DefaultWorkingDirectory)/AlertsDefinitions/logsAlerts.json'
    StorageAccountName: 'squadrastorage'
@@ -162,7 +163,7 @@ stages:
         scriptType: batch
         scriptLocation: inlineScript
         inlineScript: |
-         az version
+         az deployment group create --resource-group $(resourceGroupName) --template-file $(ActionsgroupTemplate)
         
 - stage: ConvertCSV2Json
   jobs:

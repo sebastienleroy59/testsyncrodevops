@@ -2,7 +2,7 @@ var actionGroupPrefix = 'Squadra'
 var actionGroupShortPrefix ='SQDR'
 var actionGroupSevSuffixes = ['Critical','Error','Warning','Informational']//find a way to pass as var to modules
 var squadraMail = 'support@squadra-run.com'
-var squadraPhone = '+1-4706814160'
+var squadraPhone = '4706814160'
 var squadraMailName = 'SquadraMail'
 module LogAlertResource 'BicepModules/actionGroupModule.bicep' =  [for (actionGroupSevSuffix,i) in actionGroupSevSuffixes: {
   name: '${actionGroupPrefix}-${actionGroupSevSuffix}-${i}'
