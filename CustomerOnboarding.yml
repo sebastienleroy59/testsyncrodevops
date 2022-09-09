@@ -218,15 +218,15 @@ stages:
             publishLocation: 'pipeline'
             path: AlertsDefinitions
 
-       - task: PowerShell@2
-         displayName: 'FormatActivityLogsToJSON'
-         inputs:
-            pwsh: true
-            filePath: 'PsScripts/formatMetrics.ps1'
-            arguments:
-             -typeOfAlertstoFormat 'activity' 
-             -baseDir '$(System.DefaultWorkingDirectory)'   
-             -csvFilePath "$(System.DefaultWorkingDirectory)\alertsCsv\$($env:clientFileNamePrefix)_activitysAlerts.csv"
+       #- task: PowerShell@2
+         #displayName: 'FormatActivityLogsToJSON'
+         #inputs:
+            #pwsh: true
+            #filePath: 'PsScripts/formatMetrics.ps1'
+            #arguments:
+             #-typeOfAlertstoFormat 'activity' 
+             #-baseDir '$(System.DefaultWorkingDirectory)'   
+             #-csvFilePath "$(System.DefaultWorkingDirectory)\alertsCsv\$($env:clientFileNamePrefix)_activitysAlerts.csv"
        - task: PublishPipelineArtifact@1
          displayName: 'PublishActivityLogsArtifact'
          inputs:
