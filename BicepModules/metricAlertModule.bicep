@@ -29,7 +29,7 @@ resource metricAlertResource 'microsoft.insights/metricAlerts@2018-03-01' ={
     location: 'Global'
     //tags:alertTags
     properties: {
-      severity: alertSev-1
+      severity: alertSev
       enabled: true
       scopes: [
         resourceId(resourceRG,targetResourceType, targetResourceName)
