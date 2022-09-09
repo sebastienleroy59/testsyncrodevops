@@ -283,14 +283,14 @@ stages:
         artifactName: 'ParametersFilesActivityLogs'
         targetPath: '$(System.DefaultWorkingDirectory)'
         patterns: '**'
-    - task: AzureCLI@2
-      displayName: 'Deploy ActivityLogs Alerts'
-      inputs:
-        azureSubscription: $(azureServiceConnection)
-        scriptType: batch
-        scriptLocation: inlineScript
-        inlineScript: |
-          az deployment group create --resource-group $(resourceGroupName) --template-file $(activityTemplate) --parameters $(System.DefaultWorkingDirectory)/activityAlerts.json
+    #- task: AzureCLI@2
+      #displayName: 'Deploy ActivityLogs Alerts'
+      #inputs:
+        #azureSubscription: $(azureServiceConnection)
+        #scriptType: batch
+        #scriptLocation: inlineScript
+        #inlineScript: |
+          #az deployment group create --resource-group $(resourceGroupName) --template-file $(activityTemplate) --parameters $(System.DefaultWorkingDirectory)/activityAlerts.json
 
 
 - stage: AuditFinal
