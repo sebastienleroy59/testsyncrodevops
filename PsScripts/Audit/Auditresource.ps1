@@ -7,7 +7,7 @@ $azSub = Get-AzSubscription -SubscriptionId $Subscription
 
 Set-AzContext $azSub.id | Out-Null
 
-$azResources = Get-AZResource
+$azResources = Get-AZResource | Select-Object -Property ResourceGroupName, ResourceName, ResourceType, Location, SubscriptionId, CreatedTime, ChangedTime, ParentResource, ManagedBy, Identity
 
 $azResources | Export-Csv -Path $env:clientFileNamePrefix"_AuditResource.csv" -Delimiter ";" 
 
