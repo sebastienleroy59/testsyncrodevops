@@ -15,7 +15,9 @@ $containerName = $container.Name
 
 Get-AzStorageBlobContent -Context $ctx -Container $containerName -Blob $env:clientFileNamePrefix"_MatriceParamDiag.csv" -Destination ".\PsScripts"
 
-$CSV = Import-Csv -Path $env:clientFileNamePrefix"_MatriceParamDiag.csv" -Delimiter ";"
+$Path = ".\PsScripts\" + $env:clientFileNamePrefix+"_MatriceParamDiag.csv"
+
+$CSV = Import-Csv -Path $Path -Delimiter ";"
 
 $logWkspcResourceId = Get-AzOperationalInsightsWorkspace -Name 'Supervision' -ResourceGroupName $resourceGroupName | Select-Object ResourceId
 
