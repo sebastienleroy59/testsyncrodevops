@@ -17,12 +17,14 @@ foreach ($rg in $RGs) {
         foreach ($resource in $resourcesByTypeInRg) {
             try { 
                 
-                $metrics =  Get-AzMetricDefinition -ResourceId $resource.ResourceId -WarningAction SilentlyContinue  
+                $metrics =  Get-AzMetricDefinition -ResourceId $resource.ResourceId -WarningAction SilentlyContinue 
+                Write-Host "Resource : " $resource.Name  "---" " ResourceType: " $resource.ResourceType "---" " MetricDefName: " $metrics.Name  
                  foreach($metric in $metrics)
                 {
 
                     ##TRESHOLD SUGGESTION##
-                    $metricValOnLastWeek = (Get-AzMetric -ResourceId $resource.ResourceId -TimeGrain 1.00:00:00 -StartTime (Get-Date).AddDays(-7) -AggregationType Average -MetricName $metric.Name.Value).Data | Select-Object Average  -WarningAction SilentlyContinue  
+                    $metricValOnLastWeek = (Get-AzMetric -ResourceId $resource.ResourceId -TimeGrain 1.00:00:00 -StartTime (Get-Date).AddDays(-7) -AggregationType Average -MetricName $metric.Name.Value).Data | Select-Object Average  -WarningAction SilentlyContinue
+                    Write-Host "Resource : " $resource.Name  "---" " ResourceType: " $resource.ResourceType "---" " MetricName: " $metric.Name  
                     $metricHighestValOnLastWeek = ($metricValOnLastWeek.Average | Measure-Object   -Maximum).Maximum
                     $suggestedTresholdVal = $metricHighestValOnLastWeek + ($metricHighestValOnLastWeek*$suggestedPercentage) / 100 
 
