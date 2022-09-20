@@ -25,7 +25,6 @@ stages:
     steps:
       - task: ManualValidation@0
         timeoutInMinutes: 1440 # matrix reuploaded to storage account and validated
-        
         inputs:
         notifyUsers: |
             sebastien.dillier@squadra-run.com
