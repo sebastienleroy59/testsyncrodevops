@@ -67,7 +67,7 @@ stages:
           scriptType: batch
           scriptLocation: inlineScript
           inlineScript: |
-          az deployment group create --resource-group $(resourceGroupName) --template-file $(ActionsgroupTemplate)
+           az deployment group create --resource-group $(resourceGroupName) --template-file $(ActionsgroupTemplate)
         
 - stage: ConvertCSV2Json
   jobs:
