@@ -45,7 +45,7 @@ stages:
               location: France Central
               csmFile: $(System.DefaultWorkingDirectory)/loganalytics.bicep
               deploymentName: rgandlog
-  - stage: Deploy ParamDiag and ActionGroup
+  - stage: DeployParamDiagandActionGroup
     jobs:
       - job: DeployDiagsParams
         steps:
