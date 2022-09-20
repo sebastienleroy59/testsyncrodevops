@@ -24,7 +24,7 @@ stages:
         steps:
           - task: ManualValidation@0
             timeoutInMinutes: 1440
-            inputs: null
+            inputs:
             notifyUsers: |
               sebastien.dillier@squadra-run.com
               sebastien.leroy@squadra-run.com
