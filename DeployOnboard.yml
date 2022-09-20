@@ -25,14 +25,14 @@ stages:
           - task: ManualValidation@0
             timeoutInMinutes: 1440
             inputs: null
-              notifyUsers: |
-                sebastien.dillier@squadra-run.com
-                sebastien.leroy@squadra-run.com
-                romain.rodrigues@squadra-run.com
-              instructions: >-
-                Please validate the build in order to deploy RG and storage
-                accounts and LAW on customer infra
-              onTimeout: resume
+            notifyUsers: |
+              sebastien.dillier@squadra-run.com
+              sebastien.leroy@squadra-run.com
+              romain.rodrigues@squadra-run.com
+            instructions: >-
+              Please validate the build in order to deploy RG and storage
+              accounts and LAW on customer infra
+            onTimeout: resume
       - job: DeployRunEnv
         dependsOn: ValidateRunEnv
         steps:
@@ -97,7 +97,7 @@ stages:
                 Get-AzStorageBlobContent -Container $container.Name -Blob
                 "$($env:clientFileNamePrefix)_MatriceLogsKQL.csv" -Destination
                 alertsCsv -Context $ctx
-                  
+
           - task: PowerShell@2
             displayName: FormatMetricsToJSON
             inputs:
@@ -152,7 +152,7 @@ stages:
               buildType: current
               artifactName: ParametersFilesMetrics
               targetPath: $(System.DefaultWorkingDirectory)
-              patterns: '**'
+              patterns: "**"
           - task: AzureCLI@2
             displayName: Deploy Metrics Alerts
             inputs:
@@ -169,7 +169,7 @@ stages:
               buildType: current
               artifactName: ParametersFilesLogs
               targetPath: $(System.DefaultWorkingDirectory)
-              patterns: '**'
+              patterns: "**"
           - task: AzureCLI@2
             displayName: Deploy Logs Alerts
             inputs:
@@ -186,7 +186,7 @@ stages:
               buildType: current
               artifactName: ParametersFilesActivityLogs
               targetPath: $(System.DefaultWorkingDirectory)
-              patterns: '**'
+              patterns: "**"
   - stage: AuditFinal
     jobs:
       - job: DiagFinal
