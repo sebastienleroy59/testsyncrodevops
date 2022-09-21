@@ -16,6 +16,9 @@ variables:
   clientFileNamePrefix: $(clientName)_$(SubscriptionId)_
   NameLOg: Supervision
   resourceGroupNameLog: rg-test-cmr
+  deployrgandlog: true
+  deployST: false
+  deployparamdiag: true
 pool:
   name: Default
 stages:
@@ -37,6 +40,7 @@ stages:
               onTimeout: resume
       - job: DeployRunEnv
         dependsOn: ValidateRunEnv
+        condition: eq(variables.deployrgandlog, true)
         steps:
           - task: AzureResourceManagerTemplateDeployment@3
             displayName: Deploy Resource Group and LAW-storage account
@@ -49,6 +53,7 @@ stages:
               deploymentName: rgandlog
               namela: $(NameLOg)
       - job: DeployST
+        condition: eq(variables.deployST, true)
         steps:
           - task: AzurePowerShell@5
             displayName: Deploy ST
@@ -60,6 +65,7 @@ stages:
   - stage: DeployParamDiagandActionGroup
     jobs:
       - job: DeployDiagsParams
+        condition: eq(variables.deployparamdiag, true)
         steps:
           - task: AzurePowerShell@5
             displayName: Deploy Diags Params
