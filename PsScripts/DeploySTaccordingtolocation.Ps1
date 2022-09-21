@@ -1,7 +1,9 @@
 $Subscription = $env:SubscriptionId
-$rg = $env:rg
+$rg = $env:resourceGroupName
 $templatePathBICEPST = $env:templatePathBICEPST
-$NameClient = $env:NameClient
+$NameClient = $env:clientName
+
+$exclude = Get-Content -Path PsScripts\excluderesourcediag.json | ConvertFrom-JSON
 
 $azSub = Get-AzSubscription -SubscriptionId $Subscription
 
@@ -15,7 +17,9 @@ $azResources = Get-AZResource
     
     foreach ($azResource in $azResources ) {
 
-        if(!$azResource.ResourceType.Contains('microsoft.operationalInsights/querypacks') -and !$azResource.ResourceType.Contains('microsoft.alertsmanagement/smartDetectorAlertRules') -and !$azResource.ResourceType.Contains('Microsoft.Network/networkWatchers') -and !$azResource.ResourceType.Contains('Microsoft.Compute/virtualMachines/extensions') -and !$azResource.ResourceType.Contains('Microsoft.DevTestLab/schedules') -and !$azResource.ResourceType.Contains('microsoft.Insights/actiongroups') -and !$azResource.ResourceType.Contains('Microsoft.Automation/automationAccounts/runbooks') -and !$azResource.ResourceType.Contains('microsoft.insights/activityLogAlerts') -and !$azResource.ResourceType.Contains('Microsoft.Insights/scheduledqueryrules') -and !$azResource.ResourceType.Contains('Microsoft.Maintenance/maintenanceConfigurations') -and !$azResource.ResourceType.Contains('Microsoft.OperationsManagement/solutions') -and !$azResource.ResourceType.Contains('microsoft.insights/metricalerts') -and !$azResource.ResourceType.Contains('Microsoft.ManagedIdentity/userAssignedIdentities') -and !$azResource.ResourceType.Contains('Microsoft.Network/privateDnsZones/virtualNetworkLinks') -and !$azResource.ResourceType.Contains('Microsoft.Web/certificates') -and !$azResource.ResourceType.Contains('microsoft.insights/workbooks') -and !$azResource.ResourceType.Contains('Microsoft.Portal/dashboards')){
+        $isExcludedResource = $exclude.resource | Where-Object {$_ -match $azResource.ResourceType} | Measure-Object
+
+        if($isExcludedResource.Count -eq 0){
 
             $Diag = Get-AzDiagnosticSettingCategory -TargetResourceId $azResource.id -WarningAction SilentlyContinue -ErrorAction SilentlyContinue
 
