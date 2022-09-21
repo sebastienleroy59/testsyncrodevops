@@ -1,7 +1,8 @@
 $StorageAccountName = $env:StorageAccountName
 $NameContainer = $env:NameContainer
 $Subscription = $env:SubscriptionId
-$resourceGroupName = $env:resourceGroupName
+$resourceGroupNameLog = $env:resourceGroupNameLog
+$NameLOg = $env:NameLOg
 
 $azSub = Get-AzSubscription -SubscriptionId $Subscription
 
@@ -19,7 +20,7 @@ $Path = ".\PsScripts\" + $env:clientFileNamePrefix+"_MatriceParamDiag.csv"
 
 $CSV = Import-Csv -Path $Path -Delimiter ";"
 
-$logWkspcResourceId = Get-AzOperationalInsightsWorkspace -Name 'Supervision' -ResourceGroupName $resourceGroupName | Select-Object ResourceId
+$logWkspcResourceId = Get-AzOperationalInsightsWorkspace -Name $NameLOg -ResourceGroupName $resourceGroupNameLog | Select-Object ResourceId
 
     foreach ($Line in $CSV) {
 

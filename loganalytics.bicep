@@ -1,4 +1,4 @@
-param namela string = 'Supervision'
+param namela string 
 param locationla string = resourceGroup().location
 param skunamela string = 'PerGB2018'
 param retentiondaysla int = 30
