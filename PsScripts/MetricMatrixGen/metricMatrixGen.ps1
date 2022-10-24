@@ -1,6 +1,6 @@
 $RGs = Get-AzResourceGroup
 $suggestedPercentage = 10
-$exclude = Get-Content -Path PsScripts\MetricMatrixGen\exclude.json | ConvertFrom-JSON
+$exclude = Get-Content -Path "C:\Users\SébastienLEROY\OneDrive - Squadra\Documents\Depotdevops\AlertingBicepMonoSubscription\PsScripts\MetricMatrixGen\exclude.json" | ConvertFrom-JSON
 $outputObject = @()
 $outputObjectVerbose = @()
 foreach ($rg in $RGs) {
@@ -57,7 +57,7 @@ foreach ($rg in $RGs) {
 
 $outputObjectVerbose | Export-Csv -NoTypeInformation $env:clientFileNamePrefix"_verboseMetricMatrix.csv" -Delimiter ";" #verbose csv
 
-$outputObject | Sort-Object -Property MtricNamespace,MetricValue -Unique | Export-Csv -NoTypeInformation $env:clientFileNamePrefix"_NonVerboseMetricMatrix.csv"  -Delimiter ";" 
+$outputObject | Sort-Object -Property MetricNamespace,MetricValue -Unique | Export-Csv -NoTypeInformation $env:clientFileNamePrefix"_NonVerboseMetricMatrix.csv"  -Delimiter ";" 
 
 Get-ChildItem -Recurse 
 
