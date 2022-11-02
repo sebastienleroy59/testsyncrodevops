@@ -19,7 +19,7 @@ $azResources = Get-AZResource
 
         if($isExcludedResource.Count -eq 0){
                         
-            $Diags = Get-AzDiagnosticSettingCategory -TargetResourceId $azResource.id -WarningAction SilentlyContinue -ErrorAction SilentlyContinue 
+            $Diags = Get-AzDiagnosticSettingCategory -ResourceId $azResource.id -WarningAction SilentlyContinue -ErrorAction SilentlyContinue 
 
                 foreach ($Diag in $Diags) {
 
