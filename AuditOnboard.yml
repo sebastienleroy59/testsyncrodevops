@@ -1,0 +1,99 @@
+name: Audit Env Client Onboarding
+variables:
+   azureServiceConnection: 'Squadra12k-SEBL'
+   Location: 'francecentral'
+   resourceGroupName: 'rg-test-cmr'
+   StorageAccountName: 'squadrastorage'
+   NameContainer: 'customersaudits'
+   SubscriptionId: '0410a600-1bea-44c9-b7ee-3e4847c6a600'
+   clientName: 'SquadraDevOps'
+   clientFileNamePrefix: '$(clientName)_$(SubscriptionId)_'
+pool:
+  name: Default
+
+stages:
+- stage: Audit
+  jobs:
+  - job: AuditDiag
+    steps:
+      - task: AzurePowerShell@5
+        displayName: 'ParamsDiag'
+        inputs:
+          azureSubscription: $(azureServiceConnection)
+          scriptPath: PsScripts/Audit/auditparamDiag.ps1
+          errorActionPreference: continue
+          azurePowerShellVersion: LatestVersion  
+      - task: AzurePowerShell@5
+        displayName: 'Resources'
+        inputs:
+          azureSubscription: $(azureServiceConnection)
+          ScriptPath: PsScripts/Audit/Auditresource.ps1
+          errorActionPreference: continue
+          azurePowerShellVersion: LatestVersion
+      - task: AzurePowerShell@5
+        displayName: 'Extensions'
+        inputs:
+          azureSubscription: $(azureServiceConnection)
+          ScriptPath: PsScripts/Audit/AuditExtensions.ps1
+          errorActionPreference: continue
+          azurePowerShellVersion: LatestVersion
+      - task: AzurePowerShell@5
+        displayName: 'Logs and Metrics'
+        inputs:
+          azureSubscription: $(azureServiceConnection)
+          ScriptPath: PsScripts/Audit/Auditmetrique.ps1
+          errorActionPreference: continue
+          azurePowerShellVersion: LatestVersion
+      - task: AzureFileCopy@4 #ServiceConnection must have Storage Blob Data Contributor role on Container
+        displayName: 'Upload Matrix files to Storage account'
+        inputs:
+          
+          SourcePath: '$(System.DefaultWorkingDirectory)/*.csv'
+          azureSubscription: $(azureServiceConnection)
+          Destination: AzureBlob
+          storage: $(StorageAccountName)
+          ContainerName: $(NameContainer)
+
+- stage: MatrixGeneration
+  jobs:
+  - job: MatrixGen
+    steps:
+      - task: PowerShell@2
+        displayName: 'Metrics Alerts Generation'
+        inputs:
+          pwsh: true
+          filePath: 'PsScripts/MetricMatrixGen/metricMatrixGen.ps1'
+         
+      - task: PowerShell@2
+        displayName: 'Logs Alerts Generation'
+        inputs:
+          pwsh: true
+          filePath: 'PsScripts/LogMatrixGen/logMatrixGen.ps1'
+      - task: PowerShell@2
+        displayName: 'ActivityLogs Alerts Generation'
+        inputs:
+          pwsh: true
+          filePath: 'PsScripts/ActivityLogsMatrixGen/activityLogsAlerts.ps1'
+      - task: AzurePowerShell@5
+        displayName: 'Get Diagnostics Params'
+        inputs:
+          azureSubscription: $(azureServiceConnection)
+          ScriptPath: PsScripts/GetdiagSettingCategory.ps1
+          errorActionPreference: continue
+          azurePowerShellVersion: LatestVersion
+      - task: AzurePowerShell@5
+        displayName: 'Diagnostics Params settings gen'
+        inputs:
+          azureSubscription: $(azureServiceConnection)
+          ScriptPath: PsScripts/Matriceclientdiag.ps1
+          errorActionPreference: continue
+          azurePowerShellVersion: LatestVersion
+      - task: AzureFileCopy@4 #ServiceConnection must have Storage Blob Data Contributor role on Container
+        displayName: 'Upload Matrix files to Storage account'
+        inputs:
+          
+          SourcePath: '$(System.DefaultWorkingDirectory)/*.csv'
+          azureSubscription: $(azureServiceConnection)
+          Destination: AzureBlob
+          storage: $(StorageAccountName)
+          ContainerName: $(NameContainer)

@@ -1,0 +1,229 @@
+name: Deploy Resource and Alerts
+variables:
+  azureServiceConnection: Squadra12k-SEBL
+  Location: francecentral
+  resourceGroupName: rg-test-cmr
+  metricsTemplate: deployMetricsAlerts.bicep
+  logsTemplate: deployLogsAlerts.bicep
+  activityTemplate: deployActivityAlerts.bicep
+  ActionsgroupTemplate: deployActionGroups.bicep
+  metricsParametersFilePath: $(System.DefaultWorkingDirectory)/AlertsDefinitions/metricsAlerts.json
+  logsParametersFilePath: $(System.DefaultWorkingDirectory)/AlertsDefinitions/logsAlerts.json
+  StorageAccountName: squadrastorage
+  NameContainer: customersaudits
+  SubscriptionId: 0410a600-1bea-44c9-b7ee-3e4847c6a600
+  clientName: SquadraDevOps
+  clientFileNamePrefix: $(clientName)_$(SubscriptionId)_
+  NameLOg: Supervision
+  resourceGroupNameLog: rg-test-cmr
+pool:
+  name: Default
+stages:
+  - stage: Validate
+    jobs:
+      - job: ValidateRunEnv
+        pool: server
+        steps:
+          - task: ManualValidation@0
+            timeoutInMinutes: 1440
+            inputs:
+              notifyUsers: |
+                sebastien.dillier@squadra-run.com
+                sebastien.leroy@squadra-run.com
+                romain.rodrigues@squadra-run.com
+              instructions: >-
+                Please validate the build in order to deploy RG and storage
+                accounts and LAW on customer infra
+              onTimeout: resume
+      - job: DeployRunEnv
+        dependsOn: ValidateRunEnv
+        steps:
+          - task: AzureResourceManagerTemplateDeployment@3
+            displayName: Deploy Resource Group and LAW-storage account
+            inputs:
+              azureResourceManagerConnection: $(azureServiceConnection)
+              subscriptionId: $(SubscriptionId)
+              resourceGroupName: $(resourceGroupName)
+              location: France Central
+              csmFile: $(System.DefaultWorkingDirectory)/loganalytics.bicep
+              deploymentName: rgandlog
+              namela: $(NameLOg)
+  - stage: DeployParamDiagandActionGroup
+    jobs:
+      - job: DeployDiagsParams
+        steps:
+          - task: AzurePowerShell@5
+            displayName: Deploy Diags Paramas
+            inputs:
+              azureSubscription: $(azureServiceConnection)
+              ScriptPath: PsScripts/DeployParamDiag.ps1
+              errorActionPreference: continue
+              azurePowerShellVersion: LatestVersion
+      - job: DeployActionGroups
+        steps:
+          - task: AzureCLI@2
+            displayName: Deploy Action Groups
+            inputs:
+              azureSubscription: $(azureServiceConnection)
+              scriptType: batch
+              scriptLocation: inlineScript
+              inlineScript: >
+                az deployment group create --resource-group $(resourceGroupName)
+                --template-file $(ActionsgroupTemplate)
+  - stage: ConvertCSV2Json
+    jobs:
+      - job: ConvertMetricsAlertsCSVToJson
+        steps:
+          - task: PowerShell@2
+            displayName: Download Metric Alert logs adminalerts csv matrixes
+            inputs:
+              targetType: inline
+              errorActionPreference: continue
+              pwsh: true
+              script: >
+                $ctx = New-AzStorageContext -StorageAccountName
+                $env:StorageAccountName -UseConnectedAccount
+
+                $container = Get-AzStorageContainer -Name $env:NameContainer
+                -Context $ctx 
+
+                mkdir alertsCsv
+
+                Get-AzStorageBlobContent -Container $container.Name -Blob
+                "$($env:clientFileNamePrefix)_verboseMetricMatrix.csv"
+                -Destination alertsCsv -Context $ctx
+
+                Get-AzStorageBlobContent -Container $container.Name -Blob
+                "$($env:clientFileNamePrefix)_NonVerboseMetricMatrix.csv"
+                -Destination alertsCsv -Context $ctx
+
+                Get-AzStorageBlobContent -Container $container.Name -Blob
+                "$($env:clientFileNamePrefix)_MatriceLogsKQL.csv" -Destination
+                alertsCsv -Context $ctx
+
+          - task: PowerShell@2
+            displayName: FormatMetricsToJSON
+            inputs:
+              pwsh: true
+              filePath: PsScripts/formatMetrics.ps1
+              arguments: >-
+                -typeOfAlertstoFormat 'metrics' -baseDir
+                '$(System.DefaultWorkingDirectory)' -csvFilePath
+                "$(System.DefaultWorkingDirectory)\alertsCsv\$($env:clientFileNamePrefix)_verboseMetricMatrix.csv"
+          - task: PublishPipelineArtifact@1
+            inputs:
+              targetPath: $(System.DefaultWorkingDirectory)
+              artifact: ParametersFilesMetrics
+              publishLocation: pipeline
+              path: AlertsDefinitions
+          - task: PowerShell@2
+            displayName: FormatLogsToJSON
+            inputs:
+              pwsh: true
+              filePath: PsScripts/formatMetrics.ps1
+              arguments: >-
+                -typeOfAlertstoFormat 'logs' -baseDir
+                '$(System.DefaultWorkingDirectory)' -csvFilePath
+                "$(System.DefaultWorkingDirectory)\alertsCsv\$($env:clientFileNamePrefix)_MatriceLogsKQL.csv"
+          - task: PublishPipelineArtifact@1
+            displayName: PublishLogsArtifact
+            inputs:
+              targetPath: $(System.DefaultWorkingDirectory)
+              artifact: ParametersFilesLogs
+              publishLocation: pipeline
+              path: AlertsDefinitions
+          - task: PublishPipelineArtifact@1
+            displayName: PublishActivityLogsArtifact
+            inputs:
+              targetPath: $(System.DefaultWorkingDirectory)
+              artifact: ParametersFilesActivityLogs
+              publishLocation: pipeline
+              path: AlertsDefinitions
+      - job: DevelopWaitingApproval
+        dependsOn: ConvertMetricsAlertsCSVToJson
+        pool: server
+        timeoutInMinutes: 4320
+  - stage: DeployAlerts
+    dependsOn: ConvertCSV2Json
+    jobs:
+      - job: DeployAllAlertsTypes
+        steps:
+          - checkout: none
+          - task: DownloadPipelineArtifact@2
+            displayName: DownloadMetricsArtifact
+            inputs:
+              buildType: current
+              artifactName: ParametersFilesMetrics
+              targetPath: $(System.DefaultWorkingDirectory)
+              patterns: "**"
+          - task: AzureCLI@2
+            displayName: Deploy Metrics Alerts
+            inputs:
+              azureSubscription: $(azureServiceConnection)
+              scriptType: batch
+              scriptLocation: inlineScript
+              inlineScript: >
+                az deployment group create --resource-group $(resourceGroupName)
+                --template-file $(metricsTemplate) --parameters
+                $(System.DefaultWorkingDirectory)/metricsAlerts.json
+          - task: DownloadPipelineArtifact@2
+            displayName: DownloadLogsArtifact
+            inputs:
+              buildType: current
+              artifactName: ParametersFilesLogs
+              targetPath: $(System.DefaultWorkingDirectory)
+              patterns: "**"
+          - task: AzureCLI@2
+            displayName: Deploy Logs Alerts
+            inputs:
+              azureSubscription: $(azureServiceConnection)
+              scriptType: batch
+              scriptLocation: inlineScript
+              inlineScript: >
+                az deployment group create --resource-group $(resourceGroupName)
+                --template-file $(logsTemplate) --parameters
+                $(System.DefaultWorkingDirectory)/logsAlerts.json
+          - task: DownloadPipelineArtifact@2
+            displayName: DownloadAcitivyLogsArtifact
+            inputs:
+              buildType: current
+              artifactName: ParametersFilesActivityLogs
+              targetPath: $(System.DefaultWorkingDirectory)
+              patterns: "**"
+  - stage: AuditFinal
+    jobs:
+      - job: DiagFinal
+        steps:
+          - task: AzurePowerShell@5
+            displayName: Audit Final Param Diag
+            inputs:
+              azureSubscription: $(azureServiceConnection)
+              ScriptPath: PsScripts/AuditFinal/auditfinaldiag.ps1
+              errorActionPreference: continue
+              azurePowerShellVersion: LatestVersion
+      - job: MetriqueFinal
+        steps:
+          - task: AzurePowerShell@5
+            displayName: Audit Final Metrique
+            inputs:
+              azureSubscription: $(azureServiceConnection)
+              ScriptPath: PsScripts/AuditFinal/AuditFinalMetrique.ps1
+              errorActionPreference: continue
+              azurePowerShellVersion: LatestVersion
+      - job: ResourceFinal
+        steps:
+          - task: AzurePowerShell@5
+            displayName: Audit Final Resource
+            inputs:
+              azureSubscription: $(azureServiceConnection)
+              ScriptPath: PsScripts/AuditFinal/AuditFinalResource.ps1
+              errorActionPreference: continue
+              azurePowerShellVersion: LatestVersion
+          - task: AzureFileCopy@4
+            displayName: Upload Matrix files to Storage account
+            inputs:
+              SourcePath: $(System.DefaultWorkingDirectory)/*.csv
+              azureSubscription: $(azureServiceConnection)
+              Destination: AzureBlob
+              storage: $(StorageAccountName)
+              ContainerName: $(NameContainer)

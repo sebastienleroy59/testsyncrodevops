@@ -1,6 +1,6 @@
 $RGs = Get-AzResourceGroup
 $suggestedPercentage = 10
-$exclude = Get-Content -Path PsScripts\MetricMatrixGen\exclude.json | ConvertFrom-JSON
+$exclude = Get-Content -Path "C:\Users\SébastienLEROY\OneDrive - Squadra\Documents\Depotdevops\AlertingBicepMonoSubscription\PsScripts\MetricMatrixGen\exclude.json" | ConvertFrom-JSON
 $outputObject = @()
 $outputObjectVerbose = @()
 foreach ($rg in $RGs) {
@@ -17,12 +17,14 @@ foreach ($rg in $RGs) {
         foreach ($resource in $resourcesByTypeInRg) {
             try { 
                 
-                $metrics =  Get-AzMetricDefinition -ResourceId $resource.ResourceId -WarningAction SilentlyContinue  
+                $metrics =  Get-AzMetricDefinition -ResourceId $resource.ResourceId -WarningAction SilentlyContinue 
+                Write-Host "Resource : " $resource.Name  "---" " ResourceType: " $resource.ResourceType "---" " MetricDefName: " $metrics.Name  
                  foreach($metric in $metrics)
                 {
 
                     ##TRESHOLD SUGGESTION##
-                    $metricValOnLastWeek = (Get-AzMetric -ResourceId $resource.ResourceId -TimeGrain 1.00:00:00 -StartTime (Get-Date).AddDays(-7) -AggregationType Average -MetricName $metric.Name.Value).Data | Select-Object Average  -WarningAction SilentlyContinue  
+                    $metricValOnLastWeek = (Get-AzMetric -ResourceId $resource.ResourceId -TimeGrain 1.00:00:00 -StartTime (Get-Date).AddDays(-7) -AggregationType Average -MetricName $metric.Name.Value).Data | Select-Object Average  -WarningAction SilentlyContinue
+                    Write-Host "Resource : " $resource.Name  "---" " ResourceType: " $resource.ResourceType "---" " MetricName: " $metric.Name  
                     $metricHighestValOnLastWeek = ($metricValOnLastWeek.Average | Measure-Object   -Maximum).Maximum
                     $suggestedTresholdVal = $metricHighestValOnLastWeek + ($metricHighestValOnLastWeek*$suggestedPercentage) / 100 
 
@@ -55,7 +57,7 @@ foreach ($rg in $RGs) {
 
 $outputObjectVerbose | Export-Csv -NoTypeInformation $env:clientFileNamePrefix"_verboseMetricMatrix.csv" -Delimiter ";" #verbose csv
 
-$outputObject | Sort-Object -Property MtricNamespace,MetricValue -Unique | Export-Csv -NoTypeInformation $env:clientFileNamePrefix"_NonVerboseMetricMatrix.csv"  -Delimiter ";" 
+$outputObject | Sort-Object -Property MetricNamespace,MetricValue -Unique | Export-Csv -NoTypeInformation $env:clientFileNamePrefix"_NonVerboseMetricMatrix.csv"  -Delimiter ";" 
 
 Get-ChildItem -Recurse 
 
