@@ -1,6 +1,6 @@
 $RGs = Get-AzResourceGroup
 $suggestedPercentage = 10
-$exclude = Get-Content -Path "C:\Users\SébastienLEROY\OneDrive - Squadra\Documents\Depotdevops\AlertingBicepMonoSubscription\PsScripts\MetricMatrixGen\exclude.json" | ConvertFrom-JSON
+$exclude = Get-Content -Path "PsScripts\MetricMatrixGen\exclude.json" | ConvertFrom-JSON
 $outputObject = @()
 $outputObjectVerbose = @()
 foreach ($rg in $RGs) {
