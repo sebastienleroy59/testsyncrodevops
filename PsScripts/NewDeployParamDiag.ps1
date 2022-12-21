@@ -7,9 +7,6 @@ $NameDiagSettingSquadra = "SquadraDiagSetting" # Nom du DiagSetting crée par Sq
 $Path = ".\PsScripts\" + $env:clientFileNamePrefix+"_MatriceParamDiag.csv"
 $File = ".\PsScripts\ErrLogs.txt"
 
-$metric = @()
-$log = @()
-
 $CSV = Import-Csv -Path $Path -Delimiter ";"
 $logWkspcResource = Get-AzOperationalInsightsWorkspace -Name $NameLOg -ResourceGroupName $resourceGroupNameLog
 $logWkspcResourceId = $logWkspcResource.ResourceId # Recuperation du LAW ID
