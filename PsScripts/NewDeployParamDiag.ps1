@@ -31,9 +31,9 @@ foreach ($Line in $CSV) {
         $DiagSettingClientName = Get-AzDiagnosticSetting -ResourceId $Line.ResourceId # Nom du DiagSettingClient
 
         if([string]::IsNullOrEmpty($DiagSettingClientName.Name)){ # S'il n'y a pas de DiagSetting crée, alors on le créer
-            New-AzDiagnosticSetting -Name $NameDiagSettingSquadra -ResourceId $Line.ResourceId -WorkspaceId $logWkspcResourceId -Metric $Array | Out-Null
+            New-AzDiagnosticSetting -Name "$Line.ResourceName-$NameDiagSettingSquadra" -ResourceId $Line.ResourceId -WorkspaceId $logWkspcResourceId -Metric $Array | Out-Null
             $Error | Out-File $File -Append
-            Write-Host "Creation des Metriques --- DiagSettingName : " $NameDiagSettingSquadra
+            Write-Host "Creation des Metriques --- DiagSettingName : $Line.ResourceName-$NameDiagSettingSquadra"
         }
         else{ # Sinon on update le DiagSetting du client
             New-AzDiagnosticSetting -Name $DiagSettingClientName.Name -ResourceId $Line.ResourceId -WorkspaceId $logWkspcResourceId -Metric $Array | Out-Null
@@ -54,9 +54,9 @@ foreach ($Line in $CSV) {
         $DiagSettingClientName = Get-AzDiagnosticSetting -ResourceId $Line.ResourceId # Nom du DiagSettingClient
 
         if([string]::IsNullOrEmpty($DiagSettingClientName.Name)){ # S'il n'y a pas de DiagSetting crée, alors on le créer
-            New-AzDiagnosticSetting -Name $NameDiagSettingSquadra -ResourceId $Line.ResourceId -WorkspaceId $logWkspcResourceId -Log $Array | Out-Null
+            New-AzDiagnosticSetting -Name "$Line.ResourceName-$NameDiagSettingSquadra" -ResourceId $Line.ResourceId -WorkspaceId $logWkspcResourceId -Log $Array | Out-Null
             $Error | Out-File $File -Append
-            Write-Host "Creation des Logs --- DiagSettingName : " $NameDiagSettingSquadra
+            Write-Host "Creation des Logs --- DiagSettingName : $Line.ResourceName-$NameDiagSettingSquadra"
         }
         else{ # Sinon on update le DiagSetting du client
             New-AzDiagnosticSetting -Name $DiagSettingClientName.Name -ResourceId $Line.ResourceId -WorkspaceId $logWkspcResourceId -Log $Array | Out-Null
@@ -86,7 +86,7 @@ foreach ($Line in $CSV) {
         if([string]::IsNullOrEmpty($DiagSettingClientName.Name)){ # S'il n'y a pas de DiagSetting crée, alors on le créer
             New-AzDiagnosticSetting -Name $NameDiagSettingSquadra -ResourceId $Line.ResourceId -WorkspaceId $logWkspcResourceId -Log $Array1 -Metric $Array2 | Out-Null
             $Error | Out-File $File -Append
-            Write-Host "Creation des Logs + Metriques --- DiagSettingName : " $NameDiagSettingSquadra
+            Write-Host "Creation des Logs + Metriques --- DiagSettingName : $Line.ResourceName-$NameDiagSettingSquadra"
         }
         else{ # Sinon on update le DiagSetting du client
             New-AzDiagnosticSetting -Name $DiagSettingClientName.Name -ResourceId $Line.ResourceId -WorkspaceId $logWkspcResourceId -Log $Array1 -Metric $Array2 | Out-Null
